@@ -1,4 +1,7 @@
 import axios from "axios";
+import { GOOGLE_MAPS_API_KEY } from "@env";
+
+const apiKey = GOOGLE_MAPS_API_KEY; // Replace with your API Key;
 
 const calculateDistanceAndTime = async (
   startLat,
@@ -7,7 +10,6 @@ const calculateDistanceAndTime = async (
   destinationLng,
   mode = "bicycling"
 ) => {
-  const apiKey = ""; // Replace with your API Key
   const baseUrl = "https://maps.googleapis.com/maps/api/distancematrix/json?";
   const ratePerKm = 1;
 
@@ -49,27 +51,6 @@ const extractNumbers = (inputStr) => {
   return matched ? matched.map((num) => parseInt(num, 10)) : [];
 };
 
-const fetchDirections = async (
-  startLat,
-  startLng,
-  destinationLat,
-  destinationLng
-) => {
-  try {
-    const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLng}&destination=${destinationLat},${destinationLng}&key=${apiKey}`;
-    const response = await fetch(url);
-    const data = await response.json().then((data) => {
-      setDirections(data);
-      const encodedPolyline = data.routes[0].overview_polyline.points;
-      const coordinates = decode(encodedPolyline);
-
-      setCoordinates(coordinates);
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 const decode = (encoded) => {
   const points = [];
   let index = 0,
@@ -103,6 +84,27 @@ const decode = (encoded) => {
   }
 
   return points;
+};
+
+const fetchDirections = async (
+  startLat,
+  startLng,
+  destinationLat,
+  destinationLng
+) => {
+  try {
+    const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLng}&destination=${destinationLat},${destinationLng}&key=${apiKey}`;
+    const response = await fetch(url);
+    const data = await response.json().then((data) => {
+      // setDirections(data);
+      const encodedPolyline = data.routes[0].overview_polyline.points;
+      const coordinates = decode(encodedPolyline);
+
+      // setCoordinates(coordinates);
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export default {
