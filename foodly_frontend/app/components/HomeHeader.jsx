@@ -78,12 +78,12 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontFamily: "medium",
-    fontSize: SIZES.medium,
+    fontSize: SIZES.small,
     color: COLORS.secondary,
   },
   location: {
     fontFamily: "regular",
-    fontSize: SIZES.small + 2,
+    fontSize: SIZES.small,
     color: COLORS.gray,
   },
 });

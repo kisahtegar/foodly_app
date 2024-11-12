@@ -1,23 +1,14 @@
+import Menu from "../screens/restaurant/Menu";
+import Directions from "../screens/restaurant/Directions";
+import New from "../screens/restaurant/New";
 import * as React from "react";
-import { View, useWindowDimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 
-const FirstRoute = () => (
-  <View style={{ flex: 1, backgroundColor: "#ff4081" }} />
-);
-
-const SecondRoute = () => (
-  <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
-);
-
-const ThreeRoute = () => (
-  <View style={{ flex: 1, backgroundColor: "#ffffff" }} />
-);
-
 const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
-  three: ThreeRoute,
+  first: Menu,
+  second: Directions,
+  three: New,
 });
 
 const routes = [
