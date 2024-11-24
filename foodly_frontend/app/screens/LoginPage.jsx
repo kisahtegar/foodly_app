@@ -8,13 +8,15 @@ import {
   Alert,
 } from "react-native";
 import React, { useState, useRef, useContext } from "react";
-import { Button, BackBtn } from "../components";
+import Button from "../components/Button";
+import BackBtn from "../components/BackBtn";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants/theme";
 import styles from "./login.style";
 import LottieView from "lottie-react-native";
+// import { firebase } from "../../config";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LoginContext } from "../context/LoginContext";
@@ -47,43 +49,6 @@ const LoginPage = ({ navigation }) => {
       { defaultIndex: 1 },
     ]);
   };
-
-  // const login = async (values) => {
-  //   setLoader(true);
-  //   try {
-  //     await firebase
-  //       .auth()
-  //       .signInWithEmailAndPassword(values.email, values.password).then(() => navigation.navigate('home')).catch((error) => {
-  //         Alert.alert("Error Login", error.message, [
-  //           {
-  //             text: "Back",
-  //             onPress: () => {
-  //               setLoader(false);
-  //             },
-  //           },
-  //           {
-  //             text: "Continue",
-  //             onPress: () => {},
-  //           },
-  //           { defaultIndex: 1 },
-  //         ]);
-  //       });
-  //   } catch (error) {
-  //     Alert.alert("Error Login", error.message, [
-  //       {
-  //         text: "Back",
-  //         onPress: () => {
-  //           setLoader(false);
-  //         },
-  //       },
-  //       {
-  //         text: "Continue",
-  //         onPress: () => {},
-  //       },
-  //       { defaultIndex: 1 },
-  //     ]);
-  //   }
-  // };
 
   const loginFunc = async (values) => {
     setLoader(true);

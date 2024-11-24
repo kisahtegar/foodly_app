@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { RestaurantContext } from "../../context/RestaurantContext";
 import uidata from "../../constants/uidata";
-import FoodTile from "../../components/FoodTile";
+import CategoryFoodComp from "../../components/CategoryFoodComp";
 
 const Menu = () => {
   const navigation = useNavigation();
@@ -18,10 +18,12 @@ const Menu = () => {
         keyExtractor={(item) => item._id}
         scrollEnabled
         renderItem={({ item }) => (
-          <FoodTile
-            item={item}
-            showDetails={() => navigation.navigate("food-nav", item)}
-          />
+          <View style={{ left: 10 }}>
+            <CategoryFoodComp
+              item={item}
+              onPress={() => navigation.navigate("food-nav", item)}
+            />
+          </View>
         )}
       />
     </View>
@@ -29,5 +31,3 @@ const Menu = () => {
 };
 
 export default Menu;
-
-const styles = StyleSheet.create({});

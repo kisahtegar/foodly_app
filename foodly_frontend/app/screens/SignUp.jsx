@@ -15,8 +15,10 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants/theme";
-import { BackBtn, Button } from "../components";
+import BackBtn from "../components/BackBtn";
+import Button from "../components/Button";
 import { UserLocationContext } from "../context/UserLocationContext";
+
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(8, "Password must be at least 8 character")

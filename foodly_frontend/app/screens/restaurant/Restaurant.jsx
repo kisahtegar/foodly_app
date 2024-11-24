@@ -59,7 +59,7 @@ const Restaurant = ({ navigation }) => {
           data={item.imageUrl}
           height={SIZES.height / 3.4}
           width={SIZES.width}
-          raduis={15}
+          radius={15}
         />
         <View style={styles.rating}>
           <View style={styles.innaRating}>

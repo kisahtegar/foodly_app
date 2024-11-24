@@ -1,4 +1,9 @@
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useContext, useState } from "react";
+import { COLORS, SIZES } from "../constants/theme";
+import { SafeAreaView } from "react-native-safe-area-context";
 import pages from "./page.style";
+import uidata from "../constants/uidata";
 import HomeHeader from "../components/HomeHeader";
 import CategoryList from "../components/CategoryList";
 import ChoicesList from "../components/ChoicesList";
@@ -7,10 +12,7 @@ import Divider from "../components/Divider";
 import NearByRestaurants from "../components/NearByRestaurants";
 import NewFoodList from "../components/NewFoodList";
 import FastestNearYou from "../components/FastestNearYou";
-import React, { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { COLORS, SIZES } from "../constants/theme";
+import HomeCategories from "../components/HomeCategories";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -46,19 +48,29 @@ const Home = () => {
               setSelectedChoice={setSelectedChoice}
               setSelectedSection={setSelectedSection}
             />
+            {selectedCategory !== null && selectedSection !== null ? (
+              <View>
+                <Heading
+                  heading={`Browse ${selectedValue}`}
+                  onPress={() => {}}
+                />
 
-            <View>
-              <Heading heading={"Nearby Restaurants"} onPress={() => {}} />
-              <NearByRestaurants />
-              <Divider />
+                <HomeCategories />
+              </View>
+            ) : (
+              <View>
+                <Heading heading={"Nearby Restaurants"} onPress={() => {}} />
+                <NearByRestaurants />
+                <Divider />
 
-              <Heading heading={"Try Something New"} onPress={() => {}} />
-              <NewFoodList />
-              <Divider />
+                <Heading heading={"Try Something New"} onPress={() => {}} />
+                <NewFoodList />
+                <Divider />
 
-              <Heading heading={"Fastest Near You"} onPress={() => {}} />
-              <FastestNearYou />
-            </View>
+                <Heading heading={"Fastest Near You"} onPress={() => {}} />
+                <FastestNearYou />
+              </View>
+            )}
           </ScrollView>
         </View>
       </View>

@@ -20,7 +20,7 @@ const FoodTile = ({ item, onPress, showDetails }) => {
             data={item.imageUrl[0]}
             height={75}
             width={75}
-            raduis={15}
+            radius={15}
           />
 
           <View

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RatingInput, Rating } from "react-native-stock-star-rating";
 import { COLORS, SIZES } from "../constants/theme";
-import { AssetImage } from "../components";
+import { AssetImage } from "../components/AssetImage";
 
 const AddRating = () => {
   const [rating, setRating] = useState(0);
