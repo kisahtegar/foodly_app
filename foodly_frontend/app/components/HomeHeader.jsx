@@ -5,17 +5,31 @@ import { StyleSheet, Text, View } from "react-native";
 import { UserReversedGeoCode } from "../context/UserReversedGeoCode";
 import { COLORS, SIZES } from "../constants/theme";
 import { UserLocationContext } from "../context/UserLocationContext";
+import { LoginContext } from "../context/LoginContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeHeader = () => {
   const [time, setTime] = useState(null);
   const { address, setAddress } = useContext(UserReversedGeoCode);
   const { location, setLocation } = useContext(UserLocationContext);
+  const { login, setLogin } = useContext(LoginContext);
 
   useEffect(() => {
     if (location !== null) {
       reverseGeoCode(location.coords.latitude, location.coords.longitude);
     }
+    loginStatus();
   }, [location]);
+
+  const loginStatus = async () => {
+    const userToken = await AsyncStorage.getItem("token");
+
+    if (userToken !== null) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  };
 
   const reverseGeoCode = async (latitude, longitude) => {
     const reversedGeoCodedAddress = await Location.reverseGeocodeAsync({

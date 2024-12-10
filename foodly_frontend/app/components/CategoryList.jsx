@@ -1,7 +1,9 @@
 import uidata from "../constants/uidata";
+import fetchCategories from "../hook/categoryHook";
 import CategoryItem from "./CategoryItem";
 import React, { useState } from "react";
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import ReusableShimmer from "./Shimmers/ReusableShimmer";
 
 const CategoryList = ({
   setSelectedCategory,
@@ -9,7 +11,7 @@ const CategoryList = ({
   setSelectedValue,
 }) => {
   const [selected, setSelected] = useState(null);
-  const categories = [1, 2, 3, 4, 5];
+  const { categories, isLoading, error, refetch } = fetchCategories();
 
   const handleSelectedCategory = (item) => {
     if (selected == item.value) {
@@ -25,9 +27,31 @@ const CategoryList = ({
     }
   };
 
+  if (isLoading) {
+    return (
+      <FlatList
+        data={uidata.categories}
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        style={{ marginTop: 5 }}
+        keyExtractor={(item) => item._id}
+        renderItem={({ item }) => (
+          <View style={{ marginLeft: 12 }}>
+            <ReusableShimmer
+              width={80}
+              height={55}
+              radius={16}
+              marginRight={12}
+            />
+          </View>
+        )}
+      />
+    );
+  }
+
   return (
     <FlatList
-      data={uidata.categories}
+      data={categories}
       showsHorizontalScrollIndicator={false}
       horizontal
       style={{ marginTop: 5 }}

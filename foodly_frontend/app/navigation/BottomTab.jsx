@@ -10,6 +10,7 @@ import Cart from "../screens/Cart";
 import { CartCountContext } from "../context/CartCountContext";
 import { LoginContext } from "../context/LoginContext";
 import LoginPage from "../screens/LoginPage";
+import fetchCartCount from "../hook/fetchCartCount";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,14 +22,8 @@ const tabBarStyle = {
 };
 
 const BottomTab = () => {
-  // const {count, isCartLoading, error, refetch} =fetchCartCount();
-
-  const { cartCount, setCartCount } = useContext(CartCountContext);
+  const { cartCount, isCartLoading, error, refetch } = fetchCartCount();
   const { login, setLogin } = useContext(LoginContext);
-
-  // if(isCartLoading){
-  //   setCartCount(count)
-  // }
 
   return (
     <Tab.Navigator

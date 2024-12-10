@@ -1,5 +1,3 @@
-import BouncyCheckbox from "react-native-bouncy-checkbox";
-import Counter from "../components/Counter";
 import {
   StyleSheet,
   Text,
@@ -17,6 +15,10 @@ import {
   MaterialCommunityIcons,
   AntDesign,
 } from "@expo/vector-icons";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+import Counter from "../components/Counter";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const FoodPage = ({ route, navigation }) => {
   const item = route.params.item;
@@ -26,7 +28,7 @@ const FoodPage = ({ route, navigation }) => {
   const [restaurant, setRestaurant] = useState(1);
   const [count, setCount] = useState(1);
   const [preference, setPreference] = useState("");
-  // const {cartCount, setCartCount} = useContext(CartCountContext);
+  const { cartCount, setCartCount } = useContext(CartCountContext);
   let sendToOrderPage;
   const id = item.restaurant;
 
@@ -45,6 +47,7 @@ const FoodPage = ({ route, navigation }) => {
       }
     });
   };
+
   const handlePress = (item) => {
     const cartItem = {
       productId: item._id,
@@ -69,7 +72,25 @@ const FoodPage = ({ route, navigation }) => {
     restaurant: id,
   };
 
-  const addToCart = async (cartItem) => {};
+  const addToCart = async (cartItem) => {
+    const token = await AsyncStorage.getItem("token");
+    const accessToken = JSON.parse(token);
+
+    try {
+      const response = await axios.post(
+        "http://192.168.0.17:6002/api/cart",
+        cartItem,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      setCartCount(response.data.count);
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  };
 
   useEffect(() => {
     calculatePrice();
@@ -216,7 +237,12 @@ const FoodPage = ({ route, navigation }) => {
           <View syle={styles.suspended}>
             <View style={styles.cart}>
               <View style={styles.cartRow}>
-                <TouchableOpacity onPress={() => {}} style={styles.cartbtn}>
+                <TouchableOpacity
+                  onPress={() => {
+                    handlePress(item);
+                  }}
+                  style={styles.cartbtn}
+                >
                   <AntDesign
                     name="pluscircleo"
                     size={24}
@@ -248,7 +274,7 @@ const FoodPage = ({ route, navigation }) => {
                   </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => {}} style={styles.cartbtn}>
+                <View style={styles.cartbtn}>
                   <Text
                     style={[
                       styles.title,
@@ -259,9 +285,9 @@ const FoodPage = ({ route, navigation }) => {
                       },
                     ]}
                   >
-                    {0}
+                    {cartCount}
                   </Text>
-                </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>

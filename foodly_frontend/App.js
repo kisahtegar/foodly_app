@@ -16,8 +16,8 @@ import FoodNavigator from "./app/navigation/FoodNavigator";
 import RestaurantPage from "./app/navigation/RestaurantPage";
 import Restaurant from "./app/screens/restaurant/Restaurant";
 import AddRating from "./app/screens/AddRating";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import SignUp from "./app/screens/SignUp";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -69,23 +69,12 @@ export default function App() {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
-      loginStatus();
     })();
   }, []);
 
   if (!fontsLoaded) {
     return;
   }
-
-  const loginStatus = async () => {
-    const userToken = await AsyncStorage.getItem("token");
-
-    if (userToken !== null) {
-      setLogin(true);
-    } else {
-      setLogin(false);
-    }
-  };
 
   return (
     <UserLocationContext.Provider value={{ location, setLocation }}>

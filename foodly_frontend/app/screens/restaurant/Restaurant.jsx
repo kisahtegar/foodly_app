@@ -14,14 +14,28 @@ const Restaurant = ({ navigation }) => {
   const [distanceTime, setDistanceTime] = useState({});
   const { location, setLocation } = useContext(UserLocationContext);
   const item = route.params;
+  // console.log("Restaurant.item: ", item);
 
   useEffect(() => {
+    // console.log("Restaurant.item.coords.latitude: ", item.coords.latitude);
+    // console.log("Restaurant.item.coords.longitude: ", item.coords.longitude);
+    // console.log(
+    //   "Restaurant.location.coords.latitude: ",
+    //   location.coords.latitude
+    // );
+    // console.log(
+    //   "Restaurant.location.coords.longitude: ",
+    //   location.coords.longitude
+    // );
+
     GoogleApiServices.calculateDistanceAndTime(
       item.coords.latitude,
       item.coords.longitude,
       location.coords.latitude,
       location.coords.longitude
     ).then((result) => {
+      // console.log("Restaurant.result: ", result);
+
       if (result) {
         setDistanceTime(result);
       }

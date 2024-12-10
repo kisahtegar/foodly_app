@@ -65,8 +65,9 @@ module.exports = {
         path: "productId",
         select: "title imageUrl restaurant rating ratingCount",
       });
+      const count = await Cart.countDocuments({ userId: userId });
 
-      res.status(200).json({ status: true, cart: useCart });
+      res.status(200).json({ status: true, cart: useCart, cartCount: count });
     } catch (error) {
       res.status(500).json({ status: false, message: error.message });
     }
@@ -93,8 +94,7 @@ module.exports = {
     const userId = req.user.id;
 
     try {
-      const count = await Cart.countDocuments({ userId });
-
+      const count = await Cart.countDocuments({ userId: userId });
       res.status(200).json({ status: true, cartCount: count });
     } catch (error) {
       res.status(500).json({ status: false, message: error.message });

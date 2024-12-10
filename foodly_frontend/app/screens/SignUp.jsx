@@ -18,6 +18,7 @@ import { COLORS, SIZES } from "../constants/theme";
 import BackBtn from "../components/BackBtn";
 import Button from "../components/Button";
 import { UserLocationContext } from "../context/UserLocationContext";
+import axios from "axios";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -64,24 +65,22 @@ const SignUp = ({ navigation }) => {
       if (response.status === 201) {
         setLoader(false);
 
-        navigation.naviggate("login");
+        navigation.goBack();
       } else {
-        setLogin(false);
-
-        Alert.alert("Error Logging in ", "Please provide valid credentials ", [
-          {
-            text: "Cancel",
-            onPress: () => {},
-          },
-          {
-            text: "Continue",
-            onPress: () => {},
-          },
-          { defaultIndex: 1 },
-        ]);
+        console.log(response.status);
+        // Alert.alert("Error Logging in ", "Please provide valid credentials ", [
+        //   {
+        //     text: "Cancel",
+        //     onPress: () => {},
+        //   },
+        //   {
+        //     text: "Continue",
+        //     onPress: () => {},
+        //   },
+        //   { defaultIndex: 1 },
+        // ]);
       }
     } catch (error) {
-      setLogin(false);
       Alert.alert(
         "Error ",
         "Oops, Error logging in try again with correct credentials",
@@ -101,62 +100,6 @@ const SignUp = ({ navigation }) => {
       setLoader(false);
     }
   };
-
-  // const registerUser = async (values) => {
-  //   setEmail(values.email);
-  //   setUsername(values.username);
-  //   setLoader(true);
-  //   try {
-  //     await firebase
-  //       .auth()
-  //       .createUserWithEmailAndPassword(values.email, values.password)
-  //       .then(() => {
-  //         const uid = firebase.auth().currentUser.uid;
-  //         firebase
-  //           .firestore()
-  //           .collection("users")
-  //           .doc(firebase.auth().currentUser.uid)
-  //           .set({
-  //             email,
-  //             username,
-  //             uid,
-  //             coordinates,
-  //           })
-  //           .catch((error) => {
-  //             Alert.alert("Error Signing Up", error.message, [
-  //               {
-  //                 text: "Back",
-  //                 onPress: () => {
-  //                   setLoader(false);
-  //                 },
-  //               },
-  //               {
-  //                 text: "Continue",
-  //                 onPress: () => {},
-  //               },
-  //               { defaultIndex: 1 },
-  //             ]);
-  //           });
-  //       })
-  //       .then(() => {
-  //         navigation.navigate("login");
-  //       });
-  //   } catch (error) {
-  //     Alert.alert("Error Signing Up", error.message, [
-  //       {
-  //         text: "Back",
-  //         onPress: () => {
-  //           setLoader(false);
-  //         },
-  //       },
-  //       {
-  //         text: "Continue",
-  //         onPress: () => {},
-  //       },
-  //       { defaultIndex: 1 },
-  //     ]);
-  //   }
-  // };
 
   return (
     <ScrollView style={{ backgroundColor: COLORS.white }}>

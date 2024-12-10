@@ -16,7 +16,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants/theme";
 import styles from "./login.style";
 import LottieView from "lottie-react-native";
-// import { firebase } from "../../config";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LoginContext } from "../context/LoginContext";
@@ -54,10 +53,8 @@ const LoginPage = ({ navigation }) => {
     setLoader(true);
 
     try {
-      const endpoint = "http://localhost:6002/login";
+      const endpoint = "http://192.168.0.17:6002/login";
       const data = values;
-
-      console.log(data);
 
       const response = await axios.post(endpoint, data);
       if (response.status === 200) {

@@ -6,19 +6,21 @@ import { LoginContext } from "../context/LoginContext";
 import NetworkImage from "../components/NetworkImage";
 import ProfileTile from "../components/ProfileTile";
 import RegistrationTile from "../components/RegistrationTile";
+import LoadingScreen from "../components/LoadingScreen";
+import fetchProfile from "../hook/fetchProfile";
 
 const Profile = () => {
   const { login, setLogin } = useContext(LoginContext);
-  const [user, setUser] = useState(null);
-
-  // const { user, isProfileLoading, error, refetch } = fetchProfile();
+  const { user, isProfileLoading, error, refetch } = fetchProfile();
   const profile =
     "https://d326fntlu7tb1e.cloudfront.net/uploads/b5065bb8-4c6b-4eac-a0ce-86ab0f597b1e-vinci_04.jpg";
   const bkImg =
     "https://d326fntlu7tb1e.cloudfront.net/uploads/ab6356de-429c-45a1-b403-d16f7c20a0bc-bkImg-min.png";
-  // if (isProfileLoading) {
-  //   return <LoadingScreen />;
-  // }
+
+  if (isProfileLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <View>
       <View style={{ backgroundColor: COLORS.primary, height: SIZES.height }}>
@@ -53,10 +55,10 @@ const Profile = () => {
               />
               <View style={{ marginLeft: 10, marginTop: 3 }}>
                 <Text style={styles.text}>
-                  {user === null ? "Andre" : user.username}
+                  {user === null ? "" : user.username}
                 </Text>
                 <Text style={styles.email}>
-                  {user === null ? "dbestech@foodly.com" : user.email}
+                  {user === null ? "" : user.email}
                 </Text>
               </View>
             </View>

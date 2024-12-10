@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();
 const port = 6002;
+var cors = require("cors");
+app.use(cors({ origin: true, credentials: true }));
 
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
