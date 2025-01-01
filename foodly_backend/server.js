@@ -40,7 +40,7 @@ const apiRouter = express.Router();
 
 // Use routes with base paths
 apiRouter.use("/auth", authRoute); // Authentication routes
-apiRouter.use("/users", userRoute); // User routes
+apiRouter.use("/user", userRoute); // User routes
 apiRouter.use("/restaurant", restRoute); // Restaurant routes
 apiRouter.use("/category", catRoute); // Category routes
 apiRouter.use("/foods", foodRoute); // Food routes

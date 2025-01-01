@@ -54,8 +54,11 @@ module.exports = {
         data: order,
       });
     } catch (error) {
-      console.log("[orderController.placeOrder]: error = ", error);
-      res.status(500).json(error);
+      res.status(500).json({
+        status: false,
+        message: "Failed to place order.",
+        error: error.message,
+      });
     }
   },
 
@@ -102,10 +105,10 @@ module.exports = {
         res.status(404).json({ status: false, message: "Order not found" });
       }
     } catch (error) {
-      console.log("[orderController.getOrderDetails]: error = ", error);
       res.status(500).json({
         status: false,
-        message: error.message,
+        message: "Failed to get order details",
+        error: error.message,
       });
     }
   },
@@ -133,8 +136,11 @@ module.exports = {
         .status(200)
         .json({ status: true, message: "Order deleted successfully" });
     } catch (error) {
-      console.log("[orderController.deleteOrder]: error = ", error);
-      res.status(500).json(error);
+      res.status(500).json({
+        status: false,
+        message: "Failed to delete order.",
+        error: error.message,
+      });
     }
   },
 
@@ -161,8 +167,11 @@ module.exports = {
         .populate("driverId");
       res.status(200).json({ status: true, data: orders });
     } catch (error) {
-      console.log("[orderController.getUserOrders]: error = ", error);
-      res.status(500).json(error);
+      res.status(500).json({
+        status: false,
+        message: "Failed to get users orders.",
+        error: error.message,
+      });
     }
   },
 
@@ -203,10 +212,10 @@ module.exports = {
         res.status(404).json({ status: false, message: "Order not found" });
       }
     } catch (error) {
-      console.error("[orderController.rateOrder]: error = ", error);
       res.status(500).json({
         status: false,
-        message: error.message,
+        message: "Failed to rate order.",
+        error: error.message,
       });
     }
   },
@@ -247,11 +256,10 @@ module.exports = {
         res.status(404).json({ status: false, message: "Order not found" });
       }
     } catch (error) {
-      // Log the error and respond with a 500 status
-      console.error("[orderController.updateOrderStatus]: error = ", error);
       res.status(500).json({
         status: false,
-        message: error.message,
+        message: "Failed to update order status.",
+        error: error.message,
       });
     }
   },
@@ -292,10 +300,10 @@ module.exports = {
         res.status(404).json({ status: false, message: "Order not found" });
       }
     } catch (error) {
-      console.error("[orderController.updatePaymentStatus]: error = ", error);
       res.status(500).json({
         status: false,
-        message: error.message,
+        message: "Failed to update payment status.",
+        error: error.message,
       });
     }
   },
@@ -368,13 +376,9 @@ module.exports = {
         data: parcels,
       });
     } catch (error) {
-      console.error(
-        "[orderController.getRestaurantOrdersList]: error = ",
-        error
-      );
       res.status(500).json({
         status: false,
-        message: "Error retrieving parcels",
+        message: "Failed to get restaurant orders list.",
         error: error.message,
       });
     }
@@ -503,8 +507,11 @@ module.exports = {
       // Respond with the updated order
       res.status(200).json(updatedOrder);
     } catch (error) {
-      console.error(`Error processing order: ${error.message}`);
-      res.status(500).json({ status: false, message: error.message });
+      res.status(500).json({
+        status: false,
+        message: "Failed to process order.",
+        error: error.message,
+      });
     }
   },
 
@@ -562,10 +569,9 @@ module.exports = {
         data: parcels,
       });
     } catch (error) {
-      console.log("[orderController.getNearbyOrders]: error = ", error);
       res.status(500).json({
         status: false,
-        message: "Error retrieving parcels",
+        message: "Failed to get nearby orders.",
         error: error.message,
       });
     }
@@ -659,11 +665,11 @@ module.exports = {
         res.status(404).json({ status: false, message: "Order not found" });
       }
     } catch (error) {
-      console.error(
-        "[orderController.addDriver]: Error updating order = ",
-        error
-      );
-      res.status(500).json({ status: false, message: error.message });
+      res.status(500).json({
+        status: false,
+        message: "Failed to add driver.",
+        error: error.message,
+      });
     }
   },
 
@@ -722,12 +728,9 @@ module.exports = {
       // Respond with the retrieved orders
       res.status(200).json(parcels);
     } catch (error) {
-      console.error("[orderController.getPickedOrders]: Error = ", error);
-
-      // Respond with an error if the operation fails
       res.status(500).json({
         status: false,
-        message: "Error retrieving parcels",
+        message: "Failed to get picked orders.",
         error: error.message,
       });
     }
@@ -827,11 +830,11 @@ module.exports = {
         res.status(404).json({ status: false, message: "Order not found" });
       }
     } catch (error) {
-      console.error(
-        `[orderController.markAsDelivered]`,
-        `Error in marking order as delivered: ${error.message}`
-      );
-      res.status(500).json({ status: false, message: error.message });
+      res.status(500).json({
+        status: false,
+        message: "Failed to mark as delivered.",
+        error: error.message,
+      });
     }
   },
 };

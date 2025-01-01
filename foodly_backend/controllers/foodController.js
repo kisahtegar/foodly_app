@@ -23,10 +23,6 @@ module.exports = {
         .status(201)
         .json({ status: true, message: "Food item successfully created" });
     } catch (error) {
-      console.error(
-        "[foodController.addFood]: Error creating food item = ",
-        error.message
-      );
       res.status(500).json({
         status: false,
         message: "Failed to create food item",
@@ -62,13 +58,9 @@ module.exports = {
 
       res.status(200).json(food);
     } catch (error) {
-      console.error(
-        "[foodController.getFoodById]: Error retrieving food item = ",
-        error.message
-      );
       res.status(500).json({
         status: false,
-        message: "Failed to retrieve food item",
+        message: "Failed to get food by id",
         error: error.message,
       });
     }
@@ -122,11 +114,6 @@ module.exports = {
       // Return the nearby food items
       return res.status(200).json(food);
     } catch (error) {
-      console.error("Failed to retrieve food items:", error);
-      console.error(
-        "[foodController.getFoodNearby]: Error retrieving nearby food items = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to retrieve nearby food items",
@@ -165,13 +152,9 @@ module.exports = {
 
       res.status(200).json(foods);
     } catch (error) {
-      console.error(
-        "[foodController.getFoodsByRestaurant]: Error fetching food items = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
-        message: "Failed to retrieve food items for the restaurant",
+        message: "Failed to retrieve food by restaurant",
         error: error.message,
       });
     }
@@ -207,13 +190,9 @@ module.exports = {
 
       res.status(200).json(foods);
     } catch (error) {
-      console.error(
-        "[foodController.getFoodListByRestaurant]: Error fetching food items = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
-        message: "Failed to retrieve food items for the restaurant",
+        message: "Failed to retrieve list food by restaurant",
         error: error.message,
       });
     }
@@ -249,10 +228,6 @@ module.exports = {
         .status(200)
         .json({ status: true, message: "Food item successfully deleted" });
     } catch (error) {
-      console.error(
-        "[foodController.deleteFoodById]: Error deleting food item = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to delete food item",
@@ -295,10 +270,6 @@ module.exports = {
       // Return success message
       res.status(200).json({ message: "Availability toggled successfully" });
     } catch (error) {
-      console.error(
-        "[foodController.foodAvailability]: Error toggling food availability = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to toggle food availability",
@@ -350,10 +321,6 @@ module.exports = {
         .status(200)
         .json({ status: true, message: "Food item successfully updated" });
     } catch (error) {
-      console.error(
-        "[foodController.updateFoodById]: Error updating food item = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to update food item",
@@ -414,10 +381,6 @@ module.exports = {
         .status(200)
         .json({ status: true, message: "Tag successfully added", data: food });
     } catch (error) {
-      console.error(
-        "[foodController.addFoodTag]: Error adding tag to food item = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to add tag to food item",
@@ -454,10 +417,6 @@ module.exports = {
       // Return the selected food items
       res.status(200).json(randomFoodItems);
     } catch (error) {
-      console.error(
-        "[foodController.getRandomFoodsByCode]: Error fetching random food items by code = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to retrieve random food items by code",
@@ -486,7 +445,7 @@ module.exports = {
    */
   addFoodType: async (req, res) => {
     const foodId = req.params.id;
-    const { foodType } = req.body.foodType;
+    const { foodType } = req.body;
 
     try {
       const food = await Food.findById(foodId);
@@ -510,12 +469,8 @@ module.exports = {
 
       res
         .status(200)
-        .json({ status: true, message: "Type successfully added" });
+        .json({ status: true, message: "Type successfully added", data: food });
     } catch (error) {
-      console.error(
-        "[foodController.addFoodType]: Error adding food type = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to add food type",
@@ -565,10 +520,6 @@ module.exports = {
 
       res.status(200).json(foods); // Return the foods found
     } catch (error) {
-      console.error(
-        "[foodController.getRandomFoodsByCategoryAndCode]: Error fetching foods = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to retrieve random food items",
@@ -613,10 +564,6 @@ module.exports = {
 
       res.status(200).json(foods);
     } catch (error) {
-      console.error(
-        "[foodController.getRandomFoodsByCategory]: Error fetching foods = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to retrieve food items for the category",
@@ -661,11 +608,6 @@ module.exports = {
       // Return the search results
       res.status(200).json(results);
     } catch (error) {
-      // Log and return an error message with detailed information
-      console.error(
-        "[foodController.searchFoods]: Error searching foods = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to retrieve food search results",

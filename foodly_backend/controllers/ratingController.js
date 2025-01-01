@@ -52,7 +52,11 @@ module.exports = {
       }
       return res.status(200).json({ status: true });
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({
+        status: false,
+        message: "Failed to add or update rating.",
+        error: error.message,
+      });
     }
   },
 
@@ -96,13 +100,10 @@ module.exports = {
         });
       }
     } catch (error) {
-      console.error(
-        "[ratingController.checkIfUserRatedRestaurant]: Error =",
-        error.message
-      );
-      return res.status(500).json({
+      res.status(500).json({
         status: false,
-        message: error.message,
+        message: "Failed to checking if user rated restaurant.",
+        error: error.message,
       });
     }
   },

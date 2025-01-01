@@ -36,10 +36,6 @@ module.exports = {
 
       res.status(200).json({ ...others });
     } catch (err) {
-      console.error(
-        "[userController.updateUser]: Error updating user = ",
-        err.message
-      );
       res.status(500).json({
         status: false,
         message: "Failed to update user",
@@ -65,10 +61,6 @@ module.exports = {
       await User.findByIdAndDelete(req.user.id);
       res.status(200).json("Successfully Deleted");
     } catch (error) {
-      console.error(
-        "[userController.deleteUser]: Error deleting user = ",
-        error.message
-      );
       res.status(500).json({
         status: false,
         message: "Failed to delete user",
@@ -95,10 +87,6 @@ module.exports = {
       const { password, __v, createdAt, ...userdata } = user._doc;
       res.status(200).json(userdata);
     } catch (error) {
-      console.error(
-        "[userController.getUser]: Error fetching user = ",
-        error.message
-      );
       res.status(500).json({
         status: false,
         message: "Failed to retrieve user details",
@@ -123,14 +111,9 @@ module.exports = {
       const allUser = await User.find();
       res.status(200).json(allUser);
     } catch (error) {
-      // If an error occurs, return a 500 status with an error message
-      console.error(
-        "[userController.getAllUsers]: Error fetching users = ",
-        error.message
-      );
       res.status(500).json({
         status: false,
-        message: "Failed to retrieve users",
+        message: "Failed to retrieve all users",
         error: error.message,
       });
     }
@@ -175,10 +158,6 @@ module.exports = {
           .json({ status: false, message: "OTP verification failed" });
       }
     } catch (error) {
-      console.error(
-        "[userController.verifyAccount]: Error verifying account = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to verify account",
@@ -218,10 +197,6 @@ module.exports = {
       const { password, __v, otp, createdAt, ...others } = user._doc;
       return res.status(200).json({ ...others });
     } catch (error) {
-      console.error(
-        "[userController.verifyPhone]: Error verifying phone = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to verify phone number",
@@ -266,10 +241,6 @@ module.exports = {
         .status(200)
         .json({ status: true, message: "FCM token updated successfully" });
     } catch (error) {
-      console.error(
-        "[userController.updateFcm]: Error updating FCM token = ",
-        error.message
-      );
       return res.status(500).json({
         status: false,
         message: "Failed to update FCM token",
@@ -335,10 +306,6 @@ module.exports = {
         response,
       });
     } catch (error) {
-      console.error(
-        "[userController.sendPushNotification]: Error sending push notification = ",
-        error.message
-      );
       res.status(500).json({
         status: false,
         message: "Failed to send push notification",

@@ -22,7 +22,7 @@ module.exports = {
    * @returns {Object} A JSON response
    */
   addRestaurant: async (req, res) => {
-    console.log(req.body);
+    console.log("[restaurantController.addRestaurant]: body =", req.body);
     const owner = req.user.id;
 
     const existingRestaurant = await Restaurant.findOne({ owner: owner });
@@ -45,10 +45,6 @@ module.exports = {
       );
       res.status(201).json(data);
     } catch (error) {
-      console.error(
-        "[restaurantController.addRestaurant]: Error adding restaurant =",
-        error.message
-      );
       res.status(500).json({
         status: false,
         message: "An error occurred while adding the restaurant",
@@ -102,12 +98,9 @@ module.exports = {
 
       return res.status(200).json(restaurants);
     } catch (error) {
-      console.error(
-        "[restaurantController.getNearbyRestaurants]: Error retrieving nearby restaurants =",
-        error.message
-      );
       return res.status(500).json({
-        message: "Server error",
+        status: false,
+        message: "Failed to retrieving nearby restaurants",
         error: error.message,
       });
     }
@@ -156,11 +149,6 @@ module.exports = {
         res.status(404).json({ message: "No restaurants found" });
       }
     } catch (error) {
-      // Log and handle errors
-      console.error(
-        "[restaurantController.getRandomRestaurants]: Error fetching random restaurants =",
-        error.message
-      );
       res.status(500).json({
         status: false,
         message: "An error occurred while fetching random restaurants",
@@ -206,10 +194,6 @@ module.exports = {
         isAvailable: restaurant.isAvailable,
       });
     } catch (error) {
-      console.error(
-        "[restaurantController.serviceAvailability]: Error =",
-        error.message
-      );
       res.status(500).json({
         status: false,
         message: "An error occurred while toggling availability",
@@ -250,10 +234,10 @@ module.exports = {
         .status(200)
         .json({ status: true, message: "Restaurant successfully deleted" });
     } catch (error) {
-      console.error("Error deleting Restaurant:", error);
       res.status(500).json({
         status: false,
         message: "An error occurred while deleting the restaurant.",
+        error: error.message,
       });
     }
   },
@@ -284,12 +268,6 @@ module.exports = {
       }
       res.status(200).json(restaurant);
     } catch (error) {
-      console.error(
-        "[restaurantController.getRestaurant]: Error =",
-        error.message
-      );
-
-      // Return a 500 error response
       res.status(500).json({
         status: false,
         message: "An error occurred while fetching the restaurant",
@@ -323,14 +301,6 @@ module.exports = {
       }
       res.status(200).json(restaurant);
     } catch (error) {
-      console.error(
-        "[restaurantController.getRestaurantByOwner]: Error fetching restaurant for owner ID =",
-        req.user.id,
-        ", Error =",
-        error.message
-      );
-
-      // Return a 500 error response
       res.status(500).json({
         status: false,
         message: "An error occurred while fetching the restaurant",

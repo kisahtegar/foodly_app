@@ -11,15 +11,15 @@ const { verifyTokenAndAuthorization } = require("../middlewares/verifyToken");
 router.post("/", verifyTokenAndAuthorization, addressController.createAddress);
 
 /**
- * DELETE /api/address/:id
- * @description Deletes an address by its ID for the authenticated user.
- * @route {DELETE} /api/address/:id
+ * PATCH /api/address/default/:address
+ * @description Sets a specific address as the default address for the authenticated user.
+ * @route {PATCH} /api/address/default/:address
  * @access Private
  */
-router.delete(
-  "/:id",
+router.patch(
+  "/default/:address",
   verifyTokenAndAuthorization,
-  addressController.deleteAddress
+  addressController.setDefaultAddress
 );
 
 /**
@@ -59,15 +59,15 @@ router.put(
 );
 
 /**
- * PATCH /api/address/default/:address
- * @description Sets a specific address as the default address for the authenticated user.
- * @route {PATCH} /api/address/default/:address
+ * DELETE /api/address/:id
+ * @description Deletes an address by its ID for the authenticated user.
+ * @route {DELETE} /api/address/:id
  * @access Private
  */
-router.patch(
-  "/default/:address",
+router.delete(
+  "/:id",
   verifyTokenAndAuthorization,
-  addressController.setDefaultAddress
+  addressController.deleteAddress
 );
 
 module.exports = router;

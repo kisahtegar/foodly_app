@@ -65,7 +65,11 @@ module.exports = {
         return res.status(201).json(defaultAddress);
       }
     } catch (error) {
-      res.status(500).json({ status: false, message: error.message });
+      res.status(500).json({
+        status: false,
+        message: "Failed to create address.",
+        error: error.message,
+      });
     }
   },
 
@@ -126,10 +130,10 @@ module.exports = {
         .json({ status: true, message: "Address deleted successfully" });
     } catch (error) {
       // Log detailed error information in the response for debugging
-      console.error("Error deleting address:", error);
       res.status(500).json({
         status: false,
-        message: "Internal server error. Please try again later.",
+        message: "Failed to delete address.",
+        error: error.message,
       });
     }
   },
@@ -164,10 +168,10 @@ module.exports = {
       res.status(200).json(defaultAddress);
     } catch (error) {
       // Log the error and send a generic error message
-      console.error("Error retrieving default address:", error);
       res.status(500).json({
         status: false,
-        message: "Internal server error. Please try again later.",
+        message: "Failed to retrieve default address.",
+        error: error.message,
       });
     }
   },
@@ -202,10 +206,10 @@ module.exports = {
       res.status(200).json(addresses);
     } catch (error) {
       // Log the error and send a generic error message
-      console.error("Error retrieving user addresses:", error);
       res.status(500).json({
         status: false,
-        message: "Internal server error. Please try again later.",
+        message: "Failed to retrieve user addresses.",
+        error: error.message,
       });
     }
   },
@@ -257,10 +261,10 @@ module.exports = {
       });
     } catch (error) {
       // Log the error for debugging purposes and send a generic error message
-      console.error("Error updating address:", error);
       res.status(500).json({
         status: false,
-        message: "Internal server error. Please try again later.",
+        message: "Failed to update address.",
+        error: error.message,
       });
     }
   },
@@ -304,10 +308,10 @@ module.exports = {
       res.status(200).json(updatedAddress);
     } catch (error) {
       // Log the error and send a generic error message to avoid exposing sensitive details
-      console.error("Error setting default address:", error);
       res.status(500).json({
         status: false,
-        message: "Internal server error. Please try again later.",
+        message: "Failed to set default address.",
+        error: error.message,
       });
     }
   },

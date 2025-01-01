@@ -27,30 +27,6 @@ router.get(
 router.get("/orderslist/:id", ordersController.getRestaurantOrdersList);
 
 /**
- * POST /api/orders
- * @description Places a new order for a user.
- * @route {POST} /api/orders
- * @access Private (requires authentication)
- */
-router.post("/", verifyTokenAndAuthorization, ordersController.placeOrder);
-
-/**
- * GET /api/orders/:id
- * @description Fetches the details of a specific order by ID.
- * @route {GET} /api/orders/:id
- * @access Public
- */
-router.get("/:id", ordersController.getOrderDetails);
-
-/**
- * DELETE /api/orders/:id
- * @description Deletes a specific order by ID.
- * @route {DELETE} /api/orders/:id
- * @access Private (requires authentication)
- */
-router.delete("/:id", ordersController.deleteOrder);
-
-/**
  * POST /api/orders/rate/:id
  * @description Rates a specific order by ID.
  * @route {POST} /api/orders/rate/:id
@@ -75,20 +51,28 @@ router.post("/status/:id", ordersController.updateOrderStatus);
 router.post("/payment-status/:id", ordersController.updatePaymentStatus);
 
 /**
- * PUT /api/orders/process/:id/:status
- * @description Processes an order (available to vendors).
- * @route {PUT} /api/orders/process/:id/:status
- * @access Private (requires vendor authentication)
- */
-router.put("/process/:id/:status", verifyVendor, ordersController.processOrder);
-
-/**
  * GET /api/orders/delivery/:status
  * @description Fetches nearby orders based on delivery status.
  * @route {GET} /api/orders/delivery/:status
  * @access Public
  */
 router.get("/delivery/:status", ordersController.getNearbyOrders);
+
+/**
+ * PUT /api/orders/delivered/:id
+ * @description Marks an order as delivered (available to drivers).
+ * @route {PUT} /api/orders/delivered/:id
+ * @access Private (requires driver authentication)
+ */
+router.put("/delivered/:id", verifyDriver, ordersController.markAsDelivered);
+
+/**
+ * PUT /api/orders/process/:id/:status
+ * @description Processes an order (available to vendors).
+ * @route {PUT} /api/orders/process/:id/:status
+ * @access Private (requires vendor authentication)
+ */
+router.put("/process/:id/:status", verifyVendor, ordersController.processOrder);
 
 /**
  * PUT /api/orders/picked-orders/:id/:driver
@@ -115,11 +99,27 @@ router.get(
 );
 
 /**
- * PUT /api/orders/delivered/:id
- * @description Marks an order as delivered (available to drivers).
- * @route {PUT} /api/orders/delivered/:id
- * @access Private (requires driver authentication)
+ * GET /api/orders/:id
+ * @description Fetches the details of a specific order by ID.
+ * @route {GET} /api/orders/:id
+ * @access Public
  */
-router.put("/delivered/:id", verifyDriver, ordersController.markAsDelivered);
+router.get("/:id", ordersController.getOrderDetails);
+
+/**
+ * DELETE /api/orders/:id
+ * @description Deletes a specific order by ID.
+ * @route {DELETE} /api/orders/:id
+ * @access Private (requires authentication)
+ */
+router.delete("/:id", ordersController.deleteOrder);
+
+/**
+ * POST /api/orders
+ * @description Places a new order for a user.
+ * @route {POST} /api/orders
+ * @access Private (requires authentication)
+ */
+router.post("/", verifyTokenAndAuthorization, ordersController.placeOrder);
 
 module.exports = router;

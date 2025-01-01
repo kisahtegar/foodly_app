@@ -23,7 +23,11 @@ module.exports = {
         .status(201)
         .json({ status: true, message: "Category successfully created" });
     } catch (error) {
-      res.status(500).json({ status: false, message: error.message });
+      res.status(500).json({
+        status: false,
+        message: "Failed to create category.",
+        error: error.message,
+      });
     }
   },
 
@@ -66,10 +70,10 @@ module.exports = {
         .status(200)
         .json({ status: true, message: "Category successfully updated" });
     } catch (error) {
-      console.error("Error updating category:", error);
       res.status(500).json({
         status: false,
         message: "An error occurred while updating the category.",
+        error: error.message,
       });
     }
   },
@@ -100,7 +104,7 @@ module.exports = {
 
     try {
       // Attempt to find and remove the category from the database
-      const deletedCategory = await Category.findByIdAndRemove(id);
+      const deletedCategory = await Category.findByIdAndDelete(id);
 
       // If the category is not found, return a 404 error
       if (!deletedCategory) {
@@ -114,10 +118,10 @@ module.exports = {
         .json({ status: true, message: "Category successfully deleted" });
     } catch (error) {
       // Log the error and send a failure response if something goes wrong
-      console.error("Error deleting category:", error);
       res.status(500).json({
         status: false,
         message: "An error occurred while deleting the category.",
+        error: error.message,
       });
     }
   },
@@ -146,10 +150,10 @@ module.exports = {
       res.status(200).json(categories);
     } catch (error) {
       // If an error occurs, log it and return a 500 status code with an error message
-      console.error("Error fetching categories:", error);
       res.status(500).json({
         status: false,
-        message: "An error occurred while fetching the categories.",
+        message: "An error occurred while fetching all categories.",
+        error: error.message,
       });
     }
   },
@@ -199,10 +203,10 @@ module.exports = {
       });
     } catch (error) {
       // Handle errors and respond with an appropriate message
-      console.error("Error patching category image:", error);
       res.status(500).json({
         status: false,
         message: "An error occurred while patching the category image.",
+        error: error.message,
       });
     }
   },
@@ -233,10 +237,10 @@ module.exports = {
       }
       res.status(200).json(categories);
     } catch (error) {
-      console.error("Error fetching limited categories:", error);
       res.status(500).json({
         status: false,
         message: "An error occurred while fetching the categories.",
+        error: error.message,
       });
     }
   },

@@ -11,6 +11,14 @@ const { verifyToken } = require("../middlewares/verifyToken");
 router.post("/", verifyToken, driverController.registerDriver);
 
 /**
+ * PATCH /api/driver/availability/:id
+ * @description Toggles driver availability status by ID.
+ * @route {PATCH} /api/driver/availability/:id
+ * @access Private (requires authentication)
+ */
+router.patch("/availability/:id", driverController.setDriverAvailability);
+
+/**
  * DELETE /api/driver/:id
  * @description Deletes a driver by ID.
  * @route {DELETE} /api/driver/:id
@@ -33,13 +41,5 @@ router.put("/:id", driverController.updateDriverDetails);
  * @access Public (or Private)
  */
 router.get("/:id", driverController.getDriverDetails);
-
-/**
- * PATCH /api/driver/availability/:id
- * @description Toggles driver availability status by ID.
- * @route {PATCH} /api/driver/availability/:id
- * @access Private (requires authentication)
- */
-router.patch("/availability/:id", driverController.setDriverAvailability);
 
 module.exports = router;

@@ -73,10 +73,6 @@ module.exports = {
       await session.abortTransaction();
       session.endSession();
 
-      console.error(
-        "[driverController.registerDriver]: Error registering driver = ",
-        error.message
-      );
       res.status(500).json({
         status: false,
         message: "Failed to register driver",
@@ -110,10 +106,6 @@ module.exports = {
         res.status(404).json({ status: false, message: "Driver not found" });
       }
     } catch (error) {
-      console.error(
-        "[driverController.getDriverDetails]: Error fetching driver details = ",
-        error.message
-      );
       res.status(500).json({
         status: false,
         message: "Failed to retrieve driver details",
@@ -156,10 +148,6 @@ module.exports = {
         });
       }
     } catch (error) {
-      console.error(
-        "[driverController.updateDriverDetails]: Error updating driver details = ",
-        error.message
-      );
       res.status(500).json({
         status: false,
         message: "Failed to update driver details",
@@ -192,10 +180,6 @@ module.exports = {
         message: "Driver deleted successfully",
       });
     } catch (error) {
-      console.error(
-        "[driverController.deleteDriver]: Error deleting driver = ",
-        error.message
-      );
       res.status(500).json({
         status: false,
         message: "Failed to delete driver",
@@ -241,13 +225,9 @@ module.exports = {
         data: driver,
       });
     } catch (error) {
-      console.error(
-        "[driverController.setDriverAvailability]: Error toggling driver availability = ",
-        error.message
-      );
       res.status(500).json({
         status: false,
-        message: "An error occurred",
+        message: "Failed to update driver availability.",
         error: error.message,
       });
     }

@@ -100,11 +100,11 @@ module.exports = {
             .json({ status: false, message: createUserError.message });
         }
       } else {
-        console.error(
-          "[authController.createUser]: Error retrieving user = ",
-          error
-        );
-        res.status(500).json({ status: false, message: error.message });
+        res.status(500).json({
+          status: false,
+          message: "Failed to register or create user.",
+          error: error.message,
+        });
       }
     }
   },
@@ -189,8 +189,11 @@ module.exports = {
         return res.status(200).json({ ...others, userToken });
       }
     } catch (error) {
-      console.error("[authController.loginUser]: Error = ", error);
-      res.status(500).json({ status: false, message: error.message });
+      res.status(500).json({
+        status: false,
+        message: "Failed to login.",
+        error: error.message,
+      });
     }
   },
 };

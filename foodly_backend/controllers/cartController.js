@@ -15,7 +15,8 @@ module.exports = {
    */
   addProductToCart: async (req, res) => {
     const userId = req.user.id; // Extract the user ID from the request
-    const { productId, totalPrice, quantity } = req.body; // Extract product details
+    const { productId, additives, instructions, totalPrice, quantity } =
+      req.body;
     let count;
 
     try {
@@ -33,8 +34,8 @@ module.exports = {
         const newCartEntry = new Cart({
           userId: userId,
           productId: productId,
-          additives: req.body.additives,
-          instructions: req.body.instructions,
+          additives: additives,
+          instructions: instructions,
           totalPrice: totalPrice,
           quantity: quantity,
         });
@@ -46,7 +47,11 @@ module.exports = {
       res.status(201).json({ status: true, count: count });
     } catch (error) {
       // Handle any errors that occur during the process
-      res.status(500).json(error);
+      res.status(500).json({
+        status: false,
+        message: "Failed to add product to cart",
+        error: error.message,
+      });
     }
   },
 
@@ -70,7 +75,11 @@ module.exports = {
       const count = await Cart.countDocuments({ userId });
       res.status(200).json({ status: true, cartCount: count });
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({
+        status: false,
+        message: "Failed to remove product from cart",
+        error: error.message,
+      });
     }
   },
 
@@ -97,7 +106,11 @@ module.exports = {
       });
       res.status(200).json({ status: true, cart: userCart });
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({
+        status: false,
+        message: "Failed to fetch user cart.",
+        error: error.message,
+      });
     }
   },
 
@@ -119,7 +132,11 @@ module.exports = {
         .status(200)
         .json({ status: true, message: "User cart cleared successfully" });
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({
+        status: false,
+        message: "Failed to clear user cart.",
+        error: error.message,
+      });
     }
   },
 
@@ -139,7 +156,11 @@ module.exports = {
       const count = await Cart.countDocuments({ userId });
       res.status(200).json({ status: true, cartCount: count });
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({
+        status: false,
+        message: "Failed to get cart count.",
+        error: error.message,
+      });
     }
   },
 
@@ -192,7 +213,11 @@ module.exports = {
       }
     } catch (error) {
       // Handle any errors that occur during the operation
-      res.status(500).json(error);
+      res.status(500).json({
+        status: false,
+        message: "Failed to decrement product quantity.",
+        error: error.message,
+      });
     }
   },
 };
