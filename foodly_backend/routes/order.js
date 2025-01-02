@@ -19,8 +19,8 @@ router.get(
 );
 
 /**
- * GET /api/orders/orderslist/:id
- * @description Fetches orders for a specific restaurant by ID.
+ * GET /api/orders/orderslist/:id?status=placed
+ * @description Fetches orders for a specific restaurant by ID and status.
  * @route {GET} /api/orders/orderslist/:id
  * @access Public
  */

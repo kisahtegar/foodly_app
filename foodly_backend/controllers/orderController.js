@@ -27,9 +27,9 @@ module.exports = {
   placeOrder: async (req, res) => {
     try {
       // Iterate over order items and construct additives subdocuments
-      const orderItems = req.body.orderItems.map((orderItem) => ({
+      const orderItems = (req.body.orderItems || []).map((orderItem) => ({
         ...orderItem,
-        additives: orderItem.addittives.map((additive) => ({
+        additives: (orderItem.additives || []).map((additive) => ({
           id: additive.id,
           title: additive.title,
           price: additive.price,
@@ -54,6 +54,8 @@ module.exports = {
         data: order,
       });
     } catch (error) {
+      console.log("[orderController.placeOrder]: Error = ", error);
+
       res.status(500).json({
         status: false,
         message: "Failed to place order.",
@@ -121,14 +123,13 @@ module.exports = {
    * process, it responds with an error message.
    *
    * @param {Object} req - The request object.
-   * @param {Object} req.params - The parameters of the request.
-   * @param {string} req.params.orderId - The ID of the order to delete.
+   * @param {string} req.params.id - The ID of the order to delete.
    * @param {Object} res - The response object.
    *
    * @returns {Object} A JSON response
    */
   deleteOrder: async (req, res) => {
-    const { orderId } = req.params;
+    const orderId = req.params.id;
 
     try {
       await Order.findByIdAndDelete(orderId);
@@ -699,6 +700,12 @@ module.exports = {
       ? req.params.status
       : "Cancelled";
 
+    console.log("[orderController.getPickedOrders]: Status = ", status);
+    console.log(
+      "[orderController.getPickedOrders]: Driver = ",
+      req.params.driver
+    );
+
     try {
       // Fetch orders based on status and driverId
       const parcels = await Order.find({
@@ -792,7 +799,11 @@ module.exports = {
           { new: true }
         );
 
-        //  console.log(`[orderController.markAsDelivered]: Updated restaurant earnings = ${JSON.stringify(restaurantUpdateResult)}`);
+        console.log(
+          `[orderController.markAsDelivered]: Updated restaurant earnings = ${JSON.stringify(
+            restaurantUpdateResult
+          )}`
+        );
 
         // Update driver earnings and delivery count
         const driver = await Driver.findOne({ driver: userId });
