@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { COLORS, SIZES } from "../constants/theme";
 import { LoginContext } from "../context/LoginContext";
 import NetworkImage from "../components/NetworkImage";
@@ -8,18 +8,29 @@ import ProfileTile from "../components/ProfileTile";
 import RegistrationTile from "../components/RegistrationTile";
 import LoadingScreen from "../components/LoadingScreen";
 import fetchProfile from "../hook/fetchProfile";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CheckUserAddressType } from "../context/CheckUserAddressType";
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const { login, setLogin } = useContext(LoginContext);
   const { user, isProfileLoading, error, refetch } = fetchProfile();
+  const { checkUserAddressType, setCheckUserAddressType } =
+    useContext(CheckUserAddressType);
   const profile =
-    "https://d326fntlu7tb1e.cloudfront.net/uploads/b5065bb8-4c6b-4eac-a0ce-86ab0f597b1e-vinci_04.jpg";
+    "https://res.cloudinary.com/dc7i32d3v/image/upload/v1734440457/images/peoples/guy-1.png";
   const bkImg =
-    "https://d326fntlu7tb1e.cloudfront.net/uploads/ab6356de-429c-45a1-b403-d16f7c20a0bc-bkImg-min.png";
+    "https://res.cloudinary.com/dc7i32d3v/image/upload/v1734400159/images/randoms/ads-on-internet.png";
 
   if (isProfileLoading) {
     return <LoadingScreen />;
   }
+
+  const logout = async () => {
+    await AsyncStorage.clear();
+    setLogin(false);
+    setCheckUserAddressType(false);
+    navigation.navigate("login");
+  };
 
   return (
     <View>
@@ -27,12 +38,12 @@ const Profile = () => {
         <View
           style={{
             backgroundColor: COLORS.offwhite,
-            height: SIZES.height - 80,
+            height: SIZES.height - 56,
             borderBottomEndRadius: 30,
             borderBottomStartRadius: 30,
           }}
         >
-          <Image
+          {/* <Image
             source={{ uri: bkImg }}
             style={[
               StyleSheet.absoluteFillObject,
@@ -40,7 +51,7 @@ const Profile = () => {
                 opacity: 0.7,
               },
             ]}
-          />
+          /> */}
           <View style={styles.profile}>
             <View
               style={{
@@ -48,7 +59,7 @@ const Profile = () => {
               }}
             >
               <NetworkImage
-                data={user === null ? profile : user.profile}
+                source={user === null ? profile : user.profile}
                 width={45}
                 height={45}
                 radius={99}
@@ -63,8 +74,12 @@ const Profile = () => {
               </View>
             </View>
 
-            <TouchableOpacity>
-              <AntDesign name="logout" size={24} color="red" />
+            <TouchableOpacity onPress={() => logout()}>
+              <AntDesign
+                name={user === null ? "login" : "logout"}
+                size={24}
+                color="red"
+              />
             </TouchableOpacity>
           </View>
 
@@ -83,11 +98,31 @@ const Profile = () => {
               borderRadius: 12,
             }}
           >
-            <ProfileTile title={"Orders"} icon={"fast-food-outline"} font={1} />
-            <ProfileTile title={"Places"} icon={"heart"} font={2} />
-            <ProfileTile title={"Payment History"} icon={"creditcard"} />
+            <ProfileTile
+              title={"Orders"}
+              icon={"fast-food-outline"}
+              font={1}
+              onPress={() => {
+                navigation.navigate("fetch_orders");
+              }}
+            />
+            <ProfileTile
+              title={"Places"}
+              icon={"heart"}
+              font={2}
+              onPress={() => {
+                // navigation.navigate("verification_page");
+              }}
+            />
+            <ProfileTile
+              title={"Payment History"}
+              icon={"creditcard"}
+              onPress={() => {
+                // navigation.navigate("otp-screen");
+              }}
+            />
           </View>
-
+          {/*
           <View
             style={{
               height: 140,
@@ -100,7 +135,7 @@ const Profile = () => {
             <ProfileTile title={"My Store"} icon={"bag"} font={2} />
             <ProfileTile title={"History"} icon={"globe-outline"} font={1} />
           </View>
-
+*/}
           <RegistrationTile
             heading={"Join the courier team"}
             desc={
@@ -120,6 +155,9 @@ const Profile = () => {
               title={"Shipping Address"}
               icon={"location-outline"}
               font={1}
+              onPress={() => {
+                navigation.navigate("shipping-address");
+              }}
             />
             <ProfileTile title={"Services Center"} icon={"customerservice"} />
             <ProfileTile title={"Settings"} icon={"setting"} />

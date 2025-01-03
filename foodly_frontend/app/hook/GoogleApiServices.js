@@ -174,27 +174,6 @@ const decode = (encoded) => {
   return points;
 };
 
-const fetchDirections = async (
-  startLat,
-  startLng,
-  destinationLat,
-  destinationLng
-) => {
-  try {
-    const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLng}&destination=${destinationLat},${destinationLng}&key=${apiKey}`;
-    const response = await fetch(url);
-    const data = await response.json().then((data) => {
-      // setDirections(data);
-      const encodedPolyline = data.routes[0].overview_polyline.points;
-      const coordinates = decode(encodedPolyline);
-
-      // setCoordinates(coordinates);
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export default {
   calculateDistanceAndTime,
   extractNumbers,

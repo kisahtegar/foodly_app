@@ -1,23 +1,25 @@
-import * as Location from "expo-location";
 import AssetImage from "./AssetImage";
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { UserReversedGeoCode } from "../context/UserReversedGeoCode";
-import { COLORS, SIZES } from "../constants/theme";
+import { COLORS, SIZES, BaseUrl } from "../constants/theme";
 import { UserLocationContext } from "../context/UserLocationContext";
-import { LoginContext } from "../context/LoginContext";
+import { CheckUserAddressType } from "../context/CheckUserAddressType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import Toast from "react-native-toast-message";
 
 const HomeHeader = () => {
   const [time, setTime] = useState(null);
   const { address, setAddress } = useContext(UserReversedGeoCode);
   const { location, setLocation } = useContext(UserLocationContext);
-  const { login, setLogin } = useContext(LoginContext);
+  const [logged, setLogged] = useState(false);
+  const { checkUserAddressType, setCheckUserAddressType } =
+    useContext(CheckUserAddressType);
 
   useEffect(() => {
-    if (location !== null) {
-      reverseGeoCode(location.coords.latitude, location.coords.longitude);
-    }
+    const greeting = getTimeOfDay();
+    setTime(greeting);
     loginStatus();
   }, [location]);
 
@@ -25,20 +27,84 @@ const HomeHeader = () => {
     const userToken = await AsyncStorage.getItem("token");
 
     if (userToken !== null) {
-      setLogin(true);
+      setLogged(true);
+      getDefault();
     } else {
-      setLogin(false);
+      setDefaultAddres();
+      setLogged(false);
     }
   };
 
-  const reverseGeoCode = async (latitude, longitude) => {
-    const reversedGeoCodedAddress = await Location.reverseGeocodeAsync({
-      longitude: longitude,
-      latitude: latitude,
-    });
-    setAddress(reversedGeoCodedAddress[0]);
-    const greetig = getTimeOfDay();
-    setTime(greetig);
+  const setDefaultAddres = async () => {
+    let defLat = await AsyncStorage.getItem("defaultLat");
+    let defLng = await AsyncStorage.getItem("defaultLng");
+    if (defLat === null || defLng === null) {
+      defLat = 37.4219983;
+      defLng = -122.084;
+      console.log(
+        "[HomeHeader.setDefaultAddres]: Using hard coded lat and lng: LoginPage"
+      );
+    }
+    await AsyncStorage.setItem("latitude", defLat.toString());
+    await AsyncStorage.setItem("longitude", defLng.toString());
+    console.log(
+      "[HomeHeader.setDefaultAddres]: Using hard coded lat and lng: LoginPage ",
+      defLat,
+      defLng
+    );
+    //const reverseGeocode1=  await reverseGeocode(defLat, defLng);
+  };
+
+  const getDefault = async () => {
+    const token = await AsyncStorage.getItem("token");
+    const accessToken = JSON.parse(token);
+
+    let defLat = await AsyncStorage.getItem("latitude");
+    let defLng = await AsyncStorage.getItem("longitude");
+
+    if (defLat === null || defLng === null) {
+      defLat = JSON.parse(37.4219983);
+      defLng = JSON.parse(-122.084);
+      console.log(
+        "[HomeHeader.getDefault]: Using hard coded lat and lng: HomeHeader"
+      );
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "User address",
+        text2: "No delivery address found as default",
+        text1Style: { fontSize: 18, fontWeight: "bold" },
+        text2Style: { fontSize: 16, color: "red" },
+      });
+      console.log(
+        "[HomeHeader.getDefault]: defLat defLng :HomeHeader",
+        defLat,
+        defLng
+      );
+    }
+
+    // await reverseGeocode(defLat, defLng);
+
+    try {
+      const response = await axios.get(`${BaseUrl}/api/address/default`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (response.status === 200) {
+        if (response.data !== null) {
+          setAddress(response.data);
+          setCheckUserAddressType(true);
+        }
+      } else {
+        console.log(
+          "[HomeHeader.getDefault]: Could not get user address ",
+          response.status
+        );
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   const getTimeOfDay = () => {
@@ -46,8 +112,8 @@ const HomeHeader = () => {
     const hour = now.getHours();
 
     if (hour >= 0 && hour < 12) {
-      return "🌞 ";
-    } else if (hour >= 12 < 17) {
+      return "☀️ ";
+    } else if (hour >= 12 && hour < 17) {
       return "🌤️ ";
     } else {
       return "🌙 ";
@@ -59,21 +125,29 @@ const HomeHeader = () => {
       <View style={styles.outerStyle}>
         <AssetImage
           data={require("../../assets/images/profile.jpg")}
-          width={50}
-          height={50}
+          width={55}
+          height={55}
           mode={"cover"}
           radius={99}
         />
 
-        <View style={styles.headerStyle}>
+        <View style={styles.headerText}>
           <Text style={styles.heading}>Delivering to</Text>
-          <Text
-            style={styles.location}
-          >{`${address.city} ${address.name}`}</Text>
+          {checkUserAddressType === false ? (
+            <Text style={styles.location}>
+              {`${address.city || "Default City"} ${
+                address.street || "Default Street"
+              } `}
+            </Text>
+          ) : (
+            <Text numberOfLines={2} style={styles.location}>
+              {`${address.addressLine1 || "Default Address Line"} `}
+            </Text>
+          )}
         </View>
       </View>
 
-      <Text style={{ fontSize: 36 }}>{time}</Text>
+      <Text style={styles.time}>{time}</Text>
     </View>
   );
 };
@@ -86,14 +160,21 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     flexDirection: "row",
   },
-  headerStyle: {
+  headerText: {
     marginLeft: 15,
+    width: "70%",
     justifyContent: "center",
   },
   heading: {
     fontFamily: "medium",
-    fontSize: SIZES.small,
+    fontSize: SIZES.medium,
     color: COLORS.secondary,
+  },
+  time: {
+    fontFamily: "medium",
+    fontSize: SIZES.xxLarge - 5,
+    color: COLORS.secondary,
+    marginRight: 5,
   },
   location: {
     fontFamily: "regular",

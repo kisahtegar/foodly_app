@@ -1,7 +1,7 @@
 import React from "react";
 import FoodComponent from "./FoodComponent";
 import uidata from "../constants/uidata";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, View } from "react-native";
 
 const FastestNearYou = () => {
   const renderItem = ({ item }) => (
@@ -23,5 +23,3 @@ const FastestNearYou = () => {
 };
 
 export default FastestNearYou;
-
-const styles = StyleSheet.create({});

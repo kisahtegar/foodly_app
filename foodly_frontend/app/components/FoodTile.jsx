@@ -1,100 +1,63 @@
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { COLORS, SHADOWS } from "../constants/theme";
+import { COLORS } from "../constants/theme";
+import { AntDesign } from "@expo/vector-icons";
 import NetworkImage from "./NetworkImage";
-import { RatingInput } from "react-native-stock-star-rating";
 
 const FoodTile = ({ item, onPress, showDetails }) => {
-  console.log(item);
   return (
-    <TouchableOpacity style={styles.wrapper} onPress={showDetails}>
-      <View style={{ backgroundColor: COLORS.offwhite, borderRadius: 12 }}>
-        <View style={{ flexDirection: "row" }}>
-          <NetworkImage
-            data={item.imageUrl[0]}
-            height={75}
-            width={75}
-            radius={15}
-          />
+    <View style={styles.wrapper}>
+      <TouchableOpacity style={styles.suspendedBtn} onPress={onPress}>
+        <AntDesign name="pluscircle" size={24} color={COLORS.primary} />
+      </TouchableOpacity>
 
-          <View
-            style={{
-              position: "absolute",
-              right: 5,
-              top: 5,
-              backgroundColor: COLORS.primary,
-              borderRadius: 12,
-            }}
-          >
-            <Text
-              style={[
-                styles.title,
-                { color: COLORS.lightWhite, marginHorizontal: 5 },
-              ]}
-            >
-              $ {item.price}
-            </Text>
-          </View>
+      <TouchableOpacity onPress={showDetails}>
+        <NetworkImage
+          source={item.imageUrl[0]}
+          width={180}
+          height={100}
+          radius={12}
+        />
+      </TouchableOpacity>
 
-          <View style={{ marginLeft: 10, marginTop: 5 }}>
-            <Text style={styles.title}>{item.title}</Text>
-            <RatingInput
-              rating={Number(item.rating)}
-              size={18}
-              color={COLORS.primary}
-            />
-
-            <FlatList
-              data={item.foodTags.slice(0, 4)}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item) => item}
-              style={{ marginTop: 5, marginBottom: 5 }}
-              horizontal
-              scrollEnabled
-              renderItem={({ item }) => (
-                <View style={styles.tags}>
-                  <Text
-                    style={{ paddingHorizontal: 4, color: COLORS.lightWhite }}
-                  >
-                    {item}
-                  </Text>
-                </View>
-              )}
-            />
-          </View>
-        </View>
+      <View>
+        <Text style={styles.price}>US$ {item.price}</Text>
+        <Text style={styles.title}>{item.title}</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
 export default FoodTile;
 
 const styles = StyleSheet.create({
-  tags: {
-    right: 10,
-    marginHorizontal: 10,
-    backgroundColor: COLORS.primary,
-    borderRadius: 8,
-  },
   wrapper: {
-    backgroundColor: COLORS.lightWhite,
+    backgroundColor: COLORS.secondary1,
     borderRadius: 12,
     padding: 12,
     marginBottom: 15,
     marginRight: 10,
     paddingRight: 7,
-    ...SHADOWS.small,
+  },
+  suspendedBtn: {
+    position: "absolute",
+    zIndex: 999,
+    bottom: 35,
+    right: 14,
+    borderRadius: 99,
+    padding: 5,
+    backgroundColor: COLORS.secondary1,
+  },
+  price: {
+    fontSize: 13,
+    fontFamily: "medium",
+    paddingHorizontal: 3,
+    paddingTop: 5,
   },
   title: {
-    fontSize: 16,
-    fontFamily: "medium",
+    fontSize: 12,
+    fontFamily: "regular",
     color: COLORS.gray,
+    paddingHorizontal: 3,
   },
 });

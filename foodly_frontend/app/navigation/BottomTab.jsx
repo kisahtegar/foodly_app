@@ -1,16 +1,17 @@
 import { View, Text } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import Home from "../screens/Home";
 import Search from "../screens/Search";
 import { COLORS } from "../constants/theme";
 import Profile from "../screens/Profile";
+import LoginPage from "../screens/LoginPage";
 import Cart from "../screens/Cart";
 import { CartCountContext } from "../context/CartCountContext";
+import { CheckLoadRestaurantData } from "../context/CheckRestaurantData";
 import { LoginContext } from "../context/LoginContext";
-import LoginPage from "../screens/LoginPage";
-import fetchCartCount from "../hook/fetchCartCount";
+import { ProfileTabContext } from "../context/ProfileTabContext";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,8 +23,18 @@ const tabBarStyle = {
 };
 
 const BottomTab = () => {
-  const { cartCount, isCartLoading, error, refetch } = fetchCartCount();
+  // const {count, isCartLoading, error, refetch} =fetchCartCount();
+  const [profile, setProfile] = useState(false);
+  const { cartCount, setCartCount } = useContext(CartCountContext);
+  const { profileTab, setProfileTab } = useContext(ProfileTabContext);
   const { login, setLogin } = useContext(LoginContext);
+  const { loadRestaurantData, setLoadRestaurantData } = useContext(
+    CheckLoadRestaurantData
+  );
+
+  if (loadRestaurantData) {
+    setLoadRestaurantData(false);
+  }
 
   return (
     <Tab.Navigator
@@ -37,16 +48,22 @@ const BottomTab = () => {
         name="Home"
         component={Home}
         options={{
+          unmountOnBlur: loadRestaurantData == true ? true : false,
           tabBarStyle: tabBarStyle,
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name={focused ? "grid" : "grid-outline"}
-              color={focused ? COLORS.secondary : COLORS.secondary1}
-              size={26}
-            />
-          ),
+          tabBarIcon: ({ focused }) => {
+            if (profile === false) {
+              setProfile(true);
+            }
+            return (
+              <Ionicons
+                name={focused ? "grid" : "grid-outline"}
+                color={focused ? COLORS.secondary : COLORS.secondary1}
+                size={26}
+              />
+            );
+          },
         }}
       />
 
@@ -106,18 +123,21 @@ const BottomTab = () => {
 
       <Tab.Screen
         name="Profile"
-        component={login ? Profile : LoginPage}
+        component={login === false ? LoginPage : Profile}
         options={{
+          unmountOnBlur: true,
           tabBarStyle: tabBarStyle,
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name={focused ? "person" : "person-outline"}
-              color={focused ? COLORS.secondary : COLORS.secondary1}
-              size={26}
-            />
-          ),
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Ionicons
+                name={focused ? "person" : "person-outline"}
+                color={focused ? COLORS.secondary : COLORS.secondary1}
+                size={26}
+              />
+            );
+          },
         }}
       />
     </Tab.Navigator>

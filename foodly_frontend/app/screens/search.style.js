@@ -2,6 +2,50 @@ import { StyleSheet } from "react-native";
 import { COLORS, SIZES } from "../constants/theme";
 
 const styles = StyleSheet.create({
+  outter: {
+    flexDirection: "row",
+  },
+  description: {
+    width: "70%",
+    fontFamily: "regular",
+    fontSize: 9,
+    color: COLORS.gray,
+  },
+  titlesContainer: {
+    marginLeft: 10,
+  },
+  priceContainer: {
+    position: "absolute",
+    right: 6,
+    top: 4,
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 4,
+    borderRadius: 12,
+  },
+  price: {
+    fontSize: 13,
+    fontWeight: "bold",
+    color: COLORS.lightWhite,
+  },
+  title: {
+    fontFamily: "medium",
+    fontSize: 13,
+    color: COLORS.black,
+  },
+  itemContainer: {
+    right: 5,
+    width: "96%",
+    height: 80,
+    borderRadius: 12,
+    backgroundColor: COLORS.lightWhite,
+    marginHorizontal: 12,
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 12,
+    resizeMode: "cover",
+  },
   searchContainer: {
     flexDirection: "row",
     justifyContent: "center",

@@ -1,20 +1,18 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { API_URL } from "@env";
+import { BaseUrl } from "../constants/theme";
 
-const fetchNearBy = () => {
-  const [restaurants, setRestaurants] = useState(null);
+const fetchCategortItems = (category, code) => {
+  const [categoryItems, setCategoryItems] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = async (code) => {
+  const fetchData = async () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(
-        `http://192.168.0.17:6002/api/restaurant/${code}`
-      );
-      setRestaurants(response.data);
+      const response = await axios.get(`${BaseUrl}/api/restaurant/byId/${id}`);
+
+      setCategoryItems(response.data);
       setIsLoading(false);
     } catch (error) {
       setError(error);
@@ -32,7 +30,7 @@ const fetchNearBy = () => {
     fetchData();
   };
 
-  return { restaurants, isLoading, error, refetch };
+  return { categoryItems, isLoading, error, refetch };
 };
 
-export default fetchNearBy;
+export default fetchCategortItems;

@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, Image } from "react-native";
 
-const NetworkImage = ({ data, width, height, mode, radius }) => {
+const NetworkImage = ({ source, width, height, radius }) => {
   return (
     <Image
-      source={{ uri: data }}
-      style={styles.image(width, height, mode, radius)}
+      source={{ uri: source }}
+      style={styles.image(width, height, radius)}
     />
   );
 };
@@ -13,10 +13,10 @@ const NetworkImage = ({ data, width, height, mode, radius }) => {
 export default NetworkImage;
 
 const styles = StyleSheet.create({
-  image: (width, height, mode, radius) => ({
+  image: (width, height, radius) => ({
     height: height,
     width: width,
     borderRadius: radius,
-    resizeMode: mode,
+    resizeMode: "cover",
   }),
 });

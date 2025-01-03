@@ -3,21 +3,18 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   TextInput,
   Alert,
 } from "react-native";
 import React, { useState, useRef, useContext } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./login.style";
 import LottieView from "lottie-react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import { COLORS, SIZES } from "../constants/theme";
+import { BaseUrl, COLORS, SIZES } from "../constants/theme";
 import BackBtn from "../components/BackBtn";
 import Button from "../components/Button";
-import { UserLocationContext } from "../context/UserLocationContext";
 import axios from "axios";
 
 const validationSchema = Yup.object().shape({
@@ -35,9 +32,6 @@ const validationSchema = Yup.object().shape({
 const SignUp = ({ navigation }) => {
   const animation = useRef(null);
   const [loader, setLoader] = useState(false);
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const { location, setLocation } = useContext(UserLocationContext);
   const [obsecureText, setObsecureText] = useState(false);
 
   const inValidForm = () => {
@@ -58,32 +52,32 @@ const SignUp = ({ navigation }) => {
     setLoader(true);
 
     try {
-      const endpoint = "http://localhost:6002/register";
+      const endpoint = `${BaseUrl}/register`;
       const data = values;
 
       const response = await axios.post(endpoint, data);
       if (response.status === 201) {
         setLoader(false);
 
-        navigation.goBack();
+        navigation.navigate("login");
       } else {
-        console.log(response.status);
-        // Alert.alert("Error Logging in ", "Please provide valid credentials ", [
-        //   {
-        //     text: "Cancel",
-        //     onPress: () => {},
-        //   },
-        //   {
-        //     text: "Continue",
-        //     onPress: () => {},
-        //   },
-        //   { defaultIndex: 1 },
-        // ]);
+        setLogin(false);
+        Alert.alert("Error Logging in ", "Please provide valid credentials ", [
+          {
+            text: "Cancel",
+            onPress: () => {},
+          },
+          {
+            text: "Continue",
+            onPress: () => {},
+          },
+          { defaultIndex: 1 },
+        ]);
       }
     } catch (error) {
       Alert.alert(
         "Error ",
-        "Oops, Error logging in try again with correct credentials",
+        "Please provide valid credentials " + error.message,
         [
           {
             text: "Cancel",

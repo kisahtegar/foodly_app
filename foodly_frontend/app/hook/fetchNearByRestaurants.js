@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { API_URL } from "@env";
+import { BaseUrl } from "../constants/theme";
 
-const fetchRecommendations = (code) => {
-  const [recommendations, setRecommendations] = useState(null);
+const fetchNearByRestaurants = (code) => {
+  const [restaurants, setRestaurants] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -11,10 +11,10 @@ const fetchRecommendations = (code) => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(
-        `http://192.168.0.17:6002/api/foods/recommendation/${code}`
-      );
-      setRecommendations(response.data);
+      const response = await axios.get(`${BaseUrl}/api/restaurant/${code}`);
+
+      setRestaurants(response.data);
+      console.log("[hook.fetchNearByRestaurants]: restaurants = ", restaurants);
       setIsLoading(false);
     } catch (error) {
       setError(error);
@@ -32,7 +32,7 @@ const fetchRecommendations = (code) => {
     fetchData();
   };
 
-  return { recommendations, isLoading, error, refetch };
+  return { restaurants, isLoading, error, refetch };
 };
 
-export default fetchRecommendations;
+export default fetchNearByRestaurants;

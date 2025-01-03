@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { API_KEY } from "@env";
+import { BaseUrl } from "../constants/theme";
 
 const fetchCategories = () => {
   const [categories, setCategories] = useState(null);
@@ -11,9 +11,8 @@ const fetchCategories = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(
-        `http://192.168.0.17:6002/api/category/random`
-      );
+      const response = await axios.get(`${BaseUrl}/api/category/random`);
+      //const response = await axios.get(`${BaseUrl}/api/foods/category/${code}`);
 
       setCategories(response.data);
       setIsLoading(false);

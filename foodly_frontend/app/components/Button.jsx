@@ -5,13 +5,13 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React from "react";
-import { COLORS } from "../constants/theme";
+import { COLORS, SIZES } from "../constants/theme";
 
-const Button = ({ title, onPress, isValid, loader }) => {
+const Button = ({ title, onPress, isValid, loader, radius }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={styles.btnStyle(!isValid ? COLORS.gray : COLORS.primary)}
+      style={styles.btnStyle(!isValid ? COLORS.gray : COLORS.primary, radius)}
     >
       {!loader ? (
         <Text style={styles.btnTxt}>{title}</Text>
@@ -30,13 +30,13 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: 18,
   },
-  btnStyle: (backgroundColor) => ({
+  btnStyle: (backgroundColor, radius) => ({
     height: 50,
-    width: "100%",
+    width: SIZES.width - 40,
     marginVertical: 20,
     backgroundColor: backgroundColor,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 12,
+    borderRadius: radius ?? 12,
   }),
 });

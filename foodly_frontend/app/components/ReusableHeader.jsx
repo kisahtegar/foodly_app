@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../constants/theme";
-
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import AssetImage from "./AssetImage";
@@ -48,18 +47,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-
   headerText: {
     marginLeft: 15,
     justifyContent: "center",
   },
-
   heading: {
     fontFamily: "medium",
     fontSize: SIZES.medium,
     color: COLORS.black,
   },
-
   location: {
     fontFamily: "regular",
     fontSize: SIZES.small + 2,

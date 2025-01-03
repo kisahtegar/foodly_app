@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { CartCountContext } from "../context/CartCountContext";
+import { BaseUrl } from "../constants/theme";
 
 const fetchCartCount = () => {
-  const { cartCount, setCartCount } = useContext(CartCountContext);
+  const [cartCount, setCartCount] = useState(null);
   const [isCartLoading, setIsCartLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -14,14 +14,11 @@ const fetchCartCount = () => {
     setIsCartLoading(true);
 
     try {
-      const response = await axios.get(
-        `http://192.168.0.17:6002/api/cart/count`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const response = await axios.get(`${BaseUrl}/api/cart/count`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setCartCount(response.data.cartCount);
       setIsCartLoading(false);
     } catch (error) {

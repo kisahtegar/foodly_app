@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
 import React, { useRef } from "react";
 import LottieView from "lottie-react-native";
 import { SIZES } from "../constants/theme";
@@ -10,14 +10,13 @@ const LoadingScreen = () => {
       style={{
         height: SIZES.height,
         backgroundColor: "#ffffff",
-        alignItems: "center",
         justifyContent: "center",
       }}
     >
       <LottieView
         autoPlay
         ref={animation}
-        style={{ width: "100%", height: SIZES.height / 3.2 }}
+        style={{ width: SIZES.width / 2, height: SIZES.height / 2.8 }}
         source={require("../../assets/anime/delivery.json")}
       />
     </View>
@@ -25,5 +24,3 @@ const LoadingScreen = () => {
 };
 
 export default LoadingScreen;
-
-const styles = StyleSheet.create({});

@@ -8,31 +8,35 @@ const StoreComponent = ({ item, onPress }) => {
   return (
     <TouchableOpacity style={styles.wrapper} onPress={onPress}>
       <NetworkImage
-        data={item.imageUrl}
+        source={item.imageUrl}
         width={SIZES.width - 80}
         height={SIZES.height / 5.8}
         radius={16}
-        mode={"cover"}
       />
 
-      <Text style={styles.heading}>{item.title}</Text>
-
+      <Text style={styles.title}>{item.title}</Text>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={styles.small}>Delivery under</Text>
         <Text style={styles.small}>{item.time}</Text>
       </View>
 
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <RatingInput
-          rating={item.rating}
-          size={14}
-          maxStars={5}
-          setRating={item.rating}
-          bordered={false}
-          color={COLORS.primary}
-        />
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <RatingInput
+            rating={item.rating}
+            size={14}
+            maxStars={5}
+            setRating={item.rating}
+            bordered={false}
+            color={COLORS.primary}
+          />
 
-        <Text style={styles.small}>{item.ratingCount}+ ratings</Text>
+          <Text style={[styles.small, { marginLeft: 10 }]}>
+            {item.ratingCount}+ ratings
+          </Text>
+        </View>
+
+        <Text style={styles.small}>delivery</Text>
       </View>
     </TouchableOpacity>
   );
@@ -47,11 +51,10 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 16,
   },
-
-  heading: {
+  title: {
     fontSize: 14,
-    fontFamily: "regular",
-    color: COLORS.gray,
+    fontFamily: "medium",
+    marginTop: 5,
   },
   small: {
     fontSize: 12,
