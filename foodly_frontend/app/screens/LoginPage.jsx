@@ -136,7 +136,7 @@ const LoginPage = ({ navigation }) => {
     setLoader(true);
 
     try {
-      const endpoint = `${BaseUrl}/login`;
+      const endpoint = `${BaseUrl}/api/auth/login`;
       const data = values;
 
       const response = await axios.post(endpoint, data);

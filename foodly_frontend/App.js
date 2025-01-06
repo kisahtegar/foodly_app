@@ -1,12 +1,13 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 import * as Location from "expo-location";
-import * as Notifications from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Toast from "react-native-toast-message";
+
+import { useInitializeNotifications } from "./app/hook/useInitializeNotifications";
+import { useFontsInitialization } from "./app/hook/useFontsInitialization";
+import { useInitializeLocation } from "./app/hook/useInitializeLocation";
 
 import SignUp from "./app/screens/SignUp";
 import ResturantPage from "./app/screens/restaurant/ResturantPage";
@@ -49,117 +50,9 @@ export default function App() {
   const [loadRestaurantData, setLoadRestaurantData] = useState(false);
   const [profileTab, setProfileTab] = useState(false);
 
-  const [fontsLoaded] = useFonts({
-    regular: require("./assets/fonts/Poppins-Regular.ttf"),
-    light: require("./assets/fonts/Poppins-Light.ttf"),
-    bold: require("./assets/fonts/Poppins-Bold.ttf"),
-    medium: require("./assets/fonts/Poppins-Medium.ttf"),
-    extrabold: require("./assets/fonts/Poppins-ExtraBold.ttf"),
-    semibold: require("./assets/fonts/Poppins-SemiBold.ttf"),
-  });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  useEffect(() => {
-    const initializeApp = async () => {
-      const defaultAddress = {
-        city: "Tangerang",
-        country: "Indonesia",
-        district: "Pasar Kemis",
-        isoCountryCode: "ID",
-        name: "Jl. Raya Pasar Kemis",
-        postalCode: "15560", // Example postal code for Pasar Kemis
-        region: "Banten",
-        street: "Jl. Raya Pasar Kemis",
-        streetNumber: "15", // You can adjust this based on the specific number
-        subregion: "Kabupaten Tangerang",
-        timezone: "Asia/Jakarta",
-      };
-
-      setAddress(defaultAddress);
-
-      try {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== "granted") {
-          console.error(
-            "[App.useEffect]: Permission to access location was denied"
-          );
-          return;
-        }
-
-        let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
-        await AsyncStorage.setItem(
-          "defaultLat",
-          JSON.stringify(location.coords.latitude)
-        );
-        await AsyncStorage.setItem(
-          "defaultLng",
-          JSON.stringify(location.coords.longitude)
-        );
-
-        const rgc = await Location.reverseGeocodeAsync({
-          longitude: location.coords.longitude,
-          latitude: location.coords.latitude,
-        });
-        setAddress(rgc[0]);
-
-        const userToken = await AsyncStorage.getItem("token");
-        setLogin(userToken !== null);
-      } catch (error) {
-        console.error("[App.useEffect]: Error initializing location = ", error);
-      }
-
-      try {
-        const { status: existingStatus } =
-          await Notifications.getPermissionsAsync();
-        let finalStatus = existingStatus;
-        if (existingStatus !== "granted") {
-          const { status } = await Notifications.requestPermissionsAsync();
-          finalStatus = status;
-        }
-
-        if (finalStatus !== "granted") {
-          console.error(
-            "[App.useEffect.initializeApp]: Permission to access notifications was denied"
-          );
-          return;
-        } else {
-          console.log(
-            "[App.useEffect.initializeApp]: Permission to access notifications was granted"
-          );
-        }
-
-        await AsyncStorage.setItem("fcm", JSON.stringify(token));
-        console.log("[App.useEffect.initializeApp]: Expo Push Token = ", token);
-
-        Notifications.addNotificationReceivedListener((notification) => {
-          console.log(
-            "[App.useEffect.initializeApp]: Notification received in foreground = ",
-            notification
-          );
-        });
-
-        Notifications.addNotificationResponseReceivedListener((response) => {
-          console.log(
-            "[App.useEffect.initializeApp]: Notification response received = ",
-            response
-          );
-        });
-      } catch (error) {
-        console.error(
-          "[App.useEffect.initializeApp]: Error setting up notifications = ",
-          error
-        );
-      }
-    };
-
-    initializeApp();
-  }, []);
+  useInitializeNotifications();
+  const { fontsLoaded, onLayoutRootView } = useFontsInitialization();
+  useInitializeLocation({ setLocation, setAddress, setLogin });
 
   if (!fontsLoaded) {
     return <LoadingScreen />;

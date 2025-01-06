@@ -20,9 +20,7 @@ import { CheckUserAddressType } from "../../context/CheckUserAddressType";
 import { UserReversedGeoCode } from "../../context/UserReversedGeoCode";
 import { CheckLoadRestaurantData } from "../../context/CheckRestaurantData";
 import axios from "axios";
-
-const bkImg =
-  "https://res.cloudinary.com/dc7i32d3v/image/upload/v1734400159/images/randoms/ads-on-internet.png";
+import "react-native-get-random-values";
 
 const AddAddresses = ({ navigation }) => {
   const pagerRef = useRef(null);
@@ -39,32 +37,28 @@ const AddAddresses = ({ navigation }) => {
     CheckLoadRestaurantData
   );
 
-  const [pin, setPin] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-  });
   const [region, setRegion] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
+    latitude: -6.2226030871249804,
+    longitude: 106.56007632394726,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-  const [userAddress, setUserAddress] = useState(null);
-  const [postalCode, setCode] = useState();
+  const [userAddress, setUserAddress] = useState("");
+  const [descriptionAddress, setDescriptionAddress] = useState("");
+  const [postalCode, setCode] = useState("");
 
   const reverseGeocode = async (longitude, latitude) => {
     const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
       longitude: longitude,
       latitude: latitude,
     });
-    setUserAddress(
-      reverseGeocodedAddress[0].name +
-        " " +
-        reverseGeocodedAddress[0].city +
-        " " +
-        reverseGeocodedAddress[0].country
-    );
-    setCode(reverseGeocodedAddress[0].postalCode);
+    if (reverseGeocodedAddress.length > 0) {
+      const [addressInfo] = reverseGeocodedAddress;
+      setUserAddress(
+        `${addressInfo.name}, ${addressInfo.city}, ${addressInfo.country}`
+      );
+      setCode(addressInfo.postalCode || "");
+    }
   };
 
   const goToNext = () => {
@@ -148,6 +142,11 @@ const AddAddresses = ({ navigation }) => {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
               });
+              reverseGeocode(
+                details.geometry.location.lng,
+                details.geometry.location.lat
+              );
+              setDescriptionAddress(data.description);
               if (details) {
                 const newRegion = {
                   latitude: details.geometry.location.lat,
@@ -161,7 +160,7 @@ const AddAddresses = ({ navigation }) => {
             }}
             query={{
               key: GoogleApiKey,
-              language: "en",
+              language: "id",
               location: `${region.latitude}, ${region.longitude}`,
             }}
             styles={{
@@ -186,8 +185,8 @@ const AddAddresses = ({ navigation }) => {
             ref={mapRef}
             style={styles.map}
             initialRegion={{
-              latitude: 37.78825,
-              longitude: -122.4324,
+              latitude: -6.2226030871249804,
+              longitude: 106.56007632394726,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
@@ -198,43 +197,27 @@ const AddAddresses = ({ navigation }) => {
                 latitude: region.latitude,
                 longitude: region.longitude,
               }}
-            />
-            <Marker
-              coordinate={pin}
-              pinColor="gray"
+              pinColor={"red"}
               draggable={true}
-              onDragStart={(e) => {
-                reverseGeocode(
-                  e.nativeEvent.coordinate.longitude,
-                  e.nativeEvent.coordinate.latitude
-                );
-              }}
               onDragEnd={(e) => {
-                setPin({
-                  latitude: e.nativeEvent.coordinate.latitude,
-                  longitude: e.nativeEvent.coordinate.longitude,
-                });
+                const { latitude, longitude } = e.nativeEvent.coordinate;
+                setRegion((prevRegion) => ({
+                  ...prevRegion,
+                  latitude,
+                  longitude,
+                }));
+                reverseGeocode(longitude, latitude); // Update address and postal code
               }}
             >
               <Callout>
-                <Text>You're here</Text>
+                <Text>Drag me to set your location</Text>
               </Callout>
             </Marker>
-            <Circle center={pin} radius={10000} />
+            <Circle center={region} radius={10000} />
           </MapView>
         </View>
       </View>
       <View key="2" style={{ flex: 1 }}>
-        {/* <Image
-          source={{ uri: bkImg }}
-          style={[
-            StyleSheet.absoluteFillObject,
-            {
-              opacity: 0.7,
-            },
-          ]}
-        /> */}
-
         <TextInput
           style={styles.input}
           onChangeText={setCode}
@@ -244,8 +227,8 @@ const AddAddresses = ({ navigation }) => {
 
         <TextInput
           style={styles.input}
-          onChangeText={setAddress}
-          value={address}
+          onChangeText={setUserAddress}
+          value={descriptionAddress ? descriptionAddress : userAddress}
           placeholder="Address"
         />
 

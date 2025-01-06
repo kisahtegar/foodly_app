@@ -34,7 +34,7 @@ const VerificationPage = ({ navigation }) => {
     try {
       console.log(accessToken);
 
-      const response = await axios.get(`${BaseUrl}/api/users/verify/${code}`, {
+      const response = await axios.get(`${BaseUrl}/api/user/verify/${code}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

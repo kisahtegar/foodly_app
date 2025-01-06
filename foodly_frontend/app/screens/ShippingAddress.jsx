@@ -1,24 +1,20 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
-import React from "react";
+import { StyleSheet, View, FlatList } from "react-native";
+import React, { useCallback } from "react";
 import AddressTile from "../components/AddressTile";
 import Button from "../components/Button";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import fetchAddresses from "../hook/fetchAddresses";
 import LoadingScreen from "../components/LoadingScreen";
-
-const bkImg =
-  "https://res.cloudinary.com/dc7i32d3v/image/upload/v1734400159/images/randoms/ads-on-internet.png";
 
 const ShippingAddress = () => {
   const navigation = useNavigation();
   const { addresses, isLoading, error, refetch } = fetchAddresses();
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -35,16 +31,6 @@ const ShippingAddress = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Image
-        source={{ uri: bkImg }}
-        style={[
-          StyleSheet.absoluteFillObject,
-          {
-            opacity: 0.7,
-          },
-        ]}
-      /> */}
-
       <FlatList
         data={addresses}
         keyExtractor={(item) => item._id}

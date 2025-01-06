@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import Home from "../screens/Home";
@@ -32,9 +32,17 @@ const BottomTab = () => {
     CheckLoadRestaurantData
   );
 
-  if (loadRestaurantData) {
-    setLoadRestaurantData(false);
-  }
+  useEffect(() => {
+    if (profile === false) {
+      setProfile(true);
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    if (loadRestaurantData) {
+      setLoadRestaurantData(false);
+    }
+  }, [loadRestaurantData, setLoadRestaurantData]);
 
   return (
     <Tab.Navigator
@@ -52,18 +60,13 @@ const BottomTab = () => {
           tabBarStyle: tabBarStyle,
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: ({ focused }) => {
-            if (profile === false) {
-              setProfile(true);
-            }
-            return (
-              <Ionicons
-                name={focused ? "grid" : "grid-outline"}
-                color={focused ? COLORS.secondary : COLORS.secondary1}
-                size={26}
-              />
-            );
-          },
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name={focused ? "grid" : "grid-outline"}
+              color={focused ? COLORS.secondary : COLORS.secondary1}
+              size={26}
+            />
+          ),
         }}
       />
 

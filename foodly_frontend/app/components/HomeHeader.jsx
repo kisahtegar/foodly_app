@@ -76,11 +76,7 @@ const HomeHeader = () => {
         text1Style: { fontSize: 18, fontWeight: "bold" },
         text2Style: { fontSize: 16, color: "red" },
       });
-      console.log(
-        "[HomeHeader.getDefault]: defLat defLng :HomeHeader",
-        defLat,
-        defLng
-      );
+      console.log("[HomeHeader.getDefault]: defLat defLng =", defLat, defLng);
     }
 
     // await reverseGeocode(defLat, defLng);
@@ -103,7 +99,7 @@ const HomeHeader = () => {
         );
       }
     } catch (error) {
-      console.error(error.message);
+      console.error("[HomeHeader.getDefault]: error =", error.message);
     }
   };
 

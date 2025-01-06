@@ -1,8 +1,5 @@
-// Initialize Firebase
-//const app = initializeApp(firebaseConfig);
-
-// firebaseConfig.js
-import firebase from "@react-native-firebase/app";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDtv_57pGQwkSFOwGijH4fR0uxNerU-dHY",
@@ -16,8 +13,11 @@ const firebaseConfig = {
   measurementId: "G-7T7QEQPHRH",
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-export default firebase;
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
+
+// For more information on how to access Firebase in your project,
+// see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase

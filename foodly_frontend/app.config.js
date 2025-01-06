@@ -2,14 +2,17 @@ import "dotenv/config";
 
 export default {
   expo: {
-    name: "foodly_app",
-    slug: "foodly_app",
+    name: "Foodly App",
+    slug: "foodly-app",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
     extra: {
       GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
+      eas: {
+        projectId: "726fb1b4-92ed-47e8-aef2-7b9291e950b8",
+      },
     },
     splash: {
       image: "./assets/splash.png",
@@ -36,6 +39,9 @@ export default {
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.FOREGROUND_SERVICE",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE",
+        "android.permission.POST_NOTIFICATIONS",
       ],
       package: "com.kisahcode.expofire",
       googleServicesFile: "./google-services.json",

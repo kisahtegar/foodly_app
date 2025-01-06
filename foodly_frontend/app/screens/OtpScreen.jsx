@@ -8,12 +8,14 @@ import {
   TextInput,
 } from "react-native";
 import React, { useRef, useState } from "react";
-import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
-import { firebaseConfig } from "../../config";
-import firebase from "firebase/compat/app";
 import { OtpInput } from "react-native-otp-entry";
 import { CountryPicker } from "react-native-country-codes-picker";
 import { COLORS } from "../constants/theme";
+import {
+  getAuth,
+  PhoneAuthProvider,
+  signInWithCredential,
+} from "firebase/auth"; // Firebase imports
 
 const bkImg =
   "https://res.cloudinary.com/dc7i32d3v/image/upload/v1734400159/images/randoms/ads-on-internet.png";
@@ -27,7 +29,24 @@ export default function OtpScreen() {
   const recaptchaVerifier = useRef(null);
   const phone = countryCode + phoneNumber;
 
-  const sendVerification = () => {
+  // Send verification code
+  const sendVerification = async () => {
+    try {
+      console.log("[OtpScreen.sendVerification]: Sending verification code...");
+      const phoneProvider = new PhoneAuthProvider(auth); // Using PhoneAuthProvider from Firebase
+      const verificationId = await phoneProvider.verifyPhoneNumber(phone, null); // No recaptcha verifier for now
+      setVerificationId(verificationId); // Set verification ID
+      console.log(
+        "[OtpScreen.sendVerification]: verificationId = ",
+        verificationId
+      );
+    } catch (error) {
+      console.error("[OtpScreen.sendVerification]: error = ", error);
+      Alert.alert("Error", "Failed to send verification code.");
+    }
+  };
+
+  const sendVerifications = () => {
     try {
       console.log("[OtpScreen.sendVerification]: Try sending verification...");
       const phoneProvider = new firebase.auth.PhoneAuthProvider();

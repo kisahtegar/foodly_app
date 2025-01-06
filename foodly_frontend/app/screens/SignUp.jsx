@@ -52,7 +52,7 @@ const SignUp = ({ navigation }) => {
     setLoader(true);
 
     try {
-      const endpoint = `${BaseUrl}/register`;
+      const endpoint = `${BaseUrl}/api/auth/register`;
       const data = values;
 
       const response = await axios.post(endpoint, data);
