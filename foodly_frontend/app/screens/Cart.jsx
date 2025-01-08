@@ -1,5 +1,5 @@
-import { FlatList, View } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import { FlatList, RefreshControl, View } from "react-native";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import fetchCart from "../hook/fetchCart";
 import { BaseUrl, COLORS, SIZES } from "../constants/theme";
@@ -13,6 +13,7 @@ const Cart = () => {
   const [cart, setCart] = useState(null);
   const { cartList, isCartLoading, error, refetch } = fetchCart();
   const { cartCount, setCartCount } = useContext(CartCountContext);
+  const [refreshing, setRefreshing] = useState(false);
 
   const renderCartItem = ({ item }) => (
     <CartItem
@@ -32,7 +33,7 @@ const Cart = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
+      const [refreshing, setRefreshing] = useState(false);
       console.log("[Cart.deleteCartItem]: response.data = ", response.data);
       setCartCount(response.data.cartCount);
     } catch (error) {
@@ -42,6 +43,11 @@ const Cart = () => {
       );
     }
   };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    refetch().then(() => setRefreshing(false));
+  }, [refetch]);
 
   useEffect(() => {
     refetch();
@@ -68,6 +74,10 @@ const Cart = () => {
               style={{ marginTop: 10 }}
               scrollEnabled
               renderItem={renderCartItem}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+              contentContainerStyle={{ paddingBottom: 16 }}
             />
           </View>
         </View>

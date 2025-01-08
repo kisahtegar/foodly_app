@@ -22,13 +22,13 @@ const AddressTile = ({ onPress, item }) => {
           />
           <View>
             <Text style={styles.text} numberOfLines={2}>
-              {item.item.addressLine1}
+              {item.addressLine1}
             </Text>
-            <Text style={styles.text}>{item.item.postalCode}</Text>
+            <Text style={styles.text}>{item.postalCode}</Text>
           </View>
         </View>
 
-        <Switch value={item.item.default} onValueChange={handleSwitchToggle} />
+        <Switch value={item.default} onValueChange={handleSwitchToggle} />
       </View>
     </TouchableOpacity>
   );

@@ -5,6 +5,7 @@ import StoreComponent from "./StoreComponent";
 import { RestaurantContext } from "../context/RestaurantContext";
 import { SIZES } from "../constants/theme";
 import fetchNearByRestaurants from "../hook/fetchNearByRestaurants";
+import fetchRandomRestaurant from "../hook/fetchRandomRestaurants";
 import ReusableShimmer from "./Shimmers/ReusableShimmer";
 
 const NearByRestaurants = ({ code }) => {

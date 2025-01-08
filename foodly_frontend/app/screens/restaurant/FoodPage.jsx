@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   TextInput,
+  ScrollView,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import { BaseUrl, COLORS, SIZES } from "../../constants/theme";
@@ -27,7 +28,7 @@ const FoodPage = ({ navigation, route }) => {
   const [addittives, setAddittives] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const { cartCount, setCartCount } = useContext(CartCountContext);
-  const { restaurantObj, setRestaurant } = useContext(RestaurantContext);
+  const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext);
   const [count, setCount] = useState(1);
   const [data, setData] = useState(false);
   const [preference, setPreference] = useState("");
@@ -110,7 +111,7 @@ const FoodPage = ({ navigation, route }) => {
       const response = await axios.get(`${BaseUrl}/api/restaurant/byId/${id}`);
       if (response.status === 200) {
         setData(true);
-        setRestaurant(response.data);
+        setRestaurantObj(response.data);
       }
     } catch (error) {
       console.log("api error", error);
@@ -131,7 +132,7 @@ const FoodPage = ({ navigation, route }) => {
   }, [addittives]);
 
   return (
-    <View style={{ backgroundColor: COLORS.lightWhite, height: SIZES.height }}>
+    <ScrollView style={{ backgroundColor: COLORS.lightWhite }}>
       <View>
         <Image
           source={{
@@ -175,7 +176,7 @@ const FoodPage = ({ navigation, route }) => {
               marginRight: 10,
             }}
           >
-            <Text style={{ color: COLORS.lightWhite }}>Open the Store</Text>
+            <Text style={{ color: COLORS.lightWhite }}>Buka Restaurant</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -184,7 +185,7 @@ const FoodPage = ({ navigation, route }) => {
         <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
           <Text style={[styles.title, { marginBottom: 10 }]}>{item.title}</Text>
           <Text style={[styles.title, { color: COLORS.primary }]}>
-            $ {(item.price + totalPrice) * count}
+            Rp. {(item.price + totalPrice) * count}
           </Text>
         </View>
 
@@ -269,84 +270,80 @@ const FoodPage = ({ navigation, route }) => {
             marginTop: 20,
           }}
         >
-          <Text style={[styles.title, { marginBottom: 10 }]}>Qauntity</Text>
+          <Text style={[styles.title, { marginBottom: 10 }]}>Quantity</Text>
 
           <Counter count={count} setCount={setCount} />
         </View>
       </View>
 
-      <View style={{ flex: 1, justifyContent: "flex-end" }}>
-        <View style={styles.cartSuspension}>
-          <View style={styles.cart}>
-            <View
+      <View style={styles.cartContainer}>
+        <View style={styles.cart}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginHorizontal: 12,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => handlePress(item)}
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginHorizontal: 12,
+                width: 40,
+                height: 40,
+                borderRadius: 99,
+                backgroundColor: COLORS.primary,
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <TouchableOpacity
-                onPress={() => handlePress(item)}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 99,
-                  backgroundColor: COLORS.primary,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <AntDesign
-                  name="pluscircleo"
-                  size={24}
-                  color={COLORS.lightWhite}
-                />
-              </TouchableOpacity>
+              <AntDesign
+                name="pluscircleo"
+                size={24}
+                color={COLORS.lightWhite}
+              />
+            </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("order-page", sendToOrderPage)
-                }
-                style={{
-                  backgroundColor: COLORS.primary,
-                  paddingHorizontal: 80,
-                  borderRadius: 30,
-                }}
+            <TouchableOpacity
+              onPress={() => navigation.navigate("order-page", sendToOrderPage)}
+              style={{
+                backgroundColor: COLORS.primary,
+                paddingHorizontal: 67,
+                borderRadius: 30,
+              }}
+            >
+              <Text
+                style={[
+                  styles.title,
+                  {
+                    color: COLORS.white,
+                    marginTop: 8,
+                    alignItems: "center",
+                    fontSize: 18,
+                  },
+                ]}
               >
-                <Text
-                  style={[
-                    styles.title,
-                    {
-                      color: COLORS.gray2,
-                      marginTop: 8,
-                      alignItems: "center",
-                      fontSize: 18,
-                    },
-                  ]}
-                >
-                  Order Now
-                </Text>
-              </TouchableOpacity>
+                Order Now
+              </Text>
+            </TouchableOpacity>
 
-              <View
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 99,
-                  backgroundColor: COLORS.primary,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={[styles.title, { color: COLORS.lightWhite }]}>
-                  {cartCount}
-                </Text>
-              </View>
+            <View
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 99,
+                backgroundColor: COLORS.primary,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text style={[styles.title, { color: COLORS.lightWhite }]}>
+                {cartCount}
+              </Text>
             </View>
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -387,12 +384,10 @@ const styles = StyleSheet.create({
     fontFamily: "regular",
     color: COLORS.gray,
   },
-  cartSuspension: {
-    position: "absolute",
-    zIndex: 999,
-    bottom: 50,
-    width: "100%", // To ensure it stretches across the whole screen width
-    alignItems: "center", // Optional: to center the text horizontally
+  cartContainer: {
+    marginHorizontal: 12,
+    marginTop: 10,
+    marginBottom: 10,
   },
   cart: {
     width: SIZES.width - 24,

@@ -1,7 +1,8 @@
 import React from "react";
 import NetworkImage from "./NetworkImage";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS, SIZES } from "../constants/theme";
+import { RatingInput } from "react-native-stock-star-rating";
 
 const FoodComponent = ({ item, onPress }) => {
   return (
@@ -13,7 +14,23 @@ const FoodComponent = ({ item, onPress }) => {
         radius={16}
       />
       <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.small}>{item.time} - delivery time</Text>
+
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <RatingInput
+            rating={item.rating}
+            size={15}
+            maxStars={5}
+            setRating={item.rating}
+            bordered={false}
+            color={COLORS.secondary}
+          />
+
+          <Text style={[styles.small, { marginLeft: 10 }]}>
+            {item.ratingCount}+ ratings
+          </Text>
+        </View>
+      </View>
     </TouchableOpacity>
   );
 };

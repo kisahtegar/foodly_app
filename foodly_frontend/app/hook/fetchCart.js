@@ -14,14 +14,11 @@ const fetchCart = () => {
     setIsCartLoading(true);
 
     try {
-      const response = await axios.get(
-        `${BaseUrl}/api/cart/653168e9f94c6496dc84f3bf`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const response = await axios.get(`${BaseUrl}/api/cart`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
       setCartList(response.data.cart);
       setIsCartLoading(false);
@@ -36,9 +33,9 @@ const fetchCart = () => {
     fetchData();
   }, []);
 
-  const refetch = () => {
+  const refetch = async () => {
     setIsCartLoading(true);
-    fetchData();
+    await fetchData();
   };
 
   return { cartList, isCartLoading, error, refetch };

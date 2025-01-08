@@ -27,7 +27,7 @@ const ResturantPage = ({ navigation, onPress }) => {
   const [tokenVal, setTokenVal] = useState(null);
 
   //inside this we have restaurant coordinates
-  const { restaurantObj, setRestaurant } = useContext(RestaurantContext);
+  const { restaurantObj, setRestaurantObj } = useContext(RestaurantContext);
 
   const route = useRoute();
   const restaurant = route.params;
@@ -36,6 +36,13 @@ const ResturantPage = ({ navigation, onPress }) => {
     const token = await AsyncStorage.getItem("token");
     if (token === null) {
       console.log("[ResturantPage.getUserdata]: You must login.");
+      Toast.show({
+        text1: "Akun Pengguna",
+        text2: "Anda harus login terlebih dahulu.",
+        text1Style: { fontSize: 18, fontWeight: "bold" },
+        text2Style: { fontSize: 16, color: "red" },
+      });
+      navigation.navigate("login");
       setTokenVal(null);
       return;
     } else {
@@ -53,10 +60,10 @@ const ResturantPage = ({ navigation, onPress }) => {
   const calculateDistanceAndTime = async () => {
     const lat = await AsyncStorage.getItem("latitude");
     const long = await AsyncStorage.getItem("longitude");
+    console.log("lat & lng", lat, long);
     GoogleApiServices.calculateDistanceAndTime(
       lat,
       long,
-
       //restaurant coordinates
       restaurantObj.coords?.latitude,
       restaurantObj.coords?.longitude
@@ -117,11 +124,11 @@ const ResturantPage = ({ navigation, onPress }) => {
           >
             <RatingInput
               rating={restaurant.rating}
-              size={14}
+              size={19}
               maxStars={5}
               setRating={5}
               bordered={false}
-              color={COLORS.primary}
+              color={COLORS.yellow}
             />
 
             <TouchableOpacity
@@ -134,8 +141,8 @@ const ResturantPage = ({ navigation, onPress }) => {
                 }
               }}
             >
-              <Text style={[styles.small, { marginLeft: 10, color: "white" }]}>
-                Rate this shop
+              <Text style={[styles.small, { color: "white" }]}>
+                Berikan Rating
               </Text>
             </TouchableOpacity>
           </View>

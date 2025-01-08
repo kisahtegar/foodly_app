@@ -29,7 +29,7 @@ const CartItem = ({ item, deleteItem }) => {
               styles.restaurant,
               { color: COLORS.lightWhite, marginHorizontal: 5 },
             ]}
-          >{` \$ ${item.totalPrice}`}</Text>
+          >{` Rp. ${item.totalPrice}`}</Text>
         </View>
 
         <TouchableOpacity

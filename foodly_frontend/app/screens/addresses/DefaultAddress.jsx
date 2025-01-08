@@ -12,7 +12,7 @@ const bkImg =
   "https://res.cloudinary.com/dc7i32d3v/image/upload/v1734400159/images/randoms/ads-on-internet.png";
 
 const DefaultAddress = ({ route, navigation }) => {
-  const item = route.params;
+  const { item } = route.params;
   const { checkUserAddressType, setCheckUserAddressType } =
     useContext(CheckUserAddressType);
   const { address, setAddress } = useContext(UserReversedGeoCode);
@@ -57,17 +57,16 @@ const DefaultAddress = ({ route, navigation }) => {
     }
   };
 
+  if (!item) {
+    return (
+      <View style={styles.container}>
+        <Text>No address data available.</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      {/* <Image
-        source={{ uri: bkImg }}
-        style={[
-          StyleSheet.absoluteFillObject,
-          {
-            opacity: 0.7,
-          },
-        ]}
-      /> */}
       <View style={styles.outter}>
         <View>
           {
@@ -77,14 +76,14 @@ const DefaultAddress = ({ route, navigation }) => {
           }
 
           <Text style={styles.text} numberOfLines={2}>
-            {item.item.addressLine1}
+            {item.addressLine1}
           </Text>
         </View>
 
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            handleSubmit(item.item._id);
+            handleSubmit(item._id);
           }}
         >
           <Text style={styles.buttonText}>D E F A U L T</Text>

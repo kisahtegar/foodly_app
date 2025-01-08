@@ -39,6 +39,14 @@ export function useInitializeLocation({ setLocation, setAddress, setLogin }) {
         // Save coordinates to AsyncStorage
         await AsyncStorage.setItem("defaultLat", JSON.stringify(latitude));
         await AsyncStorage.setItem("defaultLng", JSON.stringify(longitude));
+        await AsyncStorage.setItem("latitude", JSON.stringify(latitude));
+        await AsyncStorage.setItem("longitude", JSON.stringify(longitude));
+
+        console.log(
+          "[useInitializeLocation.js:initializeLocation]: Location initialized",
+          latitude,
+          longitude
+        );
 
         // Reverse geocode to get address
         const reverseGeocoded = await Location.reverseGeocodeAsync({

@@ -7,7 +7,7 @@ const fetchFoodRecommendations = () => {
   const [recommendations, setRecommendations] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [coords, setCoords] = useState([40.75663610000001, -73.9930715]);
+  const [coords, setCoords] = useState([106.5817625, -6.1885115]);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -31,17 +31,11 @@ const fetchFoodRecommendations = () => {
         }
       } else {
         response = await axios.get(
-          `${BaseUrl}/api/foods/nearby?lat=${lng}&lng=${lat}`
+          `${BaseUrl}/api/foods/nearby?lat=${lat}&lng=${lng}`
         );
       }
 
-      if (response.status === 200) {
-        console.log("[hook.fetchFoodRecommendations]: ", response.data);
-      } else {
-        console.log("[hook.fetchFoodRecommendations]: ", response.status);
-      }
       setRecommendations(response.data);
-      console.log("[hook.fetchFoodRecommendations]: ", response.data);
       setIsLoading(false);
     } catch (error) {
       setError(error);

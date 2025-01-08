@@ -20,11 +20,11 @@ const ShippingAddress = () => {
     return <LoadingScreen />;
   }
 
-  const renderItem = (item) => {
+  const renderItem = ({ item }) => {
     return (
       <AddressTile
         item={item}
-        onPress={() => navigation.navigate("default_add", item)}
+        onPress={() => navigation.navigate("default_add", { item })}
       />
     );
   };

@@ -42,13 +42,13 @@ const HomeHeader = () => {
       defLat = 37.4219983;
       defLng = -122.084;
       console.log(
-        "[HomeHeader.setDefaultAddres]: Using hard coded lat and lng: LoginPage"
+        "[HomeHeader.setDefaultAddres]: Using hard coded default lat and lng"
       );
     }
     await AsyncStorage.setItem("latitude", defLat.toString());
     await AsyncStorage.setItem("longitude", defLng.toString());
     console.log(
-      "[HomeHeader.setDefaultAddres]: Using hard coded lat and lng: LoginPage ",
+      "[HomeHeader.setDefaultAddres]: Using hard coded lat and lng =",
       defLat,
       defLng
     );
@@ -66,20 +66,17 @@ const HomeHeader = () => {
       defLat = JSON.parse(37.4219983);
       defLng = JSON.parse(-122.084);
       console.log(
-        "[HomeHeader.getDefault]: Using hard coded lat and lng: HomeHeader"
+        "[HomeHeader.jsx:getDefault]: Using hard coded lat and lng =",
+        defLat,
+        defLng
       );
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "User address",
-        text2: "No delivery address found as default",
-        text1Style: { fontSize: 18, fontWeight: "bold" },
-        text2Style: { fontSize: 16, color: "red" },
-      });
-      console.log("[HomeHeader.getDefault]: defLat defLng =", defLat, defLng);
     }
 
-    // await reverseGeocode(defLat, defLng);
+    console.log(
+      `[HomeHeader.jsx:getDefault]: defLat & defLng =`,
+      defLat,
+      defLng
+    );
 
     try {
       const response = await axios.get(`${BaseUrl}/api/address/default`, {
@@ -89,9 +86,21 @@ const HomeHeader = () => {
       });
       if (response.status === 200) {
         if (response.data !== null) {
+          const { latitude, longitude } = response.data;
+          await AsyncStorage.setItem("defaultLat", JSON.stringify(latitude));
+          await AsyncStorage.setItem("defaultLng", JSON.stringify(longitude));
+          await AsyncStorage.setItem("latitude", JSON.stringify(latitude));
+          await AsyncStorage.setItem("longitude", JSON.stringify(longitude));
           setAddress(response.data);
           setCheckUserAddressType(true);
         }
+      } else if (response.status === 404) {
+        Toast.show({
+          text1: "Alamat Pengguna",
+          text2: "Tidak ada default alamat pengiriman.",
+          text1Style: { fontSize: 18, fontWeight: "bold" },
+          text2Style: { fontSize: 16, color: "red" },
+        });
       } else {
         console.log(
           "[HomeHeader.getDefault]: Could not get user address ",
@@ -99,7 +108,16 @@ const HomeHeader = () => {
         );
       }
     } catch (error) {
-      console.error("[HomeHeader.getDefault]: error =", error.message);
+      if (error.response && error.response.status === 404) {
+        Toast.show({
+          text1: "Alamat Pengguna",
+          text2: "Tidak ada default alamat pengiriman.",
+          text1Style: { fontSize: 18, fontWeight: "bold" },
+          text2Style: { fontSize: 16, color: "red" },
+        });
+      } else {
+        console.error("[HomeHeader.getDefault]: error =", error.message);
+      }
     }
   };
 
@@ -117,12 +135,12 @@ const HomeHeader = () => {
   };
 
   return (
-    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+    <View style={styles.headerContainer}>
       <View style={styles.outerStyle}>
         <AssetImage
           data={require("../../assets/images/profile.jpg")}
-          width={55}
-          height={55}
+          width={40}
+          height={40}
           mode={"cover"}
           radius={99}
         />
@@ -151,10 +169,17 @@ const HomeHeader = () => {
 export default HomeHeader;
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingRight: 10, // Add padding to the right to ensure the time icon is not cut off
+  },
   outerStyle: {
     marginBottom: 10,
     marginHorizontal: 20,
     flexDirection: "row",
+    alignItems: "center",
   },
   headerText: {
     marginLeft: 15,
@@ -168,9 +193,9 @@ const styles = StyleSheet.create({
   },
   time: {
     fontFamily: "medium",
-    fontSize: SIZES.xxLarge - 5,
+    fontSize: SIZES.xxLarge - 7,
     color: COLORS.secondary,
-    marginRight: 5,
+    marginRight: 10, // Add margin to the right to ensure the time icon is not cut off
   },
   location: {
     fontFamily: "regular",

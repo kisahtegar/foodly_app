@@ -8,20 +8,20 @@ const FoodTile = ({ item, onPress, showDetails }) => {
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity style={styles.suspendedBtn} onPress={onPress}>
-        <AntDesign name="pluscircle" size={24} color={COLORS.primary} />
+        <AntDesign name="pluscircle" size={24} color={COLORS.white} />
       </TouchableOpacity>
 
       <TouchableOpacity onPress={showDetails}>
         <NetworkImage
           source={item.imageUrl[0]}
-          width={180}
+          width={145}
           height={100}
           radius={12}
         />
       </TouchableOpacity>
 
       <View>
-        <Text style={styles.price}>US$ {item.price}</Text>
+        <Text style={styles.price}>Rp. {item.price}</Text>
         <Text style={styles.title}>{item.title}</Text>
       </View>
     </View>
@@ -32,7 +32,7 @@ export default FoodTile;
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: COLORS.secondary1,
+    backgroundColor: COLORS.primary1,
     borderRadius: 12,
     padding: 12,
     marginBottom: 15,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     right: 14,
     borderRadius: 99,
     padding: 5,
-    backgroundColor: COLORS.secondary1,
+    backgroundColor: COLORS.primary,
   },
   price: {
     fontSize: 13,

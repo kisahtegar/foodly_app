@@ -13,7 +13,7 @@ import HomeCategory from "../components/HomeCategory";
 import axios from "axios";
 
 const Home = ({ navigation }) => {
-  const code = "banten";
+  const code = "pasar-kemis";
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [selectedValue, setSelectedValue] = useState(null);
@@ -26,7 +26,6 @@ const Home = ({ navigation }) => {
     setIsLoading(true);
 
     try {
-      console.log("[Home.fetchData]: selectedCategory = ", selectedCategory);
       const response = await axios.get(
         `${BaseUrl}/api/foods/category/${selectedCategory}`
       );
@@ -103,13 +102,13 @@ const Home = ({ navigation }) => {
                 <NewFoodList code={code} />
                 <Divider />
 
-                <Heading
+                {/* <Heading
                   heading={"Fastest Near You"}
                   onPress={() => {
                     navigation.navigate("fastest");
                   }}
                 />
-                <NewFoodList code={code} />
+                <NewFoodList code={code} /> */}
               </View>
             )}
           </ScrollView>

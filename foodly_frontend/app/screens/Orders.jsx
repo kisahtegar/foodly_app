@@ -161,8 +161,10 @@ const Orders = () => {
     }
   };
 
+  console.log("[Orders.jsx]: orderItem =", orderItem);
+
   return (
-    <View style={{ marginTop: 20 }}>
+    <View style={{ marginTop: 50 }}>
       <ReusableHeader title={"Order Now"} backbtn={false} />
 
       <View>

@@ -22,6 +22,7 @@ import { LoginContext } from "../context/LoginContext";
 import { UserReversedGeoCode } from "../context/UserReversedGeoCode";
 import { CheckLoadRestaurantData } from "../context/CheckRestaurantData";
 import { CheckUserAddressType } from "../context/CheckUserAddressType";
+import Toast from "react-native-toast-message";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -118,6 +119,14 @@ const LoginPage = ({ navigation }) => {
         );
         setLoadRestaurantData(true);
         setCheckUserAddressType(true);
+      } else if (response.status === 404) {
+        Toast.show({
+          text1: "Alamat Pengguna",
+          text2: "Tidak ada default alamat pengiriman.",
+          text1Style: { fontSize: 18, fontWeight: "bold" },
+          text2Style: { fontSize: 16, color: "red" },
+        });
+        navigation.navigate("shipping-address");
       } else {
         console.log(
           "[LoginPage.getDefaultAddress]: Could not get user address from LoginPage = ",
@@ -125,10 +134,17 @@ const LoginPage = ({ navigation }) => {
         );
       }
     } catch (error) {
-      console.error(
-        "[LoginPage.getDefaultAddress]: Something error = ",
-        error.message
-      );
+      if (error.response && error.response.status === 404) {
+        Toast.show({
+          text1: "Alamat Pengguna",
+          text2: "Tidak ada default alamat pengiriman.",
+          text1Style: { fontSize: 18, fontWeight: "bold" },
+          text2Style: { fontSize: 16, color: "red" },
+        });
+        navigation.navigate("shipping-address");
+      } else {
+        console.error("[LoginPage.getDefaultAddress]: Error = ", error.message);
+      }
     }
   };
 

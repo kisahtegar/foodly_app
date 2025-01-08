@@ -130,7 +130,7 @@ const GoogleMapsView = ({ placeList }) => {
         <Marker title="My Location" coordinate={mapRegion} />
 
         {placeList.map(
-          (item, index) => index <= 1 && <PlaceMarker item={item} />
+          (item, index) => index <= 1 && <PlaceMarker key={index} item={item} />
         )}
 
         {coordinates.length > 0 && (

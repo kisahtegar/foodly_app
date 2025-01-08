@@ -16,17 +16,17 @@ const renderTabBar = (props) => (
   <TabBar
     {...props}
     indicatorStyle={{
-      backgroundColor: COLORS.primary,
+      backgroundColor: COLORS.white,
       width: 20,
       left: (100 - 20) / 2,
     }}
     style={{
-      backgroundColor: COLORS.secondary1,
+      backgroundColor: COLORS.primary,
       borderRadius: 8,
       marginBottom: 10,
     }}
-    activeColor={COLORS.primary}
-    inactiveColor={COLORS.gray2}
+    activeColor={COLORS.white}
+    inactiveColor={COLORS.white}
     labelStyle={{ fontFamily: "medium" }}
   />
 );
