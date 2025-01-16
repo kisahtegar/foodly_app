@@ -7,8 +7,7 @@ import {
 } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../constants/theme";
-
-import { RatingInput, Rating } from "react-native-stock-star-rating";
+import { Rating } from "react-native-stock-star-rating";
 import NetworkImage from "./NetworkImage";
 
 const CategoryFoodComp = ({ item, onPress }) => {
@@ -16,7 +15,7 @@ const CategoryFoodComp = ({ item, onPress }) => {
     <TouchableOpacity style={styles.wrapper} onPress={onPress}>
       <View style={styles.innerRow}>
         <NetworkImage
-          data={item.imageUrl[0]}
+          source={item.imageUrl[0]}
           width={100}
           height={100}
           radius={16}
@@ -35,7 +34,7 @@ const CategoryFoodComp = ({ item, onPress }) => {
               styles.restaurant,
               { color: COLORS.lightWhite, marginHorizontal: 5 },
             ]}
-          >{` \$ ${item.price}`}</Text>
+          >{` \Rp. ${item.price}`}</Text>
         </View>
 
         <View style={styles.row}>

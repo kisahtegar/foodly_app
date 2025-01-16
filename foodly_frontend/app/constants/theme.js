@@ -17,6 +17,7 @@ const COLORS = {
   red: "#e81e4d",
   green: " #00C135",
   lightWhite: "#FAFAFC",
+  yellow: "#D5AB55",
 };
 
 const SIZES = {
@@ -53,7 +54,7 @@ const SHADOWS = {
   },
 };
 
-const BaseUrl = "http://192.168.0.17:6002";
-const GoogleApiKey = "YOUR_KEY";
+const BaseUrl = "http://192.168.38.138:6003";
+const GoogleApiKey = "AIzaSyB3-P-Mz-5S4YpWWkpomXI_8pkmru6oXD8";
 
 export { COLORS, SIZES, SHADOWS, BaseUrl, GoogleApiKey };

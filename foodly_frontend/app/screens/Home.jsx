@@ -1,8 +1,7 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
-import { COLORS, SIZES } from "../constants/theme";
+import { ScrollView, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { BaseUrl, COLORS, SIZES } from "../constants/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
-import pages from "./page.style";
 import HomeHeader from "../components/HomeHeader";
 import CategoryList from "../components/CategoryList";
 import ChoicesList from "../components/ChoicesList";
@@ -10,38 +9,38 @@ import Heading from "../components/Heading";
 import Divider from "../components/Divider";
 import NearByRestaurants from "../components/NearByRestaurants";
 import NewFoodList from "../components/NewFoodList";
-import HomeCategories from "../components/HomeCategories";
+import HomeCategory from "../components/HomeCategory";
 import axios from "axios";
 
-const Home = () => {
-  const code = "banten";
+const Home = ({ navigation }) => {
+  const code = "pasar-kemis";
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSection, setSelectedSection] = useState(null);
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedChoice, setSelectedChoice] = useState(null);
+  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [category, setCategory] = useState(null);
 
-  const fetchCategory = async () => {
+  const fetchData = async () => {
     setIsLoading(true);
 
     try {
-      console.log("Home.fetchCategory.selectedCategory: ", selectedCategory);
       const response = await axios.get(
-        `http://192.168.0.17:6002/api/foods/${selectedCategory}/${code}`
+        `${BaseUrl}/api/foods/category/${selectedCategory}`
       );
 
       setCategory(response.data);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      setError(error);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCategory();
+    fetchData();
   }, [selectedCategory, selectedSection]);
 
   return (
@@ -60,7 +59,10 @@ const Home = () => {
 
           <ScrollView
             showsVerticalScrollIndicator={false}
-            style={{ borderBottomEndRadius: 30, borderBottomStartRadius: 30 }}
+            style={{
+              borderBottomEndRadius: 30,
+              borderBottomStartRadius: 30,
+            }}
           >
             <CategoryList
               setSelectedCategory={setSelectedCategory}
@@ -75,24 +77,38 @@ const Home = () => {
             {selectedCategory !== null && selectedSection !== null ? (
               <View>
                 <Heading
-                  heading={`Browse ${selectedValue}`}
+                  heading={`Browse ${selectedValue} Category`}
                   onPress={() => {}}
                 />
-
-                <HomeCategories category={category} isLoading={isLoading} />
+                <HomeCategory category={category} isLoading={isLoading} />
               </View>
             ) : (
               <View>
-                <Heading heading={"Nearby Restaurants"} onPress={() => {}} />
+                <Heading
+                  heading={"Nearby Restaurants"}
+                  onPress={() => {
+                    navigation.navigate("nearby_restaurants");
+                  }}
+                />
                 <NearByRestaurants code={code} />
                 <Divider />
 
-                <Heading heading={"Try Something New"} onPress={() => {}} />
+                <Heading
+                  heading={"Try Something New"}
+                  onPress={() => {
+                    navigation.navigate("fastest");
+                  }}
+                />
                 <NewFoodList code={code} />
                 <Divider />
 
-                <Heading heading={"Fastest Near You"} onPress={() => {}} />
-                <NewFoodList code={code} />
+                {/* <Heading
+                  heading={"Fastest Near You"}
+                  onPress={() => {
+                    navigation.navigate("fastest");
+                  }}
+                />
+                <NewFoodList code={code} /> */}
               </View>
             )}
           </ScrollView>
@@ -103,5 +119,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({});

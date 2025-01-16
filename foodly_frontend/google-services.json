@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "695798125068",
+    "firebase_url": "https://kisahdemo-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "kisahdemo",
+    "storage_bucket": "kisahdemo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695798125068:android:fb52c26bddddba5a135429",
+        "android_client_info": {
+          "package_name": "com.kisahcode.foodly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUm6QFfnNRBQEe_eKApNhfB8hk0-LM4xE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -489,6 +489,7 @@ const profile = {
   updatedAt: "2023-10-24T11:02:28.215Z",
 };
 
+// Make sure this data includes items for four rows with two items each
 const choicesList = [
   {
     id: 1,
@@ -519,4 +520,52 @@ const choicesList = [
   },
 ];
 
-export default { categories, restaurants, foods, cart, profile, choicesList };
+const addresses = [
+  {
+    _id: "659fd2b8f53944a2c36fa8f7",
+    userId: "6578cde3d24209970e67ae7f",
+    addressLine1: "600 Stockton St, San Francisco, CA 94108, USA",
+    postalCode: "94108",
+    default: true,
+    deliveryInstructions: "put the order by the gate",
+    latitude: 37.79155946963518,
+    longitude: -122.40726202726366,
+    __v: 0,
+  },
+
+  {
+    _id: "659fd2b8f537987a2c36fa8f7",
+    userId: "6578cde3d24209970e67ae7f",
+    addressLine1: "600 Stockton St, San Francisco, CA 94108, USA",
+    postalCode: "94108",
+    default: true,
+    deliveryInstructions: "put the order by the gate",
+    latitude: 37.79155946963518,
+    longitude: -122.40726202726366,
+    __v: 0,
+  },
+
+  {
+    _id: "6578cde3d24209970e67ae7f",
+    userId: "6578cde3d24209970e67ae7f",
+    addressLine1: "600 Stockton St, San Francisco, CA 94108, USA",
+    postalCode: "94108",
+    default: true,
+    deliveryInstructions: "put the order by the gate",
+    latitude: 37.79155946963518,
+    longitude: -122.40726202726366,
+    __v: 0,
+  },
+];
+
+export { addresses };
+
+export default {
+  categories,
+  restaurants,
+  foods,
+  cart,
+  profile,
+  choicesList,
+  addresses,
+};

@@ -3,22 +3,26 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   TextInput,
   Alert,
 } from "react-native";
+import * as Location from "expo-location";
 import React, { useState, useRef, useContext } from "react";
 import Button from "../components/Button";
 import BackBtn from "../components/BackBtn";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { COLORS, SIZES } from "../constants/theme";
+import { BaseUrl, COLORS, SIZES } from "../constants/theme";
 import styles from "./login.style";
 import LottieView from "lottie-react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LoginContext } from "../context/LoginContext";
+import { UserReversedGeoCode } from "../context/UserReversedGeoCode";
+import { CheckLoadRestaurantData } from "../context/CheckRestaurantData";
+import { CheckUserAddressType } from "../context/CheckUserAddressType";
+import Toast from "react-native-toast-message";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -34,6 +38,13 @@ const LoginPage = ({ navigation }) => {
   const [loader, setLoader] = useState(false);
   const [obsecureText, setObsecureText] = useState(false);
   const { login, setLogin } = useContext(LoginContext);
+  const { address, setAddress } = useContext(UserReversedGeoCode);
+  const [defaultad, setDefault] = useState({});
+  const { loadRestaurantData, setLoadRestaurantData } = useContext(
+    CheckLoadRestaurantData
+  );
+  const { checkUserAddressType, setCheckUserAddressType } =
+    useContext(CheckUserAddressType);
 
   const inValidForm = () => {
     Alert.alert("Invalid Form", "Please provide all required fields", [
@@ -49,11 +60,99 @@ const LoginPage = ({ navigation }) => {
     ]);
   };
 
+  const getDefaultAddress = async () => {
+    const token = await AsyncStorage.getItem("token");
+    const accessToken = JSON.parse(token);
+
+    try {
+      const response = await axios.get(`${BaseUrl}/api/address/default`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (response.status === 200) {
+        if (response.data === null) {
+          let defLat = await AsyncStorage.getItem("defaultLat");
+          let defLng = await AsyncStorage.getItem("defaultLng");
+          if (defLat === null || defLng === null) {
+            defLat = 37.4219983;
+            defLng = -122.084;
+            console.log(
+              "[LoginPage.getDefaultAddress]: Using hard coded lat and lng"
+            );
+          }
+          await AsyncStorage.setItem("latitude", defLat.toString());
+          await AsyncStorage.setItem("longitude", defLng.toString());
+          console.log(
+            "[LoginPage.getDefaultAddress]: Using hard coded lat and lng = ",
+            defLat,
+            defLng
+          );
+          const rgc = await Location.reverseGeocodeAsync({
+            longitude: defLng,
+            latitude: defLat,
+          });
+          setAddress(rgc[0]);
+        } else {
+          setAddress(response.data);
+          setDefault(response.data);
+
+          console.log(
+            "[LoginPage.getDefaultAddress]: Real data address",
+            response.status
+          );
+          // await reverseGeocode(defaultad.latitude, defaultad.longitude);
+          await AsyncStorage.setItem(
+            "latitude",
+            JSON.stringify(response.data.latitude)
+          );
+          await AsyncStorage.setItem(
+            "longitude",
+            JSON.stringify(response.data.longitude)
+          );
+          console.log("[LoginPage.getDefaultAddress]: Using real lat and lng");
+        }
+
+        console.log(
+          "[LoginPage.getDefaultAddress]: Using defaultlad ",
+          JSON.stringify(defaultad)
+        );
+        setLoadRestaurantData(true);
+        setCheckUserAddressType(true);
+      } else if (response.status === 404) {
+        Toast.show({
+          text1: "Alamat Pengguna",
+          text2: "Tidak ada default alamat pengiriman.",
+          text1Style: { fontSize: 18, fontWeight: "bold" },
+          text2Style: { fontSize: 16, color: "red" },
+        });
+        navigation.navigate("shipping-address");
+      } else {
+        console.log(
+          "[LoginPage.getDefaultAddress]: Could not get user address from LoginPage = ",
+          response.status
+        );
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        Toast.show({
+          text1: "Alamat Pengguna",
+          text2: "Tidak ada default alamat pengiriman.",
+          text1Style: { fontSize: 18, fontWeight: "bold" },
+          text2Style: { fontSize: 16, color: "red" },
+        });
+        navigation.navigate("shipping-address");
+      } else {
+        console.error("[LoginPage.getDefaultAddress]: Error = ", error.message);
+      }
+    }
+  };
+
   const loginFunc = async (values) => {
     setLoader(true);
 
     try {
-      const endpoint = "http://192.168.0.17:6002/login";
+      const endpoint = `${BaseUrl}/api/auth/login`;
       const data = values;
 
       const response = await axios.post(endpoint, data);
@@ -61,13 +160,30 @@ const LoginPage = ({ navigation }) => {
         setLoader(false);
         setLogin(true);
 
-        console.log(response.data);
+        console.log("[LoginPage.loginFunc]: response.data = ", response.data);
 
         await AsyncStorage.setItem("id", JSON.stringify(response.data._id));
         await AsyncStorage.setItem(
           "token",
           JSON.stringify(response.data.userToken)
         );
+        await AsyncStorage.setItem(
+          "verification",
+          JSON.stringify(response.data.verified)
+        );
+        await AsyncStorage.setItem(
+          "email",
+          JSON.stringify(response.data.email)
+        );
+
+        await AsyncStorage.setItem("user", JSON.stringify(response.data));
+
+        if (response.data.verified === false) {
+          navigation.navigate("verification_page");
+        } else {
+          getDefaultAddress();
+          navigation.navigate("bottom-navigation");
+        }
       } else {
         setLogin(false);
 
@@ -85,25 +201,22 @@ const LoginPage = ({ navigation }) => {
       }
     } catch (error) {
       setLogin(false);
-      Alert.alert(
-        "Error ",
-        "Oops, Error logging in try again with correct credentials",
-        [
-          {
-            text: "Cancel",
-            onPress: () => {},
-          },
-          {
-            text: "Continue",
-            onPress: () => {},
-          },
-          { defaultIndex: 1 },
-        ]
-      );
+      Alert.alert("Error ", "Oops, " + error.message, [
+        {
+          text: "Cancel",
+          onPress: () => {},
+        },
+        {
+          text: "Continue",
+          onPress: () => {},
+        },
+        { defaultIndex: 1 },
+      ]);
     } finally {
       setLoader(false);
     }
   };
+
   return (
     <ScrollView style={{ backgroundColor: COLORS.white }}>
       <View style={{ marginHorizontal: 20, marginTop: 50 }}>

@@ -9,13 +9,14 @@ const CategoryItem = ({ category, selected }) => {
         marginLeft: 12,
         padding: 5,
         alignItems: "center",
-        width: 80,
+        width: 90,
+        margin: 5,
         height: 55,
         justifyContent: "center",
         borderRadius: 15,
         borderWidth: 0.5,
         borderColor:
-          category.value == selected ? COLORS.secondary : "transparent",
+          category.value === selected ? COLORS.secondary : "transparent",
         shadowColor: SHADOWS.small,
       }}
     >

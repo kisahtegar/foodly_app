@@ -1,11 +1,10 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { CartCountContext } from "../context/CartCountContext";
+import { BaseUrl } from "../constants/theme";
 
 const fetchCart = () => {
   const [cartList, setCartList] = useState(null);
-  const { cartCount, setCartCount } = useContext(CartCountContext);
   const [isCartLoading, setIsCartLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -15,13 +14,13 @@ const fetchCart = () => {
     setIsCartLoading(true);
 
     try {
-      const response = await axios.get(`http://192.168.0.17:6002/api/cart`, {
+      const response = await axios.get(`${BaseUrl}/api/cart`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+
       setCartList(response.data.cart);
-      setCartCount(response.data.cartCount);
       setIsCartLoading(false);
     } catch (error) {
       setError(error);
@@ -34,9 +33,9 @@ const fetchCart = () => {
     fetchData();
   }, []);
 
-  const refetch = () => {
+  const refetch = async () => {
     setIsCartLoading(true);
-    fetchData();
+    await fetchData();
   };
 
   return { cartList, isCartLoading, error, refetch };

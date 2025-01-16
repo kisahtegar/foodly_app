@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { COLORS } from "../constants/theme";
 
@@ -14,6 +14,7 @@ const Counter = ({ count, setCount }) => {
       setCount(count - 1);
     }
   };
+
   return (
     <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
       <AntDesign
@@ -22,7 +23,7 @@ const Counter = ({ count, setCount }) => {
         color={COLORS.primary}
         onPress={decrement}
       />
-      <Text style={{ fontFamily: "medium", fontSize: 20, marginTop: 1 }}>
+      <Text style={{ fontFamily: "regular", fontSize: 18, marginTop: 1 }}>
         {" "}
         {count}{" "}
       </Text>
@@ -37,5 +38,3 @@ const Counter = ({ count, setCount }) => {
 };
 
 export default Counter;
-
-const styles = StyleSheet.create({});

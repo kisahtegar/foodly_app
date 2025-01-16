@@ -15,7 +15,7 @@ import { GOOGLE_MAPS_API_KEY } from "@env";
  * @param {string[]} [modes=["bicycling", "driving"]] - An array of travel modes to try in sequence if a result is not found.
  *     Common options include "driving", "bicycling", "walking", and "transit".
  *     The function will attempt each mode in order until a valid result is returned.
- * @param {number} [ratePerKm=1] - The cost rate per kilometer, used to calculate the estimated travel price.
+ * @param {number} [ratePerKm=15000] - The cost rate per kilometer, used to calculate the estimated travel price.
  *
  * @returns {Promise<{distance: string, duration: string, finalPrice: string, mode: string} | null>}
  *     An object containing:
@@ -44,8 +44,8 @@ const calculateDistanceAndTime = async (
   startLng,
   destinationLat,
   destinationLng,
-  modes = ["bicycling", "driving"],
-  ratePerKm = 1
+  modes = ["TWO_WHEELER"],
+  ratePerKm = 1800
 ) => {
   const baseUrl = "https://maps.googleapis.com/maps/api/distancematrix/json";
 
@@ -67,7 +67,7 @@ const calculateDistanceAndTime = async (
 
         // Convert distance to kilometers and calculate estimated price
         const distanceInKm = parseFloat(distance.replace(/[^\d.-]/g, ""));
-        const finalPrice = `$${(distanceInKm * ratePerKm).toFixed(2)}`;
+        const finalPrice = `Rp. ${(distanceInKm * ratePerKm).toFixed(2)}`;
 
         return {
           distance,
@@ -172,27 +172,6 @@ const decode = (encoded) => {
   }
 
   return points;
-};
-
-const fetchDirections = async (
-  startLat,
-  startLng,
-  destinationLat,
-  destinationLng
-) => {
-  try {
-    const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLng}&destination=${destinationLat},${destinationLng}&key=${apiKey}`;
-    const response = await fetch(url);
-    const data = await response.json().then((data) => {
-      // setDirections(data);
-      const encodedPolyline = data.routes[0].overview_polyline.points;
-      const coordinates = decode(encodedPolyline);
-
-      // setCoordinates(coordinates);
-    });
-  } catch (error) {
-    console.error(error);
-  }
 };
 
 export default {

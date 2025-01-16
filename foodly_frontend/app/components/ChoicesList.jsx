@@ -1,18 +1,12 @@
 import uidata from "../constants/uidata";
 import React, { useState } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../constants/theme";
 
 const ChoicesList = ({ setSelectedChoice, setSelectedSection }) => {
   const [selected, setSelected] = useState(null);
 
-  const handlePress = (item) => {
+  const handleSelectChoice = (item) => {
     if (selected === item.value) {
       setSelected(null);
       setSelectedChoice(null);
@@ -29,7 +23,7 @@ const ChoicesList = ({ setSelectedChoice, setSelectedSection }) => {
       <Text
         style={{
           marginLeft: 16,
-          marginVertical: 12,
+          marginVertical: 8,
           fontSize: 18,
           fontFamily: "bold",
         }}
@@ -46,10 +40,12 @@ const ChoicesList = ({ setSelectedChoice, setSelectedSection }) => {
         style={{ marginTop: 5 }}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => handlePress(item)}
+            onPress={() => {
+              handleSelectChoice(item);
+            }}
             style={{
               backgroundColor:
-                selected === item.value ? COLORS.secondary : COLORS.lightWhite,
+                item.value === selected ? COLORS.secondary : COLORS.lightWhite,
               height: 40,
               borderRadius: 12,
               marginHorizontal: 8,
@@ -75,5 +71,3 @@ const ChoicesList = ({ setSelectedChoice, setSelectedSection }) => {
 };
 
 export default ChoicesList;
-
-const styles = StyleSheet.create({});

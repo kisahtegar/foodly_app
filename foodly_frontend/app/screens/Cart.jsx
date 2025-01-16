@@ -1,39 +1,52 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import React, { useState, useContext, useEffect } from "react";
+import { FlatList, RefreshControl, View } from "react-native";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import pages from "./page.style";
-import { LoginContext } from "../context/LoginContext";
 import fetchCart from "../hook/fetchCart";
+import { BaseUrl, COLORS, SIZES } from "../constants/theme";
+import CartItem from "../components/CartItem";
 import ReusableHeader from "../components/ReusableHeader";
-import CartComponent from "../components/CartComponent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { CartCountContext } from "../context/CartCountContext";
 
 const Cart = () => {
-  const { login, setLogin } = useContext(LoginContext);
+  const [cart, setCart] = useState(null);
   const { cartList, isCartLoading, error, refetch } = fetchCart();
   const { cartCount, setCartCount } = useContext(CartCountContext);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const deleteItem = async (id) => {
+  const renderCartItem = ({ item }) => (
+    <CartItem
+      deleteItem={() => deleteCartItem(item._id)}
+      item={item}
+      onPress={() => navigation.navigate("food-page")}
+    />
+  );
+
+  const deleteCartItem = async (id) => {
     const token = await AsyncStorage.getItem("token");
     const accessToken = JSON.parse(token);
 
     try {
-      const response = await axios.delete(
-        `http://192.168.0.17:6002/api/cart/delete/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      console.log(response.data);
+      const response = await axios.delete(`${BaseUrl}/api/cart/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("[Cart.jsx:deleteCartItem]: response.data = ", response.data);
       setCartCount(response.data.cartCount);
     } catch (error) {
-      console.error("Error: ", error);
+      console.error(
+        "[Cart.jsx:deleteCartItem]: There was a problem with the axios request:",
+        error
+      );
     }
   };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    refetch().then(() => setRefreshing(false));
+  }, [refetch]);
 
   useEffect(() => {
     refetch();
@@ -41,8 +54,15 @@ const Cart = () => {
 
   return (
     <SafeAreaView>
-      <View style={pages.viewOne}>
-        <View style={pages.viewTwo}>
+      <View style={{ backgroundColor: COLORS.primary, height: SIZES.height }}>
+        <View
+          style={{
+            backgroundColor: COLORS.offwhite,
+            height: SIZES.height - 80,
+            borderBottomEndRadius: 30,
+            borderBottomStartRadius: 30,
+          }}
+        >
           <ReusableHeader title={"Cart"} backbtn={false} />
 
           <View style={{ marginLeft: 12, marginBottom: 10 }}>
@@ -52,12 +72,11 @@ const Cart = () => {
               keyExtractor={(item) => item._id}
               style={{ marginTop: 10 }}
               scrollEnabled
-              renderItem={({ item }) => (
-                <CartComponent
-                  item={item}
-                  deleteItem={() => deleteItem(item._id)}
-                />
-              )}
+              renderItem={renderCartItem}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+              contentContainerStyle={{ paddingBottom: 16 }}
             />
           </View>
         </View>
@@ -67,5 +86,3 @@ const Cart = () => {
 };
 
 export default Cart;
-
-const styles = StyleSheet.create({});

@@ -1,24 +1,29 @@
-import uidata from "../constants/uidata";
 import fetchCategories from "../hook/categoryHook";
 import CategoryItem from "./CategoryItem";
 import React, { useState } from "react";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { FlatList, TouchableOpacity, View } from "react-native";
 import ReusableShimmer from "./Shimmers/ReusableShimmer";
+import { useNavigation } from "@react-navigation/native";
 
 const CategoryList = ({
   setSelectedCategory,
   setSelectedSection,
   setSelectedValue,
+  catValue,
 }) => {
   const [selected, setSelected] = useState(null);
   const { categories, isLoading, error, refetch } = fetchCategories();
+  const navigation = useNavigation();
+  const restaurantShimmer = [1, 2, 3, 4, 5, 6, 7];
 
   const handleSelectedCategory = (item) => {
-    if (selected == item.value) {
+    if (selected === item.value) {
       setSelectedCategory(null);
       setSelected(null);
       setSelectedSection(null);
       setSelectedValue(null);
+    } else if (item.title === "More") {
+      navigation.navigate("more_categories");
     } else {
       setSelectedCategory(item._id);
       setSelected(item.value);
@@ -30,11 +35,11 @@ const CategoryList = ({
   if (isLoading) {
     return (
       <FlatList
-        data={uidata.categories}
+        data={restaurantShimmer}
         showsHorizontalScrollIndicator={false}
         horizontal
         style={{ marginTop: 5 }}
-        keyExtractor={(item) => item._id}
+        scrollEnabled
         renderItem={({ item }) => (
           <View style={{ marginLeft: 12 }}>
             <ReusableShimmer
@@ -56,9 +61,14 @@ const CategoryList = ({
       horizontal
       style={{ marginTop: 5 }}
       keyExtractor={(item) => item._id}
+      scrollEnabled
       renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => handleSelectedCategory(item)}>
-          <CategoryItem selected={selected} category={item} />
+        <TouchableOpacity
+          onPress={() => {
+            handleSelectedCategory(item);
+          }}
+        >
+          <CategoryItem category={item} selected={selected} />
         </TouchableOpacity>
       )}
     />
@@ -66,5 +76,3 @@ const CategoryList = ({
 };
 
 export default CategoryList;
-
-const styles = StyleSheet.create({});

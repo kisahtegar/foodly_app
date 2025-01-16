@@ -1,15 +1,15 @@
 import React from "react";
 import { Marker } from "react-native-maps";
 
-const PlaceMarker = ({ coordinates }) => {
+const PlaceMarker = ({ item }) => {
   return (
     <Marker
-      title={coordinates.title}
+      title={item.name}
       coordinate={{
-        latitude: coordinates.latitude,
-        longitude: coordinates.longitude,
-        latitudeDelta: 0.003,
-        longitudeDelta: 0.01,
+        latitude: item.latitude,
+        longitude: item.longitude,
+        latitudeDelta: 0.0522,
+        longitudeDelta: 0.0421,
       }}
     />
   );
