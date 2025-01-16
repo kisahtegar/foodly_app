@@ -34,7 +34,7 @@ const CategoryFoodComp = ({ item, onPress }) => {
               styles.restaurant,
               { color: COLORS.lightWhite, marginHorizontal: 5 },
             ]}
-          >{` \$ ${item.price}`}</Text>
+          >{` \Rp. ${item.price}`}</Text>
         </View>
 
         <View style={styles.row}>

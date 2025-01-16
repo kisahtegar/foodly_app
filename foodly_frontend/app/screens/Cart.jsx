@@ -33,12 +33,11 @@ const Cart = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      const [refreshing, setRefreshing] = useState(false);
-      console.log("[Cart.deleteCartItem]: response.data = ", response.data);
+      console.log("[Cart.jsx:deleteCartItem]: response.data = ", response.data);
       setCartCount(response.data.cartCount);
     } catch (error) {
       console.error(
-        "[Cart.deleteCartItem]: There was a problem with the axios request:",
+        "[Cart.jsx:deleteCartItem]: There was a problem with the axios request:",
         error
       );
     }

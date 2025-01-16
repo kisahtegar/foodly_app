@@ -9,41 +9,12 @@ import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants/theme";
 import NetworkImage from "../components/NetworkImage";
-import { RatingInput, Rating } from "react-native-stock-star-rating";
+import { RatingInput } from "react-native-stock-star-rating";
 
 const CartItem = ({ item, deleteItem }) => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.innerRow}>
-        <View
-          style={{
-            position: "absolute",
-            right: 10,
-            bottom: 10,
-            backgroundColor: COLORS.secondary,
-            borderRadius: 8,
-          }}
-        >
-          <Text
-            style={[
-              styles.restaurant,
-              { color: COLORS.lightWhite, marginHorizontal: 5 },
-            ]}
-          >{` Rp. ${item.totalPrice}`}</Text>
-        </View>
-
-        <TouchableOpacity
-          onPress={deleteItem}
-          style={{
-            position: "absolute",
-            right: 10,
-            top: 10,
-            borderRadius: 8,
-          }}
-        >
-          <AntDesign name="delete" size={20} color={COLORS.red} />
-        </TouchableOpacity>
-
         <NetworkImage
           source={item.productId.imageUrl[0]}
           width={100}
@@ -52,7 +23,7 @@ const CartItem = ({ item, deleteItem }) => {
         />
 
         <View style={styles.row}>
-          <View>
+          <View style={styles.textContainer}>
             <Text style={styles.restaurant}>{item.productId.title}</Text>
             {item.additives.length === 0 ? (
               <View style={{ height: 1 }} />
@@ -105,6 +76,16 @@ const CartItem = ({ item, deleteItem }) => {
             </Text>
           </View>
         </View>
+
+        <View style={styles.actionsContainer}>
+          <TouchableOpacity onPress={deleteItem} style={styles.deleteButton}>
+            <AntDesign name="delete" size={20} color={COLORS.red} />
+          </TouchableOpacity>
+
+          <View style={styles.priceContainer}>
+            <Text style={styles.price}>{`Rp. ${item.totalPrice}`}</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -131,28 +112,33 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-between",
+    flex: 1,
   },
-  restaurant: { fontFamily: "medium", fontSize: 14 },
+  textContainer: {
+    flex: 1,
+  },
+  restaurant: {
+    fontFamily: "medium",
+    fontSize: 14,
+  },
   reviews: {
     fontFamily: "medium",
     fontSize: 12,
     color: COLORS.gray,
   },
-  reorder: {
-    borderRadius: 10,
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: 10,
+  actionsContainer: {
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+  },
+  deleteButton: {
+    marginBottom: 10,
+  },
+  priceContainer: {
+    backgroundColor: COLORS.secondary,
+    borderRadius: 8,
+    paddingHorizontal: 5,
   },
   price: {
-    paddingLeft: 18,
-    paddingTop: 5,
-    fontFamily: "bold",
-    fontSize: 17,
-    color: COLORS.lightWhite,
-  },
-  reOrderTxt: {
-    fontFamily: "medium",
-    fontSize: 16,
     color: COLORS.lightWhite,
   },
 });

@@ -106,6 +106,7 @@ const AddAddresses = ({ navigation }) => {
         );
       }
     } catch (error) {
+      console.log("[AddAddresses.handleSubmit]: error = ", error);
       console.error(
         "[AddAddresses.handleSubmit]: error.message = ",
         error.message

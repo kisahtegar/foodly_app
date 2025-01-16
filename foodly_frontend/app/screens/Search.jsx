@@ -51,11 +51,6 @@ const Search = ({ navigation }) => {
             {item.description}
           </Text>
 
-          <View>
-            <Text style={styles.description}>
-              Delivery estimated under {item.time}
-            </Text>
-          </View>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <RatingInput
               rating={item.rating}
@@ -72,7 +67,7 @@ const Search = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.priceContainer}>
-          <Text style={styles.price}>$ {item.price}</Text>
+          <Text style={styles.price}>Rp. {item.price}</Text>
         </View>
       </View>
     </TouchableOpacity>

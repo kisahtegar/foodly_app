@@ -33,6 +33,8 @@ const FoodPage = ({ navigation, route }) => {
   const [data, setData] = useState(false);
   const [preference, setPreference] = useState("");
 
+  console.log("item", item);
+
   const id = item.restaurant;
 
   sendToOrderPage = {
@@ -44,7 +46,7 @@ const FoodPage = ({ navigation, route }) => {
       price: (item.price + totalPrice) * count,
       title: item.title,
       imageUrl: item.imageUrl[0],
-      time: item.time,
+      time: "10:00",
     },
     title: item.title,
     description: item.description,

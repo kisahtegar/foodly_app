@@ -17,11 +17,12 @@ const Orders = () => {
   const route = useRoute();
   const orderItem = route.params;
   const [tokenVal, setTokenVal] = useState(null);
-  const deliveryFee = 1.2;
+  const deliveryFee = 3000;
   const [paymentUrl, setPaymentUrl] = useState(false);
   const [result, setResult] = useState(null);
   const [orderId, setOrderId] = useState(null);
   const { login, setLogin } = useContext(LoginContext);
+  const deliveryCost = 4320;
 
   const { defaultAddress, isAddressLoading, error, refetch } =
     fetchDefaultAddress();
@@ -32,26 +33,28 @@ const Orders = () => {
     return <CookLoader />;
   }
 
-  if (defaultAddress !== null) {
-    orderObject = {
-      userId: defaultAddress.userId,
-      orderItems: [orderItem.orderItem],
-      orderTotal: orderItem.orderItem.price,
-      deliveryFee: deliveryFee,
-      grandTotal: orderItem.orderItem.quantity + deliveryFee,
-      deliveryAddress: defaultAddress._id,
-      paymentMethod: "Stripe",
-      restaurantId: orderItem.restaurant,
-    };
-  } else {
-    Toast.show({
-      type: "error",
-      text1: "User address",
-      text2: "No delivery address found as default",
-      text1Style: { fontSize: 18, fontWeight: "bold" },
-      text2Style: { fontSize: 16, color: "red" },
-    });
-  }
+  // console.log("[Orders,jsx]: defaultAddress =", defaultAddress);
+  // if (defaultAddress !== null) {
+  //   orderObject = {
+  //     userId: defaultAddress.userId,
+  //     orderItems: [orderItem.orderItem],
+  //     orderTotal: orderItem.orderItem.price,
+  //     deliveryFee: deliveryFee,
+  //     grandTotal: orderItem.orderItem.quantity + deliveryFee,
+  //     deliveryAddress: defaultAddress._id,
+  //     paymentMethod: "Stripe",
+  //     restaurantId: orderItem.restaurant,
+  //   };
+  // } else {
+  //   Toast.show({
+  //     type: "error",
+  //     text1: "User address",
+  //     text2: "No delivery address found as default",
+  //     text1Style: { fontSize: 18, fontWeight: "bold" },
+  //     text2Style: { fontSize: 16, color: "red" },
+  //   });
+  // }
+
   const createOrder = async (orderObject) => {
     if (defaultAddress === null) {
       console.log("No default address found");
@@ -252,7 +255,7 @@ const Orders = () => {
 
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.text}>Delivery Cost :</Text>
-              <Text style={styles.email}> $ 1.05</Text>
+              <Text style={styles.email}> Rp. {`${deliveryCost}`}</Text>
             </View>
 
             <View style={{ flexDirection: "row" }}>
@@ -264,7 +267,9 @@ const Orders = () => {
 
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.text}>Total Cost :</Text>
-              <Text style={styles.email}> $37.00</Text>
+              <Text style={styles.email}>
+                Rp. {`${orderItem.orderItem.price + deliveryCost}`}
+              </Text>
             </View>
           </View>
 
@@ -286,7 +291,16 @@ const Orders = () => {
                 navigation.navigate("login");
                 return;
               }
-              createOrder(orderObject);
+              // createOrder(orderObject);
+              Toast.show({
+                type: "success",
+                text1: "Order created successfully",
+                text2: "Please wait, let him cook now!",
+                text1Style: { fontSize: 18, fontWeight: "bold" },
+                text2Style: { fontSize: 16, color: "red" },
+              });
+
+              navigation.navigate("bottom-navigation");
             }}
           >
             <Text style={[styles.text, { color: COLORS.lightWhite }]}>

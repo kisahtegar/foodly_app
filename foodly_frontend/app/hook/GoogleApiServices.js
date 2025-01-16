@@ -45,7 +45,7 @@ const calculateDistanceAndTime = async (
   destinationLat,
   destinationLng,
   modes = ["TWO_WHEELER"],
-  ratePerKm = 2000
+  ratePerKm = 1800
 ) => {
   const baseUrl = "https://maps.googleapis.com/maps/api/distancematrix/json";
 

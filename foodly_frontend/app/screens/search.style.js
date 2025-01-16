@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: COLORS.lightWhite,
     marginHorizontal: 12,
+    marginBottom: 10,
   },
   image: {
     width: 80,
