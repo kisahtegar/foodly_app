@@ -8,12 +8,13 @@ import {
 } from "react-native";
 import React, { useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { BaseUrl, COLORS, SIZES } from "../constants/theme";
+import { COLORS, SIZES } from "../constants/theme";
 import { Feather, AntDesign } from "@expo/vector-icons";
 import styles from "./search.style";
 import { RatingInput } from "react-native-stock-star-rating";
 import LottieView from "lottie-react-native";
 import axios from "axios";
+import { BASE_URL } from "@env";
 
 const Search = ({ navigation }) => {
   const [searchKey, setSearchKey] = useState("");
@@ -23,7 +24,7 @@ const Search = ({ navigation }) => {
   const handleSearch = async () => {
     try {
       const response = await axios.get(
-        `${BaseUrl}/api/foods/search/${searchKey}`
+        `${BASE_URL}/api/foods/search/${searchKey}`
       );
       setSearchResults(response.data);
     } catch (error) {

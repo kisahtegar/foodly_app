@@ -12,10 +12,11 @@ import LottieView from "lottie-react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import { BaseUrl, COLORS, SIZES } from "../constants/theme";
+import { COLORS, SIZES } from "../constants/theme";
 import BackBtn from "../components/BackBtn";
 import Button from "../components/Button";
 import axios from "axios";
+import { BASE_URL } from "@env";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -52,7 +53,7 @@ const SignUp = ({ navigation }) => {
     setLoader(true);
 
     try {
-      const endpoint = `${BaseUrl}/api/auth/register`;
+      const endpoint = `${BASE_URL}/api/auth/register`;
       const data = values;
 
       const response = await axios.post(endpoint, data);

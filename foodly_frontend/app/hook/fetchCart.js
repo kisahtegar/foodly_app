@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { BaseUrl } from "../constants/theme";
+import { BASE_URL } from "@env";
 
 const fetchCart = () => {
   const [cartList, setCartList] = useState(null);
@@ -14,7 +14,7 @@ const fetchCart = () => {
     setIsCartLoading(true);
 
     try {
-      const response = await axios.get(`${BaseUrl}/api/cart`, {
+      const response = await axios.get(`${BASE_URL}/api/cart`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

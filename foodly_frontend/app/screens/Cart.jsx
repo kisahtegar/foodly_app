@@ -2,12 +2,13 @@ import { FlatList, RefreshControl, View } from "react-native";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import fetchCart from "../hook/fetchCart";
-import { BaseUrl, COLORS, SIZES } from "../constants/theme";
+import { COLORS, SIZES } from "../constants/theme";
 import CartItem from "../components/CartItem";
 import ReusableHeader from "../components/ReusableHeader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { CartCountContext } from "../context/CartCountContext";
+import { BASE_URL } from "@env";
 
 const Cart = () => {
   const [cart, setCart] = useState(null);
@@ -28,7 +29,7 @@ const Cart = () => {
     const accessToken = JSON.parse(token);
 
     try {
-      const response = await axios.delete(`${BaseUrl}/api/cart/delete/${id}`, {
+      const response = await axios.delete(`${BASE_URL}/api/cart/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

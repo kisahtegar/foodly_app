@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GOOGLE_MAPS_API_KEY } from "@env";
+import { GOOGLE_API_KEY } from "@env";
 
 /**
  * Calculates the distance, estimated travel time, and cost between two geographic coordinates.
@@ -51,7 +51,7 @@ const calculateDistanceAndTime = async (
 
   // Loop through each travel mode until a valid result is returned
   for (const mode of modes) {
-    const requestUrl = `${baseUrl}?origins=${startLat},${startLng}&destinations=${destinationLat},${destinationLng}&mode=${mode}&key=${GOOGLE_MAPS_API_KEY}`;
+    const requestUrl = `${baseUrl}?origins=${startLat},${startLng}&destinations=${destinationLat},${destinationLng}&mode=${mode}&key=${GOOGLE_API_KEY}`;
 
     try {
       const response = await fetch(requestUrl);

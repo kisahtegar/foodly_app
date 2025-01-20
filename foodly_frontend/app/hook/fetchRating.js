@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { BaseUrl } from "../constants/theme";
+import { BASE_URL } from "@env";
 import { RestaurantContext } from "../context/RestaurantContext";
 
 const fetchRating = () => {
@@ -15,7 +15,7 @@ const fetchRating = () => {
     const token = await AsyncStorage.getItem("token");
     try {
       const response = await axios.get(
-        `${BaseUrl}/api/rating?restaurantId=${restaurantObj._id}`,
+        `${BASE_URL}/api/rating?restaurantId=${restaurantObj._id}`,
         {
           headers: {
             Authorization: `Bearer ${JSON.parse(token)}`,

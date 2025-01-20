@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import ReusableHeader from "../components/ReusableHeader";
 import fetchDefaultAddress from "../hook/fetchDefaultAddress";
 import CookLoader from "../components/CookLoader";
-import { BaseUrl, COLORS, SIZES } from "../constants/theme";
+import { COLORS, SIZES } from "../constants/theme";
 import { useRoute } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -11,6 +11,7 @@ import * as WebBrowser from "expo-web-browser";
 import { useNavigation } from "@react-navigation/native";
 import { LoginContext } from "../context/LoginContext";
 import Toast from "react-native-toast-message";
+import { BASE_URL } from "@env";
 
 const Orders = () => {
   const navigation = useNavigation();
@@ -73,7 +74,7 @@ const Orders = () => {
       console.log("--------creating--------");
       console.log("additives ", orderItem.orderItem.addittives);
       console.log("order objects ", orderObject);
-      const response = await axios.post(`${BaseUrl}/api/orders`, orderObject, {
+      const response = await axios.post(`${BASE_URL}/api/orders`, orderObject, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

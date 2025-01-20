@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { BaseUrl } from "../constants/theme";
+import { BASE_URL } from "@env";
 
 const fetchFoodsByRest = (restaurantId, code) => {
   const [restaurantFoodList, setRestaurantFood] = useState(null);
@@ -15,7 +15,7 @@ const fetchFoodsByRest = (restaurantId, code) => {
 
     try {
       const response = await axios.get(
-        `${BaseUrl}/api/foods/restaurant/${restaurantId}`
+        `${BASE_URL}/api/foods/restaurant/${restaurantId}`
       );
 
       setRestaurantFood(response.data);
@@ -23,7 +23,7 @@ const fetchFoodsByRest = (restaurantId, code) => {
       if (response.data.length === 0) {
         try {
           const response = await axios.get(
-            `${BaseUrl}/api/foods/recommendation/${code}`
+            `${BASE_URL}/api/foods/recommendation/${code}`
           );
 
           setRestaurantFood(response.data);

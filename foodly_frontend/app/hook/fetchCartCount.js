@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { BaseUrl } from "../constants/theme";
+import { BASE_URL } from "@env";
 
 const fetchCartCount = () => {
   const [cartCount, setCartCount] = useState(null);
@@ -14,7 +14,7 @@ const fetchCartCount = () => {
     setIsCartLoading(true);
 
     try {
-      const response = await axios.get(`${BaseUrl}/api/cart/count`, {
+      const response = await axios.get(`${BASE_URL}/api/cart/count`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

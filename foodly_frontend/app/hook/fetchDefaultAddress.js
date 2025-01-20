@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { BaseUrl } from "../constants/theme";
+import { BASE_URL } from "@env";
 
 const fetchDefaultAddress = () => {
   const [defaultAddress, setDefaultAddress] = useState(null);
@@ -14,7 +14,7 @@ const fetchDefaultAddress = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`${BaseUrl}/api/address/default`, {
+      const response = await axios.get(`${BASE_URL}/api/address/default`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

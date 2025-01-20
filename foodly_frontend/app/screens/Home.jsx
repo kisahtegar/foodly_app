@@ -1,6 +1,6 @@
 import { ScrollView, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import { BaseUrl, COLORS, SIZES } from "../constants/theme";
+import { COLORS, SIZES } from "../constants/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HomeHeader from "../components/HomeHeader";
 import CategoryList from "../components/CategoryList";
@@ -11,6 +11,7 @@ import NearByRestaurants from "../components/NearByRestaurants";
 import NewFoodList from "../components/NewFoodList";
 import HomeCategory from "../components/HomeCategory";
 import axios from "axios";
+import { BASE_URL } from "@env";
 
 const Home = ({ navigation }) => {
   const code = "pasar-kemis";
@@ -27,7 +28,7 @@ const Home = ({ navigation }) => {
 
     try {
       const response = await axios.get(
-        `${BaseUrl}/api/foods/category/${selectedCategory}`
+        `${BASE_URL}/api/foods/category/${selectedCategory}`
       );
 
       setCategory(response.data);

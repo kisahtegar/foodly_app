@@ -2,12 +2,13 @@ import AssetImage from "./AssetImage";
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { UserReversedGeoCode } from "../context/UserReversedGeoCode";
-import { COLORS, SIZES, BaseUrl } from "../constants/theme";
+import { COLORS, SIZES } from "../constants/theme";
 import { UserLocationContext } from "../context/UserLocationContext";
 import { CheckUserAddressType } from "../context/CheckUserAddressType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import Toast from "react-native-toast-message";
+import { BASE_URL } from "@env";
 
 const HomeHeader = () => {
   const [time, setTime] = useState(null);
@@ -79,7 +80,7 @@ const HomeHeader = () => {
     );
 
     try {
-      const response = await axios.get(`${BaseUrl}/api/address/default`, {
+      const response = await axios.get(`${BASE_URL}/api/address/default`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BaseUrl } from "../constants/theme";
+import { BASE_URL } from "@env";
 
 const fetchCategortItems = (category, code) => {
   const [categoryItems, setCategoryItems] = useState(null);
@@ -10,7 +10,7 @@ const fetchCategortItems = (category, code) => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`${BaseUrl}/api/restaurant/byId/${id}`);
+      const response = await axios.get(`${BASE_URL}/api/restaurant/byId/${id}`);
 
       setCategoryItems(response.data);
       setIsLoading(false);

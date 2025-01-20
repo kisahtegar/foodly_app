@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { COLORS } from "../../constants/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { BaseUrl } from "../../constants/theme";
+import { BASE_URL } from "@env";
 import { CheckUserAddressType } from "../../context/CheckUserAddressType";
 import { UserReversedGeoCode } from "../../context/UserReversedGeoCode";
 import { CheckLoadRestaurantData } from "../../context/CheckRestaurantData";
@@ -24,7 +24,7 @@ const DefaultAddress = ({ route, navigation }) => {
   const handleSubmit = async (id) => {
     const token = await AsyncStorage.getItem("token");
     const accessToken = JSON.parse(token);
-    const url = `${BaseUrl}/api/address/default/${id}`;
+    const url = `${BASE_URL}/api/address/default/${id}`;
     try {
       const response = await axios.patch(
         url,

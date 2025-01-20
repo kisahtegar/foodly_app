@@ -13,7 +13,7 @@ import BackBtn from "../components/BackBtn";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { BaseUrl, COLORS, SIZES } from "../constants/theme";
+import { COLORS, SIZES } from "../constants/theme";
 import styles from "./login.style";
 import LottieView from "lottie-react-native";
 import axios from "axios";
@@ -23,6 +23,7 @@ import { UserReversedGeoCode } from "../context/UserReversedGeoCode";
 import { CheckLoadRestaurantData } from "../context/CheckRestaurantData";
 import { CheckUserAddressType } from "../context/CheckUserAddressType";
 import Toast from "react-native-toast-message";
+import { BASE_URL } from "@env";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -65,7 +66,7 @@ const LoginPage = ({ navigation }) => {
     const accessToken = JSON.parse(token);
 
     try {
-      const response = await axios.get(`${BaseUrl}/api/address/default`, {
+      const response = await axios.get(`${BASE_URL}/api/address/default`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -152,7 +153,7 @@ const LoginPage = ({ navigation }) => {
     setLoader(true);
 
     try {
-      const endpoint = `${BaseUrl}/api/auth/login`;
+      const endpoint = `${BASE_URL}/api/auth/login`;
       const data = values;
 
       const response = await axios.post(endpoint, data);

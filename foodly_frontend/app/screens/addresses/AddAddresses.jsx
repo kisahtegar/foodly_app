@@ -13,7 +13,8 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import MapView, { Callout, Circle, Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import PagerView from "react-native-pager-view";
-import { BaseUrl, COLORS, GoogleApiKey } from "../../constants/theme";
+import { COLORS } from "../../constants/theme";
+import { BASE_URL, GOOGLE_API_KEY } from "@env";
 import Button from "../../components/Button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CheckUserAddressType } from "../../context/CheckUserAddressType";
@@ -80,7 +81,7 @@ const AddAddresses = ({ navigation }) => {
     };
 
     try {
-      const response = await axios.post(`${BaseUrl}/api/address`, data, {
+      const response = await axios.post(`${BASE_URL}/api/address`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -160,7 +161,7 @@ const AddAddresses = ({ navigation }) => {
               }
             }}
             query={{
-              key: GoogleApiKey,
+              key: GOOGLE_API_KEY,
               language: "id",
               location: `${region.latitude}, ${region.longitude}`,
             }}
