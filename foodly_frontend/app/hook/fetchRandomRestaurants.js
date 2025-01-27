@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BaseUrl } from "../constants/theme";
+import { BASE_URL } from "@env";
 
 const fetchRandomRestaurants = (code) => {
   const [restaurants, setRestaurants] = useState([]);
@@ -11,7 +11,7 @@ const fetchRandomRestaurants = (code) => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`${BaseUrl}/api/restaurant/${code}`);
+      const response = await axios.get(`${BASE_URL}/api/restaurant/${code}`);
 
       setRestaurants(response.data);
       console.log("[hook.fetchRandomRestaurants]: restaurants = ", restaurants);

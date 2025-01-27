@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BaseUrl } from "../constants/theme";
+import { BASE_URL } from "@env";
 
 const fetchCategories = () => {
   const [categories, setCategories] = useState(null);
@@ -11,8 +11,8 @@ const fetchCategories = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`${BaseUrl}/api/category/random`);
-      //const response = await axios.get(`${BaseUrl}/api/foods/category/${code}`);
+      const response = await axios.get(`${BASE_URL}/api/category/random`);
+      //const response = await axios.get(`${BASE_URL}/api/foods/category/${code}`);
 
       setCategories(response.data);
       setIsLoading(false);

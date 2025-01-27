@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
-import { BaseUrl, COLORS, SIZES } from "../../constants/theme";
+import { COLORS, SIZES } from "../../constants/theme";
 import {
   Ionicons,
   MaterialCommunityIcons,
@@ -21,6 +21,7 @@ import axios from "axios";
 import { CartCountContext } from "../../context/CartCountContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RestaurantContext } from "../../context/RestaurantContext";
+import { BASE_URL } from "@env";
 
 const FoodPage = ({ navigation, route }) => {
   const item = route.params.item;
@@ -88,7 +89,7 @@ const FoodPage = ({ navigation, route }) => {
     const token = await AsyncStorage.getItem("token");
     const accessToken = JSON.parse(token);
     try {
-      const response = await axios.post(`${BaseUrl}/api/cart`, product, {
+      const response = await axios.post(`${BASE_URL}/api/cart`, product, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -110,7 +111,7 @@ const FoodPage = ({ navigation, route }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${BaseUrl}/api/restaurant/byId/${id}`);
+      const response = await axios.get(`${BASE_URL}/api/restaurant/byId/${id}`);
       if (response.status === 200) {
         setData(true);
         setRestaurantObj(response.data);

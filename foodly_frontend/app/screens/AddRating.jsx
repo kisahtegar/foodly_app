@@ -5,12 +5,13 @@ import axios from "axios";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RatingInput, Rating } from "react-native-stock-star-rating";
 import AssetImage from "../components/AssetImage";
-import { BaseUrl, COLORS, SIZES } from "../constants/theme";
+import { COLORS, SIZES } from "../constants/theme";
 import { RestaurantContext } from "../context/RestaurantContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LoginContext } from "../context/LoginContext";
 import fetchRating from "../hook/fetchRating";
 import LoadingScreen from "../components/LoadingScreen";
+import { BASE_URL } from "@env";
 
 const AddRating = () => {
   const [rating, setRating] = useState(0);
@@ -46,11 +47,15 @@ const AddRating = () => {
     const accessToken = JSON.parse(token);
 
     try {
-      const response = await axios.post(`${BaseUrl}/api/rating`, ratingObject, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await axios.post(
+        `${BASE_URL}/api/rating`,
+        ratingObject,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       if (response.status === 201) {
         console.log("[AddRating.postRating]: rating created successfully");

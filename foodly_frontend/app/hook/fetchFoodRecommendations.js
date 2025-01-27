@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { BaseUrl } from "../constants/theme";
+import { BASE_URL } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const fetchFoodRecommendations = () => {
@@ -22,16 +22,16 @@ const fetchFoodRecommendations = () => {
       if (lat === null && lng === null) {
         if (defLat === null && defLng === null) {
           response = await axios.get(
-            `${BaseUrl}/api/foods/nearby?lat=${coords[1]}&lng=${coords[0]}`
+            `${BASE_URL}/api/foods/nearby?lat=${coords[1]}&lng=${coords[0]}`
           );
         } else {
           response = await axios.get(
-            `${BaseUrl}/api/foods/nearby?lat=${defLat}&lng=${defLat}`
+            `${BASE_URL}/api/foods/nearby?lat=${defLat}&lng=${defLat}`
           );
         }
       } else {
         response = await axios.get(
-          `${BaseUrl}/api/foods/nearby?lat=${lat}&lng=${lng}`
+          `${BASE_URL}/api/foods/nearby?lat=${lat}&lng=${lng}`
         );
       }
 

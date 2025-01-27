@@ -8,11 +8,12 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { OtpInput } from "react-native-otp-entry";
-import { BaseUrl, COLORS } from "../constants/theme";
+import { COLORS } from "../constants/theme";
 import BackBtn from "../components/BackBtn";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { BASE_URL } from "@env";
 
 const bkImg =
   "https://res.cloudinary.com/dc7i32d3v/image/upload/v1734400159/images/randoms/ads-on-internet.png";
@@ -34,7 +35,7 @@ const VerificationPage = ({ navigation }) => {
     try {
       console.log(accessToken);
 
-      const response = await axios.get(`${BaseUrl}/api/user/verify/${code}`, {
+      const response = await axios.get(`${BASE_URL}/api/user/verify/${code}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

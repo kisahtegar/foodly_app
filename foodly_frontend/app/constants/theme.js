@@ -54,7 +54,4 @@ const SHADOWS = {
   },
 };
 
-const BaseUrl = "http://192.168.38.138:6003";
-const GoogleApiKey = "AIzaSyB3-P-Mz-5S4YpWWkpomXI_8pkmru6oXD8";
-
-export { COLORS, SIZES, SHADOWS, BaseUrl, GoogleApiKey };
+export { COLORS, SIZES, SHADOWS };

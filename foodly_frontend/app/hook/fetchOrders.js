@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { BaseUrl } from "../constants/theme";
+import { BASE_URL } from "@env";
 
 const fetchOrders = () => {
   const [data, setData] = useState([]);
@@ -12,14 +12,14 @@ const fetchOrders = () => {
     setLoader(true);
     const token = await AsyncStorage.getItem("token");
     try {
-      //const endpoint = await axios.get(`${BaseUrl}/api/address/all`;
+      //const endpoint = await axios.get(`${BASE_URL}/api/address/all`;
 
       const headers = {
         "Content-Type": "application/json",
         token: "Bearer " + JSON.parse(token),
       };
 
-      const response = await axios.get(`${BaseUrl}/api/orders/userOrders`, {
+      const response = await axios.get(`${BASE_URL}/api/orders/userOrders`, {
         headers: {
           Authorization: `Bearer ${JSON.parse(token)}`,
         },
