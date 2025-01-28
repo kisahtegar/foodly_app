@@ -5,7 +5,7 @@ import { UserLocationContext } from "../context/UserLocationContext";
 import PlaceMarker from "./PlaceMarker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { GoogleApiKey } from "../constants/theme";
+import { GOOGLE_API_KEY } from "@env";
 
 const GoogleMapsView = ({ placeList }) => {
   const [directions, setDirections] = useState([]);
@@ -46,7 +46,7 @@ const GoogleMapsView = ({ placeList }) => {
         destinationLat,
         destinationLng
       );
-      const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${lat},${lng}&destination=${destinationLat},${destinationLng}&key=${GoogleApiKey}`;
+      const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${lat},${lng}&destination=${destinationLat},${destinationLng}&key=${GOOGLE_API_KEY}`;
       const response = await fetch(url);
       console.log("calling with lat and lng ", lat, lng);
       const data = await response.json().then((data) => {

@@ -1,0 +1,1244 @@
+{
+  "info": {
+    "_postman_id": "2ecc6ee8-f8a8-431a-b3d5-565a56c50d7c",
+    "name": "Foodly",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "25015897"
+  },
+  "item": [
+    {
+      "name": "Address",
+      "item": [
+        {
+          "name": "Create Address",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"addressLine1\": \"Indomaret, Jalan Raya Serang, Kadu 15136, Banten, Indonesia\",\n    \"postalCode\": \"15136\",\n    \"deliveryInstructions\": \"Kampus UNIPI\",\n    \"default\": true,\n    \"latitude\": -6.216090,\n    \"longitude\": 106.564813\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/address",
+              "host": ["{{url}}"],
+              "path": ["api", "address"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Address",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/address/677b6b27b802e5c281aedd24",
+              "host": ["{{url}}"],
+              "path": ["api", "address", "677b6b27b802e5c281aedd24"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Default Address",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/address/default",
+              "host": ["{{url}}"],
+              "path": ["api", "address", "default"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All User Address",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/address/all",
+              "host": ["{{url}}"],
+              "path": ["api", "address", "all"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Address",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"addressLine1\": \"Jl. Cemp. III, Sukamantri, Kec. Ps. Kemis, Kabupaten Tangerang, Banten 15560\",\n    \"postalCode\": \"15560\",\n    \"deliveryInstructions\": \"Depan Kec. Pasar Kemis\",\n    \"default\": true,\n    \"latitude\": -6.155408231691446,\n    \"longitude\": 106.54766335310134\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/address/6774c532a150cdb2f6635796",
+              "host": ["{{url}}"],
+              "path": ["api", "address", "6774c532a150cdb2f6635796"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Set Default Address",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/address/default/6774c532a150cdb2f6635796",
+              "host": ["{{url}}"],
+              "path": ["api", "address", "default", "6774c532a150cdb2f6635796"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"ryanbens\",\n    \"email\": \"bkp.ryanbens@gmail.com\",\n    \"password\": \"123321123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/auth/register",
+              "host": ["{{url}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"muhanifazizulfikri@gmail.com\",\n    \"password\": \"123321123\"\n}    ",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/auth/login",
+              "host": ["{{url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "Add Product to Cart and Increment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"productId\": \"6774b7196a50277a73ec8a8a\",\n    \"additives\": [\n        {\n            \"id\": 1,\n            \"title\": \"Garam\",\n            \"price\": 4200\n        },\n        {\n            \"id\": 2,\n            \"title\": \"Gula\",\n            \"price\": 500\n        }\n    ],\n    \"instructions\": \"\",\n    \"totalPrice\": 28500,\n    \"quantity\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/cart",
+              "host": ["{{url}}"],
+              "path": ["api", "cart"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Decrement Product Quantity",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"productId\": \"6774b1ce6a50277a73ec8a7e\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/cart/decrement",
+              "host": ["{{url}}"],
+              "path": ["api", "cart", "decrement"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Product From Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/cart/delete/677e522c6c0383e0dab51ee8",
+              "host": ["{{url}}"],
+              "path": ["api", "cart", "delete", "677e522c6c0383e0dab51ee8"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fetch User Cart",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/cart",
+              "host": ["{{url}}"],
+              "path": ["api", "cart"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Cart Count",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/cart/count",
+              "host": ["{{url}}"],
+              "path": ["api", "cart", "count"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Clear User Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/cart/clear",
+              "host": ["{{url}}"],
+              "path": ["api", "cart", "clear"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Category",
+      "item": [
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/category/IDHERE",
+              "host": ["{{url}}"],
+              "path": ["api", "category", "IDHERE"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Drink\",\n    \"value\": \"drink\",\n    \"imageUrl\": \"https://res.cloudinary.com/dc7i32d3v/image/upload/v1735701463/images/Icons/foods/drink.png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/category",
+              "host": ["{{url}}"],
+              "path": ["api", "category"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/category/IDHERE",
+              "host": ["{{url}}"],
+              "path": ["api", "category", "IDHERE"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Patch Category Image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"imageUrl\": \"https://res.cloudinary.com/dc7i32d3v/image/upload/v1733226553/images/Icons/tools/more.png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/category/image/676019a60086cbe2f5a48895",
+              "host": ["{{url}}"],
+              "path": ["api", "category", "image", "676019a60086cbe2f5a48895"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/category",
+              "host": ["{{url}}"],
+              "path": ["api", "category"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Random Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/category/random",
+              "host": ["{{url}}"],
+              "path": ["api", "category", "random"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Driver",
+      "item": [
+        {
+          "name": "Register Driver",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \n    \"vehicleType\": \"Bike\", \n    \"vehicleNumber\": \"B 1001 XD\", \n    \"latitude\": -6.155149117299749, \n    \"longitude\": 106.54981461877445 \n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/driver",
+              "host": ["{{url}}"],
+              "path": ["api", "driver"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Driver",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/driver/6761b8817e06342e789fa052",
+              "host": ["{{url}}"],
+              "path": ["api", "driver", "6761b8817e06342e789fa052"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Driver Details",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \n    \"vehicleType\": \"Bike\", \n    \"vehicleNumber\": \"B 1001 XDA\", \n    \"latitude\": -6.155149117299749, \n    \"longitude\": 106.54981461877445 \n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/driver/6774db9ef87ca5167103657c",
+              "host": ["{{url}}"],
+              "path": ["api", "driver", "6774db9ef87ca5167103657c"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Driver Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/driver/677697ee145f537e7ec3e030",
+              "host": ["{{url}}"],
+              "path": ["api", "driver", "677697ee145f537e7ec3e030"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Set Driver Availability",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/driver/availability/6774db9ef87ca5167103657c",
+              "host": ["{{url}}"],
+              "path": [
+                "api",
+                "driver",
+                "availability",
+                "6774db9ef87ca5167103657c"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Food",
+      "item": [
+        {
+          "name": "Add Food",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Pizza Perfecto\",\n    \"foodTags\": [\"Asin\", \"Panas\", \"Manis\"],\n    \"category\": \"676019230086cbe2f5a4888f\",\n    \"foodType\": [\"Makanan\", \"Sarapan\"],\n    \"code\": \"pasar-kemis\",\n    \"isAvailable\": true,\n    \"restaurant\": \"677d24bed5b93ae2d7317b57\",\n    \"rating\": 5,\n    \"ratingCount\": \"63\",\n    \"distance\": 3,\n    \"description\": \"Pizza Perfecto special dengan bahan bahan pilihan terbaik, dan cita rasa yang enak.\",\n    \"price\": 23000,\n    \"additives\": [\n        { \"id\": 1, \"title\": \"Keju\", \"price\": 4200 },\n        { \"id\": 2, \"title\": \"Cabai\", \"price\": 500 },\n        { \"id\": 3, \"title\": \"Sosis\", \"price\": 1000 },\n        { \"id\": 4, \"title\": \"Bakso\", \"price\": 2000 }\n    ],\n    \"imageUrl\": [\n        \"https://res.cloudinary.com/dc7i32d3v/image/upload/v1736252485/images/foods/pizza-perfecto.jpg\"\n    ],\n    \"location\": {\n        \"type\": \"Point\",\n        \"coordinates\": [106.56648291221305, -6.160755009623589] // [Longitude, Latitude]\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/foods",
+              "host": ["{{url}}"],
+              "path": ["api", "foods"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Food By Id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"White Coffee\",\n    \"foodTags\": [\"Dingin\", \"Panas\", \"Manis\", \"Pahit\"],\n    \"category\": \"6774b44c6a50277a73ec8a84\",\n    \"foodType\": [\"Minuman\", \"Sarapan\"],\n    \"code\": \"pasar-kemis\",\n    \"isAvailable\": true,\n    \"restaurant\": \"6774a7b47990ae7864b6fe01\",\n    \"rating\": 5,\n    \"ratingCount\": \"280\",\n    \"distance\": 2.5,\n    \"description\": \"Nikmati hari kamu dengan secangkir kopi putih yang dibuat dengan hati.\",\n    \"price\": 9000,\n    \"additives\": [\n        { \"id\": 1, \"title\": \"Garam\", \"price\": 4200 },\n        { \"id\": 2, \"title\": \"Gula\", \"price\": 500 },\n        { \"id\": 3, \"title\": \"Es Batu\", \"price\": 1000 },\n        { \"id\": 4, \"title\": \"Karamel\", \"price\": 1500 },\n        { \"id\": 5, \"title\": \"Beans\", \"price\": 2000 }\n    ],\n    \"imageUrl\": [\n        \"https://res.cloudinary.com/dc7i32d3v/image/upload/v1735701774/images/foods/white-coffee.jpg\"\n    ],\n    \"location\": {\n        \"type\": \"Point\",\n        \"coordinates\": [106.55818947134999, -6.160803223389152]\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/foods/update/6774b7196a50277a73ec8a8a",
+              "host": ["{{url}}"],
+              "path": ["api", "foods", "update", "6774b7196a50277a73ec8a8a"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Food List by Restaurant",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/foods/restaurant-foods/6774a5927990ae7864b6fdf9",
+              "host": ["{{url}}"],
+              "path": [
+                "api",
+                "foods",
+                "restaurant-foods",
+                "6774a5927990ae7864b6fdf9"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Food Nearby",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/foods/nearby?lat=-6.1555256&lng=106.5476381",
+              "host": ["{{url}}"],
+              "path": ["api", "foods", "nearby"],
+              "query": [
+                {
+                  "key": "lat",
+                  "value": "-6.1555256"
+                },
+                {
+                  "key": "lng",
+                  "value": "106.5476381"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Food Tag",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"tag\": \"Manis\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/foods/tags/6774b1ce6a50277a73ec8a7e",
+              "host": ["{{url}}"],
+              "path": ["api", "foods", "tags", "6774b1ce6a50277a73ec8a7e"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Food Type",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"foodType\": \"Bantal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/foods/type/6774b1ce6a50277a73ec8a7e",
+              "host": ["{{url}}"],
+              "path": ["api", "foods", "type", "6774b1ce6a50277a73ec8a7e"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Foods",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/foods/search/white coffee",
+              "host": ["{{url}}"],
+              "path": ["api", "foods", "search", "white coffee"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Random Foods By Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/foods/category/6774b44c6a50277a73ec8a84",
+              "host": ["{{url}}"],
+              "path": ["api", "foods", "category", "6774b44c6a50277a73ec8a84"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Foods By Restaurant",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/foods/restaurant/6774a7b47990ae7864b6fe01",
+              "host": ["{{url}}"],
+              "path": ["api", "foods", "restaurant", "6774a7b47990ae7864b6fe01"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Random Foods By Code",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/foods/recommendation/pasar-kemis",
+              "host": ["{{url}}"],
+              "path": ["api", "foods", "recommendation", "pasar-kemis"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Random Foods By Category And Code",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/foods/6774b44c6a50277a73ec8a84/pasar-kemis",
+              "host": ["{{url}}"],
+              "path": [
+                "api",
+                "foods",
+                "6774b44c6a50277a73ec8a84",
+                "pasar-kemis"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Food By Id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/foods/IDHERE",
+              "host": ["{{url}}"],
+              "path": ["api", "foods", "IDHERE"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Food Availability",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/foods/6774b1ce6a50277a73ec8a7e",
+              "host": ["{{url}}"],
+              "path": ["api", "foods", "6774b1ce6a50277a73ec8a7e"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Food By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/foods/6774b1ce6a50277a73ec8a7e",
+              "host": ["{{url}}"],
+              "path": ["api", "foods", "6774b1ce6a50277a73ec8a7e"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "item": [
+        {
+          "name": "Get User Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/orders/userOrders",
+              "host": ["{{url}}"],
+              "path": ["api", "orders", "userOrders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Restaurant Orders List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/orders/orderslist/6774a7b47990ae7864b6fe01?status=placed",
+              "host": ["{{url}}"],
+              "path": [
+                "api",
+                "orders",
+                "orderslist",
+                "6774a7b47990ae7864b6fe01"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "placed"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Rate Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 5,\n    \"feedback\": \"mantap\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/orders/rate/67768743366563a0cfa1e40e",
+              "host": ["{{url}}"],
+              "path": ["api", "orders", "rate", "67768743366563a0cfa1e40e"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"orderStatus\": \"Placed\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/orders/status/67768743366563a0cfa1e40e",
+              "host": ["{{url}}"],
+              "path": ["api", "orders", "status", "67768743366563a0cfa1e40e"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Payment Status",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"paymentStatus\": \"Completed\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/orders/payment-status/67768743366563a0cfa1e40e",
+              "host": ["{{url}}"],
+              "path": [
+                "api",
+                "orders",
+                "payment-status",
+                "67768743366563a0cfa1e40e"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Near by Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/orders/delivery/Placed",
+              "host": ["{{url}}"],
+              "path": ["api", "orders", "delivery", "Placed"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark As Delivered (Driver)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/orders/delivered/67768743366563a0cfa1e40e",
+              "host": ["{{url}}"],
+              "path": ["api", "orders", "delivered", "67768743366563a0cfa1e40e"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Process Order (Vendor)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/orders/process/67768743366563a0cfa1e40e/Out_for_Delivery",
+              "host": ["{{url}}"],
+              "path": [
+                "api",
+                "orders",
+                "process",
+                "67768743366563a0cfa1e40e",
+                "Out_for_Delivery"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Driver (Driver)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/orders/picked-orders/67768743366563a0cfa1e40e/677697ee145f537e7ec3e030",
+              "host": ["{{url}}"],
+              "path": [
+                "api",
+                "orders",
+                "picked-orders",
+                "67768743366563a0cfa1e40e",
+                "677697ee145f537e7ec3e030"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Picked Orders (Driver)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/orders/picked/Out_for_Delivery/677697ee145f537e7ec3e030",
+              "host": ["{{url}}"],
+              "path": [
+                "api",
+                "orders",
+                "picked",
+                "Out_for_Delivery",
+                "677697ee145f537e7ec3e030"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/orders/67768743366563a0cfa1e40e",
+              "host": ["{{url}}"],
+              "path": ["api", "orders", "67768743366563a0cfa1e40e"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/orders/67768743366563a0cfa1e40e",
+              "host": ["{{url}}"],
+              "path": ["api", "orders", "67768743366563a0cfa1e40e"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Place Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userId\": \"67639e0fa7b365ee735f772d\",\n    \"orderItems\": [\n        {\n            \"foodId\": \"6774b7196a50277a73ec8a8a\",\n            \"quantity\": 1,\n            \"price\": 28500,\n            \"additives\": [\n                {\n                    \"id\": 1,\n                    \"title\": \"Garam\",\n                    \"price\": 4200\n                },\n                {\n                    \"id\": 2,\n                    \"title\": \"Gula\",\n                    \"price\": 500\n                }\n            ],\n            \"instructions\": \"\",\n            \"title\": \"White Coffee\",\n            \"imageUrl\": \"https://res.cloudinary.com/dc7i32d3v/image/upload/v1735701774/images/foods/white-coffee.jpg\",\n            \"time\": \"12:45 PM\"\n        }\n    ],\n    \"orderTotal\": 28500,\n    \"deliveryFee\": 2000,\n    \"grandTotal\": 30500,\n    \"deliveryAddress\": \"6774c532a150cdb2f6635796\",\n    \"paymentMethod\": \"Dana\",\n    \"restaurantId\": \"6774a7b47990ae7864b6fe01\",\n    \"promoCode\": \"DISCOUNT10\",\n    \"discountAmount\": 500,\n    \"notes\": \"Leave the food at the front door.\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/orders",
+              "host": ["{{url}}"],
+              "path": ["api", "orders"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Rating",
+      "item": [
+        {
+          "name": "Add Or Update Rating",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userId\": \"6761b8817e06342e789fa052\",\n    \"restaurantId\": \"6774a5927990ae7864b6fdf9\",\n    \"rating\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/rating",
+              "host": ["{{url}}"],
+              "path": ["api", "rating"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Check If User Rated Restaurant",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/rating?restaurantId=6774a5927990ae7864b6fdf9",
+              "host": ["{{url}}"],
+              "path": ["api", "rating"],
+              "query": [
+                {
+                  "key": "restaurantId",
+                  "value": "6774a5927990ae7864b6fdf9"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Restaurants",
+      "item": [
+        {
+          "name": "Get Restaurant",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Warkop DKI\",\n    \"time\": \"20 min\",\n    \"owner\": \"67485e3f9319deb22c4352cc\",\n    \"code\": \"banten\",\n    \"logoUrl\": \"https://res.cloudinary.com/dc7i32d3v/image/upload/v1732634011/samples/people/boy-snow-hoodie.jpg\",\n    \"imageUrl\": \"https://res.cloudinary.com/dc7i32d3v/image/upload/v1732634011/samples/people/boy-snow-hoodie.jpg\",\n    \"rating\": 5,\n    \"ratingCount\": 3231,\n    \"coords\": {\n        \"id\": 2023,\n        \"latitude\": 23141,\n        \"longitude\": 321,\n        \"address\": \"blablabla\",\n        \"title\": \"Warkop DKI\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/restaurant/byid/6774a7b47990ae7864b6fe01",
+              "host": ["{{url}}"],
+              "path": ["api", "restaurant", "byid", "6774a7b47990ae7864b6fe01"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Restaurant",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Ze Pizza\",\n    \"time\": \"15 min\",\n    \"imageUrl\": \"https://res.cloudinary.com/dc7i32d3v/image/upload/v1736252672/images/places/restaurants/ze-pizza.jpg\",\n    \"owner\": \"6778e39da3e5cd1546dc2dd9\",\n    \"code\": \"pasar-kemis\",\n    \"logoUrl\": \"https://res.cloudinary.com/dc7i32d3v/image/upload/v1736252672/images/places/restaurants/ze-pizza.jpg\",\n    \"rating\": 5,\n    \"ratingCount\": \"312\",\n    \"distance\": \"3 km\",\n    \"location\": {\n        \"type\": \"Point\",\n        \"coordinates\": [106.56648291221305, -6.160755009623589] // [Longitude, Latitude]\n    },\n    \"coords\": {\n        \"id\": \"coord4\",\n        \"latitude\": -6.160755009623589,\n        \"longitude\": 106.56648291221305,\n        \"address\": \"Perum Pesona Kuta Jaya Blok A No 7, Gelam Jaya, Kec. Ps. Kemis, Kabupaten Tangerang, Banten 15560\",\n        \"title\": \"Ze Pizza - Gelam Jaya\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/restaurant",
+              "host": ["{{url}}"],
+              "path": ["api", "restaurant"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Nearby Restaurants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/restaurant/nearby?lat=-6.1555256&lng=106.5476381",
+              "host": ["{{url}}"],
+              "path": ["api", "restaurant", "nearby"],
+              "query": [
+                {
+                  "key": "lat",
+                  "value": "-6.1555256"
+                },
+                {
+                  "key": "lng",
+                  "value": "106.5476381"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Restaurant By Owner",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/restaurant/owner/profile",
+              "host": ["{{url}}"],
+              "path": ["api", "restaurant", "owner", "profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Restaurant Service Availability",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/restaurant/67601407c057b2ddb66caefd",
+              "host": ["{{url}}"],
+              "path": ["api", "restaurant", "67601407c057b2ddb66caefd"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Random Restaurants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/restaurant/banten",
+              "host": ["{{url}}"],
+              "path": ["api", "restaurant", "banten"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Send Push Notification",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/user/sendNotification",
+              "host": ["{{url}}"],
+              "path": ["api", "user", "sendNotification"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"ryanbens\",\n    \"profile\": \"https://res.cloudinary.com/dc7i32d3v/image/upload/v1732634011/samples/people/boy-snow-hoodie.jpg\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/api/user/",
+              "host": ["{{url}}"],
+              "path": ["api", "user", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Account (OTP)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/user/verify/746872",
+              "host": ["{{url}}"],
+              "path": ["api", "user", "verify", "746872"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/user",
+              "host": ["{{url}}"],
+              "path": ["api", "user"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/user",
+              "host": ["{{url}}"],
+              "path": ["api", "user"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Phone (Phone Number)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/user/verify_phone/082298989254",
+              "host": ["{{url}}"],
+              "path": ["api", "user", "verify_phone", "082298989254"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Fcm",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/api/user/updateToken/TOKENHERE",
+              "host": ["{{url}}"],
+              "path": ["api", "user", "updateToken", "TOKENHERE"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NzhlMzlkYTNlNWNkMTU0NmRjMmRkOSIsInVzZXJUeXBlIjoiVmVuZG9yIiwiZW1haWwiOiJtdWhhbmlmYXppenVsZmlrcmlAZ21haWwuY29tIiwiaWF0IjoxNzM2MzIwMTg2LCJleHAiOjE3MzgxMzQ1ODZ9.Q-aWs7E0P7VpvMuAn2b3qrlRljaAjJ6o7J2rp4Yp9Oc",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": ["pm.environment.set('url','http://192.168.0.17:6003')"]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [""]
+      }
+    }
+  ]
+}
