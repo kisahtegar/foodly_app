@@ -90,6 +90,7 @@ Ensure you have the following installed:
    IP="192.168.0.1"
    PORT=6002
    MONGO_URL=your_mongodb_url
+   FIREBASE_URL=your_firebasedb_url
    JWT_SEC=your_jwt_secret
    SECRET=your_code_secret
    # ACCOUNT FOR SENDING EMAIL

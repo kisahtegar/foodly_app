@@ -12,8 +12,7 @@ const serviceAccount = require("../servicesAccountKey.json");
 const fireBaseConnection = async () => {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL:
-      "https://kisahdemo-default-rtdb.asia-southeast1.firebasedatabase.app",
+    databaseURL: process.env.FIREBASE_URL,
   });
   console.log("Connected to Firebase");
 };
